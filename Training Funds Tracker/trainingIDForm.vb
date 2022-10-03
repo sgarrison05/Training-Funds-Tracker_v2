@@ -1,8 +1,7 @@
 Public Class trainingIDForm
 
-    Private rootfileLocation As String = "C:\Training\"
-    Private activityFileLocation As String = "C:\Training\trainingrun.txt"
-    Private bankFileLocation As String = "C:\Training\training.txt"
+    Private rfileDir As String = "C:\Training\"
+    Private actFile As String = "C:\Training\trainingrun.txt"
 
 
     Private Sub btnDone_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnDone.Click
@@ -21,25 +20,25 @@ Public Class trainingIDForm
         endDate = Me.dtpTrainingEnd.Text
 
         'Enters Initial text to the trainingrun.txt file
-        If My.Computer.FileSystem.DirectoryExists(rootfileLocation) Then
-            My.Computer.FileSystem.WriteAllText(activityFileLocation, _
-            "Name:" & Strings.Space(7) & name & ControlChars.NewLine & "Location:" & _
-            Strings.Space(3) & location & ControlChars.NewLine & "Dates:" & _
-            Strings.Space(6) & startDate & Strings.Space(2) & "-" & _
-            Strings.Space(2) & endDate & ControlChars.NewLine, _
+        If My.Computer.FileSystem.DirectoryExists(rfileDir) Then
+            My.Computer.FileSystem.WriteAllText(actFile,
+            "Name:" & Strings.Space(7) & name & ControlChars.NewLine & "Location:" &
+            Strings.Space(3) & location & ControlChars.NewLine & "Dates:" &
+            Strings.Space(6) & startDate & Strings.Space(2) & "-" &
+            Strings.Space(2) & endDate & ControlChars.NewLine,
             True)
-            My.Computer.FileSystem.WriteAllText(activityFileLocation, "".PadLeft(105, "-") & _
+            My.Computer.FileSystem.WriteAllText(actFile, "".PadLeft(105, "-") &
             ControlChars.NewLine, True)
 
         Else 'it creates the director and trainingrun.txt file with initial information
-            My.Computer.FileSystem.CreateDirectory(rootfileLocation)
-            My.Computer.FileSystem.WriteAllText(activityFileLocation, _
-            "Name:" & Strings.Space(7) & name & ControlChars.NewLine & "Location:" & _
-            Strings.Space(3) & location & ControlChars.NewLine & "Dates:" & _
-            Strings.Space(6) & startDate & Strings.Space(2) & "-" & _
-            Strings.Space(2) & endDate & ControlChars.NewLine, _
+            My.Computer.FileSystem.CreateDirectory(rfileDir)
+            My.Computer.FileSystem.WriteAllText(actFile,
+            "Name:" & Strings.Space(7) & name & ControlChars.NewLine & "Location:" &
+            Strings.Space(3) & location & ControlChars.NewLine & "Dates:" &
+            Strings.Space(6) & startDate & Strings.Space(2) & "-" &
+            Strings.Space(2) & endDate & ControlChars.NewLine,
             True)
-            My.Computer.FileSystem.WriteAllText(activityFileLocation, "".PadLeft(105, "-") & _
+            My.Computer.FileSystem.WriteAllText(actFile, "".PadLeft(105, "-") &
             ControlChars.NewLine, True)
 
         End If

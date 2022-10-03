@@ -11,11 +11,11 @@ Imports System.Globalization
 Public Class mainForm
 
     Private title As String = "Training Funds Tracker"
+    Private rdirectory As String = "C:\Training"
+    Private rfile As String = "C:\Training\trainingrun.txt"
     Private newDailyBalance As Decimal
     Private previousBalance As Decimal
-    Private fileLocation As String = "C:\Training\"
-    Private bankPath As String = "C:\Training\training.txt"
-    Private heading As String = "Date Entered" & Strings.Space(5) & "Type" & Strings.Space(7) & "Payee" & Strings.Space(22) & _
+    Private heading As String = "Date Entered" & Strings.Space(5) & "Type" & Strings.Space(7) & "Payee" & Strings.Space(22) &
                 "Debit(-)" & Strings.Space(7) & "Credit(+)" & Strings.Space(7) & "Balance"
 
 
@@ -23,6 +23,10 @@ Public Class mainForm
 
         'makes the preview txt box read only
         Me.txtPreview.ReadOnly = True
+
+        'Disable apply calc button till preview is seen
+        Me.btnApply.Enabled = False
+        Me.ApplyToolStripMenuItem.Enabled = False
 
         'puts numeric values in the credit and debit txt boxes
         Me.txtDebit.Text = "0.00"
@@ -35,25 +39,23 @@ Public Class mainForm
         Me.cmboxType.Items.Add("Dep")
         Me.cmboxType.Items.Add("EFT")
         Me.cmboxType.Items.Add("Wthdrw")
-        Me.cmboxType.Items.Add("Txfr")
+        Me.cmboxType.Items.Add("Trxns")
 
         Me.cmboxType.SelectedIndex = 0
-
 
 
         'initializes variables
         Dim button As DialogResult
 
 
-
-        'varifies the training.txt exists else asks if the user wants to create it
-        If My.Computer.FileSystem.FileExists(fileLocation & "training.txt") Then
-            Me.lblPrevBal.Text = My.Computer.FileSystem.ReadAllText(fileLocation & "training.txt")
+        'varifies the trainingrun.txt exists else asks if the user wants to create it
+        If My.Computer.FileSystem.FileExists(rfile) Then
+            Me.lblPrevBal.Text = My.Computer.FileSystem.ReadAllText(rfile)
             Me.lblNewBal.Text = "0.00"
 
             'pulls heading information from text file if the file exists, otherwise the program
             'recongnizes it as a new project
-            If My.Computer.FileSystem.FileExists(fileLocation & "trainingrun.txt") Then
+            If My.Computer.FileSystem.FileExists(rfile) Then
                 Dim text As String
                 Dim nameIndex As Integer 'numer of chars accessed or what you are putting in txt box
                 Dim name As String  'variable to put accessed text into
@@ -65,7 +67,7 @@ Public Class mainForm
                 Dim endDate As String
 
 
-                text = My.Computer.FileSystem.ReadAllText(fileLocation & "trainingrun.txt")
+                text = My.Computer.FileSystem.ReadAllText(rfile)
 
                 NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)
                 colonIndex = text.IndexOf(":", nameIndex)
@@ -110,9 +112,9 @@ Public Class mainForm
             End If
 
 
-        Else 'sets up the Training folder and creates the training.txt file
+        Else 'sets up the Training folder and creates the trainingrun.txt file
             button = MessageBox.Show _
-            ("The current training file does not exist.  This is your bank, would you like to create it?", _
+            ("The current training file does not exist.  This is your bank, would you like to create it?",
             title, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
 
             'declares another button result and asks the user to enter a beginning balance
@@ -228,31 +230,14 @@ Public Class mainForm
 
     Private Sub ActivitySheetToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ActivitySheetToolStripMenuItem.Click
 
-        If My.Computer.FileSystem.FileExists(fileLocation & "trainingrun.txt") And My.Computer.FileSystem.FileExists(bankPath) Then
+        If My.Computer.FileSystem.FileExists(rfile) Then
             Dim proc As New System.Diagnostics.Process
             proc.StartInfo.FileName = "notepad.exe"
-            proc.StartInfo.Arguments = "C:\Training\trainingrun.txt"
+            proc.StartInfo.Arguments = rfile
             proc.Start()
 
         Else
-            MessageBox.Show("File is in the process of being created on first run.  Please make a calculation and press reply before re-opening.", _
-            title, MessageBoxButtons.OK, MessageBoxIcon.Stop)
-            Me.Show()
-            Me.dtpEntryDate.Focus()
-
-        End If
-    End Sub
-
-    Private Sub BankFileToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BankFileToolStripMenuItem.Click
-
-        If My.Computer.FileSystem.FileExists(bankPath) And My.Computer.FileSystem.FileExists(fileLocation & "trainingrun.txt") Then
-            Dim proc As New System.Diagnostics.Process
-            proc.StartInfo.FileName = "notepad.exe"
-            proc.StartInfo.Arguments = "C:\Training\training.txt"
-            proc.Start()
-
-        Else
-            MessageBox.Show("File is in the process of being created on first run.  Please make a calculation and press reply before re-opening.", _
+            MessageBox.Show("File is in the process of being created on first run.  Please make a calculation and press reply before re-opening.",
             title, MessageBoxButtons.OK, MessageBoxIcon.Stop)
             Me.Show()
             Me.dtpEntryDate.Focus()
@@ -291,7 +276,7 @@ Public Class mainForm
             Me.txtDebit.Enabled = True
             Me.txtCredit.Enabled = True
         End If
-        If IsNumeric(Me.cmboxType.Text) Or Me.cmboxType.SelectedIndex = 1 Or Me.cmboxType.SelectedIndex = 2 Or _
+        If IsNumeric(Me.cmboxType.Text) Or Me.cmboxType.SelectedIndex = 1 Or Me.cmboxType.SelectedIndex = 2 Or
         Me.cmboxType.SelectedIndex = 4 Or Me.cmboxType.SelectedIndex = 5 Then
             Me.txtCredit.Enabled = False
             Me.txtDebit.Enabled = True
@@ -311,13 +296,13 @@ Public Class mainForm
             proc.Start()
 
         Else
-            MessageBox.Show("File was not copied manually at install.  Check with deloyment file for trainingreadme.txt file and copy to (C:\Training\) root directory.", _
+            MessageBox.Show("File was not copied manually at install.  Check with deloyment file for trainingreadme.txt file and copy to (C:\Training\) root directory.",
             title, MessageBoxButtons.OK, MessageBoxIcon.Stop)
             Me.Show()
             Me.dtpEntryDate.Focus()
 
         End If
-        
+
 
     End Sub
 
@@ -331,7 +316,7 @@ Public Class mainForm
         'delcare proceedure variables
         Dim button As DialogResult
 
-        button = MessageBox.Show("Do you wish to add to the new balance to the bank?", title, MessageBoxButtons.YesNo, _
+        button = MessageBox.Show("Do you wish to add to the new balance to the bank?", title, MessageBoxButtons.YesNo,
         MessageBoxIcon.Question)
 
         If button = Windows.Forms.DialogResult.Yes Then
@@ -356,30 +341,27 @@ Public Class mainForm
             previous = Convert.ToString(previousBalance)
 
             'Write the current balance to the txt file
-            If button = Windows.Forms.DialogResult.Yes And My.Computer.FileSystem.FileExists(fileLocation & _
-            "trainingrun.txt") And My.Computer.FileSystem.FileExists(bankPath) Then
-                My.Computer.FileSystem.WriteAllText(bankPath, previous, False)
-                My.Computer.FileSystem.WriteAllText(fileLocation & "trainingrun.txt", curdate _
-                & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") & _
-                Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) & _
+            If button = Windows.Forms.DialogResult.Yes And My.Computer.FileSystem.FileExists(rfile) Then
+                My.Computer.FileSystem.WriteAllText(rfile, curdate _
+                & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") &
+                Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) &
                 ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(fileLocation & "trainingrun.txt", "".PadLeft(94, "-") & _
+                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(94, "-") &
                 ControlChars.NewLine, True)
 
 
 
             Else 'set up for the first run
-                My.Computer.FileSystem.CreateDirectory("C:\Training")
-                My.Computer.FileSystem.WriteAllText(bankPath, previous, False)
-                My.Computer.FileSystem.WriteAllText(fileLocation & "trainingrun.txt", heading & ControlChars.NewLine _
-                & "-------------" & Strings.Space(5) & "-----" & Strings.Space(6) & _
-                "-------" & Strings.Space(20) & "----------" & Strings.Space(5) & _
+                My.Computer.FileSystem.CreateDirectory(rdirectory)
+                My.Computer.FileSystem.WriteAllText(rfile, heading & ControlChars.NewLine _
+                & "-------------" & Strings.Space(5) & "-----" & Strings.Space(6) &
+                "-------" & Strings.Space(20) & "----------" & Strings.Space(5) &
                 "----------" & Strings.Space(6) & "--------" & ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(fileLocation & "trainingrun.txt", curdate _
-                & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") & _
-                Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) & _
+                My.Computer.FileSystem.WriteAllText(rfile, curdate _
+                & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") &
+                Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) &
                 ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(fileLocation & "trainingrun.txt", "".PadLeft(94, "-") & _
+                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(94, "-") &
                 ControlChars.NewLine, True)
 
             End If
@@ -421,7 +403,7 @@ Public Class mainForm
         Dim returnButton As DialogResult
 
         'program asks user if they would like to save the current transaction
-        addTextButton = MessageBox.Show("Do you wish to add the new daily balance to the bank?", title, _
+        addTextButton = MessageBox.Show("Do you wish to add the new daily balance to the bank?", title,
         MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If addTextButton = Windows.Forms.DialogResult.Yes Then
 
@@ -445,17 +427,15 @@ Public Class mainForm
             payee = Me.txtPayee.Text
 
             'If the training file exists, the prog writes current balance to the text file
-            If My.Computer.FileSystem.FileExists(fileLocation & _
-            "trainingrun.txt") And My.Computer.FileSystem.FileExists(bankPath) Then
-                My.Computer.FileSystem.WriteAllText(bankPath, previous, False)
-                My.Computer.FileSystem.WriteAllText(fileLocation & "trainingrun.txt", curdate _
-                & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") & _
-                Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) & _
+            If My.Computer.FileSystem.FileExists(rfile) Then
+                My.Computer.FileSystem.WriteAllText(rfile, curdate _
+                & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") &
+                Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) &
                 ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(fileLocation & "trainingrun.txt", "".PadLeft(94, "-") & _
+                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(94, "-") &
                 ControlChars.NewLine, True)
 
-                MessageBox.Show("Processing complete. The form will be cleared.", _
+                MessageBox.Show("Processing complete. The form will be cleared.",
                                 title, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Me.Show()
                 newDailyBalance = 0D
@@ -467,22 +447,22 @@ Public Class mainForm
                 Me.txtCredit.Text = "0.00"
                 Me.txtDebit.Text = "0.00"
                 Me.dtpEntryDate.Focus()
+                Me.btnApply.Enabled = False
 
             Else 'set up for the first run
-                My.Computer.FileSystem.CreateDirectory("C:\Training")
-                My.Computer.FileSystem.WriteAllText(bankPath, previous, False)
-                My.Computer.FileSystem.WriteAllText(fileLocation & "trainingrun.txt", heading & ControlChars.NewLine _
-                & "------------" & Strings.Space(5) & "-----" & Strings.Space(6) & _
-                "-------" & Strings.Space(20) & "----------" & Strings.Space(5) & _
+                My.Computer.FileSystem.CreateDirectory(rfile)
+                My.Computer.FileSystem.WriteAllText(rfile, heading & ControlChars.NewLine _
+                & "------------" & Strings.Space(5) & "-----" & Strings.Space(6) &
+                "-------" & Strings.Space(20) & "----------" & Strings.Space(5) &
                 "----------" & Strings.Space(6) & "--------" & ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(fileLocation & "trainingrun.txt", curdate _
-                & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") & _
-                Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) & _
+                My.Computer.FileSystem.WriteAllText(rfile, curdate _
+                & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") &
+                Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) &
                 ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(fileLocation & "trainingrun.txt", "".PadLeft(94, "-") & _
+                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(94, "-") &
                 ControlChars.NewLine, True)
 
-                MessageBox.Show("Processing complete. The form will be cleared.", _
+                MessageBox.Show("Processing complete. The form will be cleared.",
                                 title, MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Me.Show()
                 newDailyBalance = 0D
@@ -494,6 +474,7 @@ Public Class mainForm
                 Me.txtCredit.Text = "0.00"
                 Me.txtDebit.Text = "0.00"
                 Me.dtpEntryDate.Focus()
+                Me.btnApply.Enabled = False
 
             End If
 
@@ -501,7 +482,7 @@ Public Class mainForm
         Else 'If the user does not want to make a calculation, the program will ask if the user
             'wants to return to the program to perform another calculation
             'if the user does not, then the program will direct the user to exit
-            returnButton = MessageBox.Show("Do you wan to make another calculation?", title, _
+            returnButton = MessageBox.Show("Do you wan to make another calculation?", title,
             MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If returnButton = Windows.Forms.DialogResult.Yes Then
 
@@ -515,9 +496,10 @@ Public Class mainForm
                 Me.txtCredit.Text = "0.00"
                 Me.txtDebit.Text = "0.00"
                 Me.dtpEntryDate.Focus()
+                Me.btnApply.Enabled = False
             Else
                 returnButton = Windows.Forms.DialogResult.No
-                MessageBox.Show("No calculation will be made and the form will be reset. You may exit the program.", _
+                MessageBox.Show("No calculation will be made and the form will be reset. You may exit the program.",
                 title, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Me.Show()
@@ -530,6 +512,7 @@ Public Class mainForm
                 Me.txtCredit.Text = "0.00"
                 Me.txtDebit.Text = "0.00"
                 Me.dtpEntryDate.Focus()
+                Me.btnApply.Enabled = False
 
             End If
         End If
@@ -563,21 +546,21 @@ Public Class mainForm
 
                 'fills preview pane (txtPreview)
                 previewBankBal = calcTransactionBal + Convert.ToDecimal(Me.lblPrevBal.Text)
-                Me.txtPreview.Text = "Preview of Entry to Activity Sheet:" & ControlChars.NewLine & _
-                ControlChars.NewLine & "Date Entered" & Strings.Space(6) & "Type" & Strings.Space(10) & "Payee" & Strings.Space(47) & _
-                "Debit(-)" & Strings.Space(7) & "Credit(+)" & Strings.Space(7) & "Balance" & _
-                ControlChars.NewLine & "-------------------" & Strings.Space(7) & "----------" & Strings.Space(7) & _
-                "----------------------------" & Strings.Space(30) & "----------" & Strings.Space(9) & _
-                "----------" & Strings.Space(10) & "------------" & ControlChars.NewLine & Me.dtpEntryDate.Text.PadRight(10, " ") & Strings.Space(10) & _
-                Me.cmboxType.Text.PadRight(8, " ") & Strings.Space(5) & Me.txtPayee.Text.PadRight(20, " ") & Strings.Space(26) & _
-                Me.txtDebit.Text.PadLeft(6, " ") & Strings.Space(10) & _
-                Me.txtCredit.Text.PadLeft(6, " ") & Strings.Space(10) & _
+                Me.txtPreview.Text = "Preview of Entry to Activity Sheet:" & ControlChars.NewLine &
+                ControlChars.NewLine & "Date Entered" & Strings.Space(6) & "Type" & Strings.Space(10) & "Payee" & Strings.Space(47) &
+                "Debit(-)" & Strings.Space(7) & "Credit(+)" & Strings.Space(7) & "Balance" &
+                ControlChars.NewLine & "-------------------" & Strings.Space(7) & "----------" & Strings.Space(7) &
+                "----------------------------" & Strings.Space(30) & "----------" & Strings.Space(9) &
+                "----------" & Strings.Space(10) & "------------" & ControlChars.NewLine & Me.dtpEntryDate.Text.PadRight(10, " ") & Strings.Space(10) &
+                Me.cmboxType.Text.PadRight(8, " ") & Strings.Space(5) & Me.txtPayee.Text.PadRight(20, " ") & Strings.Space(26) &
+                Me.txtDebit.Text.PadLeft(6, " ") & Strings.Space(10) &
+                Me.txtCredit.Text.PadLeft(6, " ") & Strings.Space(10) &
                 Convert.ToString(previewBankBal).PadLeft(7)
 
 
             Else
                 'show error message and highlight the problematic area
-                MessageBox.Show("Number for calculations must be numeric.", title, _
+                MessageBox.Show("Number for calculations must be numeric.", title,
                 MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 If Not isSubtracted Then
@@ -594,7 +577,7 @@ Public Class mainForm
 
 
         Else 'show error message and highlight the problematic area
-            MessageBox.Show("Number for calculations must be numeric.", title, _
+            MessageBox.Show("Number for calculations must be numeric.", title,
             MessageBoxButtons.OK, MessageBoxIcon.Information)
             If Not IsNumeric(Me.txtDebit.Text) Then
 
@@ -609,20 +592,23 @@ Public Class mainForm
 
         End If
 
+        Me.btnApply.Enabled = True
+        Me.ApplyToolStripMenuItem.Enabled = True
+
     End Sub
 
     Private Sub CloseApp()
 
-        'closes form
+        'Exits the Program
 
         'declare variable
         Dim exitButton As DialogResult
 
-        exitButton = MessageBox.Show("Are you sure that you are ready to exit?", title, _
+        exitButton = MessageBox.Show("Are you sure that you are ready to exit?", title,
         MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If exitButton = Windows.Forms.DialogResult.No Then
 
-            'returns to the form
+            'Returns to the form
             Me.Show()
             Me.txtPayee.Clear()
             Me.lblNewBal.Text = "0.00"
@@ -633,12 +619,25 @@ Public Class mainForm
             Me.txtCredit.Text = "0.00"
             newDailyBalance = 0D
             Me.dtpEntryDate.Focus()
+            Me.btnApply.Enabled = False
 
-        Else 'exits the program
+        Else 'Exits the program
             exitButton = Windows.Forms.DialogResult.Yes
-            Me.Close()
+            If My.Computer.FileSystem.FileExists(rfile) Then
+                Me.Close()
 
+            Else : CreateMyPaths()
+                Me.Close()
+
+            End If
         End If
+    End Sub
+    Private Sub CreateMyPaths()
+
+        'Only used as a placeholder on first run if no prior transactions were completed
+
+
+
 
     End Sub
 End Class

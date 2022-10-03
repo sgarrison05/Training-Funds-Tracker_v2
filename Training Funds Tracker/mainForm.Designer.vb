@@ -22,53 +22,52 @@ Partial Class mainForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.lbltransDate = New System.Windows.Forms.Label
-        Me.dtpEntryDate = New System.Windows.Forms.DateTimePicker
-        Me.lblPay = New System.Windows.Forms.Label
-        Me.lblDebit = New System.Windows.Forms.Label
-        Me.lblCredit = New System.Windows.Forms.Label
-        Me.txtPayee = New System.Windows.Forms.TextBox
-        Me.txtDebit = New System.Windows.Forms.TextBox
-        Me.txtCredit = New System.Windows.Forms.TextBox
-        Me.btnClear = New System.Windows.Forms.Button
-        Me.btnCalc = New System.Windows.Forms.Button
-        Me.btnApply = New System.Windows.Forms.Button
-        Me.btnClose = New System.Windows.Forms.Button
-        Me.lblPrevBal = New System.Windows.Forms.Label
-        Me.lblTransAction = New System.Windows.Forms.Label
-        Me.lblNewBal = New System.Windows.Forms.Label
-        Me.lblLine = New System.Windows.Forms.Label
-        Me.lblOperator = New System.Windows.Forms.Label
-        Me.txtPreview = New System.Windows.Forms.TextBox
-        Me.lblPreview = New System.Windows.Forms.Label
-        Me.trainingMenuStrip = New System.Windows.Forms.MenuStrip
-        Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ActivitySheetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.BankFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ClearFormToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.CalculateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ApplyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ReadMeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.lblType = New System.Windows.Forms.Label
-        Me.lblPreviousID = New System.Windows.Forms.Label
-        Me.cmboxType = New System.Windows.Forms.ComboBox
-        Me.lblProjectID = New System.Windows.Forms.Label
-        Me.lblName = New System.Windows.Forms.Label
-        Me.lblLocationID = New System.Windows.Forms.Label
-        Me.lblStartDateID = New System.Windows.Forms.Label
-        Me.lblEndDateID = New System.Windows.Forms.Label
-        Me.lblLineID = New System.Windows.Forms.Label
-        Me.lblLocation = New System.Windows.Forms.Label
-        Me.lblStartDate = New System.Windows.Forms.Label
-        Me.lblEndDate = New System.Windows.Forms.Label
-        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.InfoFormToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.lbltransDate = New System.Windows.Forms.Label()
+        Me.dtpEntryDate = New System.Windows.Forms.DateTimePicker()
+        Me.lblPay = New System.Windows.Forms.Label()
+        Me.lblDebit = New System.Windows.Forms.Label()
+        Me.lblCredit = New System.Windows.Forms.Label()
+        Me.txtPayee = New System.Windows.Forms.TextBox()
+        Me.txtDebit = New System.Windows.Forms.TextBox()
+        Me.txtCredit = New System.Windows.Forms.TextBox()
+        Me.btnClear = New System.Windows.Forms.Button()
+        Me.btnCalc = New System.Windows.Forms.Button()
+        Me.btnApply = New System.Windows.Forms.Button()
+        Me.btnClose = New System.Windows.Forms.Button()
+        Me.lblPrevBal = New System.Windows.Forms.Label()
+        Me.lblTransAction = New System.Windows.Forms.Label()
+        Me.lblNewBal = New System.Windows.Forms.Label()
+        Me.lblLine = New System.Windows.Forms.Label()
+        Me.lblOperator = New System.Windows.Forms.Label()
+        Me.txtPreview = New System.Windows.Forms.TextBox()
+        Me.lblPreview = New System.Windows.Forms.Label()
+        Me.trainingMenuStrip = New System.Windows.Forms.MenuStrip()
+        Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InfoFormToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ActivitySheetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ClearFormToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CalculateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ApplyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ReadMeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.lblType = New System.Windows.Forms.Label()
+        Me.lblPreviousID = New System.Windows.Forms.Label()
+        Me.cmboxType = New System.Windows.Forms.ComboBox()
+        Me.lblProjectID = New System.Windows.Forms.Label()
+        Me.lblName = New System.Windows.Forms.Label()
+        Me.lblLocationID = New System.Windows.Forms.Label()
+        Me.lblStartDateID = New System.Windows.Forms.Label()
+        Me.lblEndDateID = New System.Windows.Forms.Label()
+        Me.lblLineID = New System.Windows.Forms.Label()
+        Me.lblLocation = New System.Windows.Forms.Label()
+        Me.lblStartDate = New System.Windows.Forms.Label()
+        Me.lblEndDate = New System.Windows.Forms.Label()
         Me.trainingMenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -257,83 +256,90 @@ Partial Class mainForm
         '
         Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.OpenToolStripMenuItem, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(35, 20)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "File"
+        '
+        'NewToolStripMenuItem
+        '
+        Me.NewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoFormToolStripMenuItem})
+        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.NewToolStripMenuItem.Text = "New..."
+        '
+        'InfoFormToolStripMenuItem
+        '
+        Me.InfoFormToolStripMenuItem.Name = "InfoFormToolStripMenuItem"
+        Me.InfoFormToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.InfoFormToolStripMenuItem.Text = "Info Form"
         '
         'OpenToolStripMenuItem
         '
-        Me.OpenToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActivitySheetToolStripMenuItem, Me.BankFileToolStripMenuItem})
+        Me.OpenToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActivitySheetToolStripMenuItem})
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.OpenToolStripMenuItem.Text = "Open..."
         '
         'ActivitySheetToolStripMenuItem
         '
         Me.ActivitySheetToolStripMenuItem.Name = "ActivitySheetToolStripMenuItem"
-        Me.ActivitySheetToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ActivitySheetToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ActivitySheetToolStripMenuItem.Text = "Activity Sheet"
-        '
-        'BankFileToolStripMenuItem
-        '
-        Me.BankFileToolStripMenuItem.Name = "BankFileToolStripMenuItem"
-        Me.BankFileToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.BankFileToolStripMenuItem.Text = "Bank File"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClearFormToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
         Me.EditToolStripMenuItem.Text = "Edit"
         '
         'ClearFormToolStripMenuItem
         '
         Me.ClearFormToolStripMenuItem.Name = "ClearFormToolStripMenuItem"
-        Me.ClearFormToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.ClearFormToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ClearFormToolStripMenuItem.Text = "Clear Form"
         '
         'ToolsToolStripMenuItem
         '
         Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CalculateToolStripMenuItem, Me.ApplyToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(45, 20)
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
         Me.ToolsToolStripMenuItem.Text = "Tools"
         '
         'CalculateToolStripMenuItem
         '
         Me.CalculateToolStripMenuItem.Name = "CalculateToolStripMenuItem"
-        Me.CalculateToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
+        Me.CalculateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CalculateToolStripMenuItem.Text = "Calculate"
         '
         'ApplyToolStripMenuItem
         '
         Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
-        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
+        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ApplyToolStripMenuItem.Text = "Apply"
         '
         'HelpToolStripMenuItem
         '
         Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReadMeToolStripMenuItem, Me.AboutToolStripMenuItem})
         Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
-        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(41, 20)
+        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
         Me.HelpToolStripMenuItem.Text = "Help"
         '
         'ReadMeToolStripMenuItem
         '
         Me.ReadMeToolStripMenuItem.Name = "ReadMeToolStripMenuItem"
-        Me.ReadMeToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
+        Me.ReadMeToolStripMenuItem.Size = New System.Drawing.Size(120, 22)
         Me.ReadMeToolStripMenuItem.Text = "Read Me"
         '
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(120, 22)
         Me.AboutToolStripMenuItem.Text = "About"
         '
         'lblType
@@ -439,19 +445,6 @@ Partial Class mainForm
         Me.lblEndDate.Size = New System.Drawing.Size(103, 23)
         Me.lblEndDate.TabIndex = 31
         '
-        'NewToolStripMenuItem
-        '
-        Me.NewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoFormToolStripMenuItem})
-        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.NewToolStripMenuItem.Text = "New..."
-        '
-        'InfoFormToolStripMenuItem
-        '
-        Me.InfoFormToolStripMenuItem.Name = "InfoFormToolStripMenuItem"
-        Me.InfoFormToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.InfoFormToolStripMenuItem.Text = "Info Form"
-        '
         'mainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -535,7 +528,6 @@ Partial Class mainForm
     Friend WithEvents ReadMeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AboutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ActivitySheetToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents BankFileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents lblProjectID As System.Windows.Forms.Label
     Friend WithEvents lblName As System.Windows.Forms.Label
     Friend WithEvents lblLocationID As System.Windows.Forms.Label
