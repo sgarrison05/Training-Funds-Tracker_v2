@@ -1,9 +1,5 @@
 Public Class trainingIDForm
 
-    Private rfileDir As String = "C:\Training\"
-    Private actFile As String = "C:\Training\trainingrun.txt"
-
-
     Private Sub btnDone_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnDone.Click
 
         'declares variables
@@ -20,25 +16,25 @@ Public Class trainingIDForm
         endDate = Me.dtpTrainingEnd.Text
 
         'Enters Initial text to the trainingrun.txt file
-        If My.Computer.FileSystem.DirectoryExists(rfileDir) Then
-            My.Computer.FileSystem.WriteAllText(actFile,
+        If My.Computer.FileSystem.DirectoryExists(mainForm.rdirectory) Then
+            My.Computer.FileSystem.WriteAllText(mainForm.rfile,
             "Name:" & Strings.Space(7) & name & ControlChars.NewLine & "Location:" &
             Strings.Space(3) & location & ControlChars.NewLine & "Dates:" &
             Strings.Space(6) & startDate & Strings.Space(2) & "-" &
             Strings.Space(2) & endDate & ControlChars.NewLine,
             True)
-            My.Computer.FileSystem.WriteAllText(actFile, "".PadLeft(105, "-") &
+            My.Computer.FileSystem.WriteAllText(mainForm.rfile, "".PadLeft(105, "-") &
             ControlChars.NewLine, True)
 
         Else 'it creates the director and trainingrun.txt file with initial information
-            My.Computer.FileSystem.CreateDirectory(rfileDir)
-            My.Computer.FileSystem.WriteAllText(actFile,
+            My.Computer.FileSystem.CreateDirectory(mainForm.rdirectory)
+            My.Computer.FileSystem.WriteAllText(mainForm.rfile,
             "Name:" & Strings.Space(7) & name & ControlChars.NewLine & "Location:" &
             Strings.Space(3) & location & ControlChars.NewLine & "Dates:" &
             Strings.Space(6) & startDate & Strings.Space(2) & "-" &
             Strings.Space(2) & endDate & ControlChars.NewLine,
             True)
-            My.Computer.FileSystem.WriteAllText(actFile, "".PadLeft(105, "-") &
+            My.Computer.FileSystem.WriteAllText(mainForm.rfile, "".PadLeft(105, "-") &
             ControlChars.NewLine, True)
 
         End If

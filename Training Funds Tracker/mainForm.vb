@@ -11,8 +11,8 @@ Imports System.Globalization
 Public Class mainForm
 
     Private title As String = "Training Funds Tracker"
-    Private rdirectory As String = "C:\Training"
-    Private rfile As String = "C:\Training\trainingrun.txt"
+    Public rdirectory As String = "C:\Training"
+    Public rfile As String = "C:\Training\trainingrun.txt"
     Private newDailyBalance As Decimal
     Private previousBalance As Decimal
     Private heading As String = "Date Entered" & Strings.Space(5) & "Type" & Strings.Space(7) & "Payee" & Strings.Space(22) &
@@ -154,13 +154,16 @@ Public Class mainForm
                 Loop
 
                 'Opens the trainingID form for basic info
-                'TODO: trainingIDForm.ShowDialog()
+                trainingIDForm.ShowDialog()
 
                 Me.Show()
                 Me.txtPreview.Text = "Ready"
                 Me.lblNewBal.Text = "0.00"
                 Me.lblName.Text = "New Training"
                 Me.lblName.ForeColor = Color.Blue
+
+                'Opens the trainingID form for basic info
+                trainingIDForm.ShowDialog()
 
                 'user has decided not to enter a intial balance and closes the form
             Else : button = Windows.Forms.DialogResult.No
@@ -371,7 +374,7 @@ Public Class mainForm
                 & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") &
                 Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) &
                 ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(94, "-") &
+                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") &
                 ControlChars.NewLine, True)
 
 
@@ -386,7 +389,7 @@ Public Class mainForm
                 & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") &
                 Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) &
                 ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(94, "-") &
+                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") &
                 ControlChars.NewLine, True)
 
             End If
@@ -660,6 +663,24 @@ Public Class mainForm
     Private Sub CreateMyPaths()
 
         'Only used as a placeholder on first run if no prior transactions were completed
+
+        'Declare text writing variables
+        Dim entryno As String = "Placeholder"
+        Dim curdate As String = dtpEntryDate.Text
+        Dim previous As String
+
+        previous = lblPrevBal.Text
+
+        My.Computer.FileSystem.CreateDirectory(rdirectory)
+        My.Computer.FileSystem.WriteAllText(rfile, curdate &
+                                            Strings.Space(12) & entryno.PadRight(15, " ") & Strings.Space(6) & "0.00".PadLeft(5, " ") &
+                                            Strings.Space(13) & "0.00".PadLeft(5, " ") & Strings.Space(13) & Convert.ToString(previous).PadLeft(5, " ") &
+                                            ControlChars.NewLine, True)
+
+        My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "_") & ControlChars.NewLine, True)
+
+
+
 
 
 
