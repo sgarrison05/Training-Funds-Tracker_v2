@@ -144,7 +144,7 @@ Partial Class mainForm
         '
         'btnClear
         '
-        Me.btnClear.Location = New System.Drawing.Point(12, 372)
+        Me.btnClear.Location = New System.Drawing.Point(12, 414)
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(86, 29)
         Me.btnClear.TabIndex = 10
@@ -153,7 +153,7 @@ Partial Class mainForm
         '
         'btnCalc
         '
-        Me.btnCalc.Location = New System.Drawing.Point(187, 372)
+        Me.btnCalc.Location = New System.Drawing.Point(239, 414)
         Me.btnCalc.Name = "btnCalc"
         Me.btnCalc.Size = New System.Drawing.Size(86, 29)
         Me.btnCalc.TabIndex = 11
@@ -162,7 +162,7 @@ Partial Class mainForm
         '
         'btnApply
         '
-        Me.btnApply.Location = New System.Drawing.Point(371, 372)
+        Me.btnApply.Location = New System.Drawing.Point(496, 414)
         Me.btnApply.Name = "btnApply"
         Me.btnApply.Size = New System.Drawing.Size(86, 29)
         Me.btnApply.TabIndex = 12
@@ -171,7 +171,7 @@ Partial Class mainForm
         '
         'btnClose
         '
-        Me.btnClose.Location = New System.Drawing.Point(555, 372)
+        Me.btnClose.Location = New System.Drawing.Point(717, 414)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(86, 29)
         Me.btnClose.TabIndex = 13
@@ -228,16 +228,16 @@ Partial Class mainForm
         '
         Me.txtPreview.BackColor = System.Drawing.SystemColors.ScrollBar
         Me.txtPreview.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPreview.Location = New System.Drawing.Point(12, 225)
+        Me.txtPreview.Location = New System.Drawing.Point(12, 267)
         Me.txtPreview.Multiline = True
         Me.txtPreview.Name = "txtPreview"
-        Me.txtPreview.Size = New System.Drawing.Size(629, 113)
+        Me.txtPreview.Size = New System.Drawing.Size(791, 113)
         Me.txtPreview.TabIndex = 22
         '
         'lblPreview
         '
         Me.lblPreview.AutoSize = True
-        Me.lblPreview.Location = New System.Drawing.Point(9, 209)
+        Me.lblPreview.Location = New System.Drawing.Point(9, 251)
         Me.lblPreview.Name = "lblPreview"
         Me.lblPreview.Size = New System.Drawing.Size(119, 13)
         Me.lblPreview.TabIndex = 21
@@ -263,32 +263,32 @@ Partial Class mainForm
         '
         Me.NewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoFormToolStripMenuItem})
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
         Me.NewToolStripMenuItem.Text = "New..."
         '
         'InfoFormToolStripMenuItem
         '
         Me.InfoFormToolStripMenuItem.Name = "InfoFormToolStripMenuItem"
-        Me.InfoFormToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.InfoFormToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
         Me.InfoFormToolStripMenuItem.Text = "Info Form"
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActivitySheetToolStripMenuItem})
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
         Me.OpenToolStripMenuItem.Text = "Open..."
         '
         'ActivitySheetToolStripMenuItem
         '
         Me.ActivitySheetToolStripMenuItem.Name = "ActivitySheetToolStripMenuItem"
-        Me.ActivitySheetToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ActivitySheetToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
         Me.ActivitySheetToolStripMenuItem.Text = "Activity Sheet"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'EditToolStripMenuItem
@@ -301,7 +301,7 @@ Partial Class mainForm
         'ClearFormToolStripMenuItem
         '
         Me.ClearFormToolStripMenuItem.Name = "ClearFormToolStripMenuItem"
-        Me.ClearFormToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ClearFormToolStripMenuItem.Size = New System.Drawing.Size(132, 22)
         Me.ClearFormToolStripMenuItem.Text = "Clear Form"
         '
         'ToolsToolStripMenuItem
@@ -314,13 +314,13 @@ Partial Class mainForm
         'CalculateToolStripMenuItem
         '
         Me.CalculateToolStripMenuItem.Name = "CalculateToolStripMenuItem"
-        Me.CalculateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CalculateToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
         Me.CalculateToolStripMenuItem.Text = "Calculate"
         '
         'ApplyToolStripMenuItem
         '
         Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
-        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
         Me.ApplyToolStripMenuItem.Text = "Apply"
         '
         'HelpToolStripMenuItem
@@ -449,7 +449,7 @@ Partial Class mainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(825, 418)
+        Me.ClientSize = New System.Drawing.Size(825, 477)
         Me.Controls.Add(Me.lblEndDate)
         Me.Controls.Add(Me.lblStartDate)
         Me.Controls.Add(Me.lblLocation)

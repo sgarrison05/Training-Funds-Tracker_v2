@@ -44,70 +44,95 @@ Public Class mainForm
         Me.cmboxType.SelectedIndex = 0
 
 
-        'initializes variables
+        'initializes diaglog variables
         Dim button As DialogResult
 
 
         'varifies the trainingrun.txt exists else asks if the user wants to create it
         If My.Computer.FileSystem.FileExists(rfile) Then
+
+            'declare block variables
+            Dim text As String
+            Dim nameIndex As Integer 'numer of chars accessed or what you are putting in txt box
+            Dim name As String  'variable to put accessed text into
+            Dim NewLineIndex As Integer = 0 'beginning of line
+            Dim colonIndex As Integer
+            Dim dashIndex As Integer
+            Dim location As String
+            Dim startDate As String
+            Dim endDate As String
+            Dim entryIndex As Integer = 0  'length of Line
+            Dim entry As String
+            Dim myentry As String
+
             Me.lblPrevBal.Text = My.Computer.FileSystem.ReadAllText(rfile)
             Me.lblNewBal.Text = "0.00"
 
             'pulls heading information from text file if the file exists, otherwise the program
             'recongnizes it as a new project
             If My.Computer.FileSystem.FileExists(rfile) Then
-                Dim text As String
-                Dim nameIndex As Integer 'numer of chars accessed or what you are putting in txt box
-                Dim name As String  'variable to put accessed text into
-                Dim NewLineIndex As Integer 'length of Line
-                Dim colonIndex As Integer
-                Dim dashIndex As Integer
-                Dim location As String
-                Dim startDate As String
-                Dim endDate As String
 
 
-                text = My.Computer.FileSystem.ReadAllText(rfile)
+                text = My.Computer.FileSystem.ReadAllText(rfile) 'pulls and reads entire file
 
-                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)
-                colonIndex = text.IndexOf(":", nameIndex)
+                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex) 'read the beginning of first line 
+                colonIndex = text.IndexOf(":", nameIndex) 'gets indexOf ":" to use as marker to find other variables
 
-                name = text.Substring(colonIndex + 1, NewLineIndex - colonIndex)
+                name = text.Substring(colonIndex + 1, NewLineIndex - colonIndex) 'loads name variable with substring text before the ":" in first line
                 name = name.TrimStart(" ")
 
-                nameIndex = NewLineIndex + 2
-                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)
+                nameIndex = NewLineIndex + 2  'moves to second line
 
                 Me.lblName.Text = name
                 Me.lblName.ForeColor = Color.Maroon
 
-                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)
+                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)  'read current line
                 colonIndex = text.IndexOf(":", nameIndex)
 
-                location = text.Substring(colonIndex + 1, NewLineIndex - colonIndex)
+                location = text.Substring(colonIndex + 1, NewLineIndex - colonIndex) 'loads location variable with substring text before the ":" in second line
                 location = location.TrimStart(" ")
 
-                nameIndex = NewLineIndex + 2
-                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)
+                nameIndex = NewLineIndex + 2 'moves to the third line
 
                 Me.lblLocation.Text = location
                 Me.lblLocation.ForeColor = Color.Maroon
 
-                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)
-                colonIndex = text.IndexOf(":", nameIndex)
-                dashIndex = text.IndexOf("-", nameIndex)
+                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)  'read current line
+                colonIndex = text.IndexOf(":", nameIndex)  'get location of ":" for "Date"
+                dashIndex = text.IndexOf("-", nameIndex)  'get location of "-" for actual date reads
 
-                startDate = text.Substring(colonIndex + 1, (dashIndex - colonIndex) - 1)
+                startDate = text.Substring(colonIndex + 1, (dashIndex - colonIndex) - 1)  'loads start date with substring after ":" but before "-" in third line
                 startDate = startDate.TrimStart(" ")
 
                 Me.lblStartDate.Text = startDate
                 Me.lblStartDate.ForeColor = Color.Maroon
 
-                endDate = text.Substring(dashIndex, NewLineIndex - dashIndex)
+                endDate = text.Substring(dashIndex, NewLineIndex - dashIndex)  'loads end date with substring after "-" in third line
                 endDate = endDate.TrimStart("-", " ")
 
                 Me.lblEndDate.Text = endDate
                 Me.lblEndDate.ForeColor = Color.Maroon
+
+                NewLineIndex = 0 'reset variable before primer and loop before re-run
+
+                NewLineIndex = text.IndexOf(ControlChars.NewLine, entryIndex) 'primer before loop to find balance
+
+                Do Until NewLineIndex = -1
+
+                    entry = text.Substring(entryIndex, NewLineIndex - entryIndex) 'get each line
+
+                    'if line is found with a date, add to entry variable to find bank bal at end
+                    If entry.Contains("/") Then
+                        myentry = Trim(Microsoft.VisualBasic.Right(entry, 7))
+                    End If
+
+                    'Retrieve Current Bank Bal
+                    lblPrevBal.Text = myentry
+
+                    'if not found, updates entryindex with next line
+                    entryIndex = NewLineIndex + 2
+                    NewLineIndex = text.IndexOf(ControlChars.NewLine, entryIndex)
+                Loop
 
             End If
 
@@ -122,7 +147,7 @@ Public Class mainForm
 
                 'loops till the user enters a beginning balance and verifies it is numeric
                 Do Until IsNumeric(Me.lblPrevBal.Text) And Me.lblPrevBal.Text <> String.Empty
-                    Me.lblPrevBal.Text = InputBox("Please enter starting balance.", title, "0.00")
+                    Me.lblPrevBal.Text = InputBox("Please enter starting balance formatted as 0.00.", title, "0.00")
                     If Not IsNumeric(Me.lblPrevBal.Text) Then
                         MessageBox.Show("Number must be numeric.", title, MessageBoxButtons.OK)
                     End If
@@ -134,7 +159,7 @@ Public Class mainForm
                 Me.Show()
                 Me.txtPreview.Text = "Ready"
                 Me.lblNewBal.Text = "0.00"
-                Me.lblName.Text = "New Project"
+                Me.lblName.Text = "New Training"
                 Me.lblName.ForeColor = Color.Blue
 
                 'user has decided not to enter a intial balance and closes the form
@@ -432,7 +457,7 @@ Public Class mainForm
                 & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") &
                 Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) &
                 ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(94, "-") &
+                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") &
                 ControlChars.NewLine, True)
 
                 MessageBox.Show("Processing complete. The form will be cleared.",
@@ -459,7 +484,7 @@ Public Class mainForm
                 & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") &
                 Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) &
                 ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(94, "-") &
+                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") &
                 ControlChars.NewLine, True)
 
                 MessageBox.Show("Processing complete. The form will be cleared.",
