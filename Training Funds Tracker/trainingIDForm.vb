@@ -17,14 +17,7 @@ Public Class trainingIDForm
 
         'Enters Initial text to the trainingrun.txt file
         If My.Computer.FileSystem.DirectoryExists(mainForm.rdirectory) Then
-            My.Computer.FileSystem.WriteAllText(mainForm.rfile,
-            "Name:" & Strings.Space(7) & name & ControlChars.NewLine & "Location:" &
-            Strings.Space(3) & location & ControlChars.NewLine & "Dates:" &
-            Strings.Space(6) & startDate & Strings.Space(2) & "-" &
-            Strings.Space(2) & endDate & ControlChars.NewLine,
-            True)
-            My.Computer.FileSystem.WriteAllText(mainForm.rfile, "".PadLeft(105, "-") &
-            ControlChars.NewLine, True)
+            Me.Close()
 
         Else 'it creates the director and trainingrun.txt file with initial information
             My.Computer.FileSystem.CreateDirectory(mainForm.rdirectory)
@@ -37,10 +30,14 @@ Public Class trainingIDForm
             My.Computer.FileSystem.WriteAllText(mainForm.rfile, "".PadLeft(105, "-") &
             ControlChars.NewLine, True)
 
+            mainForm.CreateMyPaths()
+
+            Me.Close()
+
+
         End If
 
-        'closes the form
-        Me.Close()
+
 
     End Sub
 

@@ -153,9 +153,6 @@ Public Class mainForm
                     End If
                 Loop
 
-                'Opens the trainingID form for basic info
-                trainingIDForm.ShowDialog()
-
                 Me.Show()
                 Me.txtPreview.Text = "Ready"
                 Me.lblNewBal.Text = "0.00"
@@ -334,7 +331,7 @@ Public Class mainForm
 
     End Sub
 
-    Private Sub InfoFormToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles InfoFormToolStripMenuItem.Click
+    Private Sub InfoFormToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         trainingIDForm.ShowDialog()
 
     End Sub
@@ -660,7 +657,7 @@ Public Class mainForm
             End If
         End If
     End Sub
-    Private Sub CreateMyPaths()
+    Public Sub CreateMyPaths()
 
         'Only used as a placeholder on first run if no prior transactions were completed
 
@@ -670,6 +667,8 @@ Public Class mainForm
         Dim previous As String
 
         previous = lblPrevBal.Text
+
+        'TODO: Add 2nd Placeholder in order to line up everything. 
 
         My.Computer.FileSystem.CreateDirectory(rdirectory)
         My.Computer.FileSystem.WriteAllText(rfile, curdate &

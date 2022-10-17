@@ -44,7 +44,6 @@ Partial Class mainForm
         Me.trainingMenuStrip = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.InfoFormToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ActivitySheetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -261,34 +260,27 @@ Partial Class mainForm
         '
         'NewToolStripMenuItem
         '
-        Me.NewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InfoFormToolStripMenuItem})
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.NewToolStripMenuItem.Text = "New..."
-        '
-        'InfoFormToolStripMenuItem
-        '
-        Me.InfoFormToolStripMenuItem.Name = "InfoFormToolStripMenuItem"
-        Me.InfoFormToolStripMenuItem.Size = New System.Drawing.Size(126, 22)
-        Me.InfoFormToolStripMenuItem.Text = "Info Form"
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActivitySheetToolStripMenuItem})
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.OpenToolStripMenuItem.Text = "Open..."
         '
         'ActivitySheetToolStripMenuItem
         '
         Me.ActivitySheetToolStripMenuItem.Name = "ActivitySheetToolStripMenuItem"
-        Me.ActivitySheetToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+        Me.ActivitySheetToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ActivitySheetToolStripMenuItem.Text = "Activity Sheet"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'EditToolStripMenuItem
@@ -301,7 +293,7 @@ Partial Class mainForm
         'ClearFormToolStripMenuItem
         '
         Me.ClearFormToolStripMenuItem.Name = "ClearFormToolStripMenuItem"
-        Me.ClearFormToolStripMenuItem.Size = New System.Drawing.Size(132, 22)
+        Me.ClearFormToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ClearFormToolStripMenuItem.Text = "Clear Form"
         '
         'ToolsToolStripMenuItem
@@ -314,13 +306,13 @@ Partial Class mainForm
         'CalculateToolStripMenuItem
         '
         Me.CalculateToolStripMenuItem.Name = "CalculateToolStripMenuItem"
-        Me.CalculateToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.CalculateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CalculateToolStripMenuItem.Text = "Calculate"
         '
         'ApplyToolStripMenuItem
         '
         Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
-        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
+        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ApplyToolStripMenuItem.Text = "Apply"
         '
         'HelpToolStripMenuItem
@@ -333,13 +325,13 @@ Partial Class mainForm
         'ReadMeToolStripMenuItem
         '
         Me.ReadMeToolStripMenuItem.Name = "ReadMeToolStripMenuItem"
-        Me.ReadMeToolStripMenuItem.Size = New System.Drawing.Size(120, 22)
+        Me.ReadMeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ReadMeToolStripMenuItem.Text = "Read Me"
         '
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(120, 22)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.AboutToolStripMenuItem.Text = "About"
         '
         'lblType
@@ -538,6 +530,5 @@ Partial Class mainForm
     Friend WithEvents lblStartDate As System.Windows.Forms.Label
     Friend WithEvents lblEndDate As System.Windows.Forms.Label
     Friend WithEvents NewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents InfoFormToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
