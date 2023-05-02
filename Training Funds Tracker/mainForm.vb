@@ -15,8 +15,12 @@ Public Class mainForm
     Public rfile As String = "C:\Training\trainingrun.txt"
     Private newDailyBalance As Decimal
     Private previousBalance As Decimal
-    Private heading As String = "Date Entered" & Strings.Space(5) & "Type" & Strings.Space(7) & "Payee" & Strings.Space(22) &
-                "Debit(-)" & Strings.Space(7) & "Credit(+)" & Strings.Space(7) & "Balance"
+    Private heading As String = "Date Entered" & Strings.Space(5) &
+        "Type" & Strings.Space(7) &
+        "Payee" & Strings.Space(22) &
+        "Debit(-)" & Strings.Space(7) &
+        "Credit(+)" & Strings.Space(7) &
+        "Balance"
 
 
     Private Sub mainForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -72,24 +76,23 @@ Public Class mainForm
             'recongnizes it as a new project
             If My.Computer.FileSystem.FileExists(rfile) Then
 
+                text = My.Computer.FileSystem.ReadAllText(rfile)
 
-                text = My.Computer.FileSystem.ReadAllText(rfile) 'pulls and reads entire file
+                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)
+                colonIndex = text.IndexOf(":", nameIndex)
 
-                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex) 'read the beginning of first line 
-                colonIndex = text.IndexOf(":", nameIndex) 'gets indexOf ":" to use as marker to find other variables
-
-                name = text.Substring(colonIndex + 1, NewLineIndex - colonIndex) 'loads name variable with substring text before the ":" in first line
+                name = text.Substring(colonIndex + 1, NewLineIndex - colonIndex)
                 name = name.TrimStart(" ")
 
-                nameIndex = NewLineIndex + 2  'moves to second line
+                nameIndex = NewLineIndex + 2 'moves to the second line
 
                 Me.lblName.Text = name
                 Me.lblName.ForeColor = Color.Maroon
 
-                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)  'read current line
+                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)
                 colonIndex = text.IndexOf(":", nameIndex)
 
-                location = text.Substring(colonIndex + 1, NewLineIndex - colonIndex) 'loads location variable with substring text before the ":" in second line
+                location = text.Substring(colonIndex + 1, NewLineIndex - colonIndex)
                 location = location.TrimStart(" ")
 
                 nameIndex = NewLineIndex + 2 'moves to the third line
@@ -97,17 +100,17 @@ Public Class mainForm
                 Me.lblLocation.Text = location
                 Me.lblLocation.ForeColor = Color.Maroon
 
-                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)  'read current line
-                colonIndex = text.IndexOf(":", nameIndex)  'get location of ":" for "Date"
-                dashIndex = text.IndexOf("-", nameIndex)  'get location of "-" for actual date reads
+                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)
+                colonIndex = text.IndexOf(":", nameIndex)
+                dashIndex = text.IndexOf("-", nameIndex)
 
-                startDate = text.Substring(colonIndex + 1, (dashIndex - colonIndex) - 1)  'loads start date with substring after ":" but before "-" in third line
+                startDate = text.Substring(colonIndex + 1, (dashIndex - colonIndex) - 1)
                 startDate = startDate.TrimStart(" ")
 
                 Me.lblStartDate.Text = startDate
                 Me.lblStartDate.ForeColor = Color.Maroon
 
-                endDate = text.Substring(dashIndex, NewLineIndex - dashIndex)  'loads end date with substring after "-" in third line
+                endDate = text.Substring(dashIndex, NewLineIndex - dashIndex)
                 endDate = endDate.TrimStart("-", " ")
 
                 Me.lblEndDate.Text = endDate
@@ -119,7 +122,7 @@ Public Class mainForm
 
                 Do Until NewLineIndex = -1
 
-                    entry = text.Substring(entryIndex, NewLineIndex - entryIndex) 'get each line
+                    entry = text.Substring(entryIndex, NewLineIndex - entryIndex)
 
                     'if line is found with a date, add to entry variable to find bank bal at end
                     If entry.Contains("/") Then
@@ -167,6 +170,31 @@ Public Class mainForm
                 Me.Close()
             End If
         End If
+    End Sub
+
+    Public Sub CreateMyPaths()
+
+        'Only used as a placeholder on first run if no prior transactions were completed
+
+        'Declare text writing variables
+        Dim entryno As String = "Placeholder"
+        Dim curdate As String = dtpEntryDate.Text
+        Dim previous As String
+
+        previous = lblPrevBal.Text
+
+        'TODO: Add 2nd Placeholder in order to line up everything.  
+
+        My.Computer.FileSystem.CreateDirectory(rdirectory)
+
+        My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(12) &
+                                            entryno.PadRight(15, " ") & Strings.Space(6) &
+                                            "0.00".PadLeft(5, " ") & Strings.Space(13) &
+                                            "0.00".PadLeft(5, " ") & Strings.Space(13) &
+                                            Convert.ToString(previous).PadLeft(5, " ") & ControlChars.NewLine, True)
+
+        My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "_") & ControlChars.NewLine, True)
+
     End Sub
 
     Private Sub btnClear_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClear.Click
@@ -336,214 +364,6 @@ Public Class mainForm
 
     End Sub
 
-    Private Sub ClearForm()
-
-        'delcare proceedure variables
-        Dim button As DialogResult
-
-        button = MessageBox.Show("Do you wish to add to the new balance to the bank?", title, MessageBoxButtons.YesNo,
-        MessageBoxIcon.Question)
-
-        If button = Windows.Forms.DialogResult.Yes Then
-            'declare block variables
-            Dim curdate As String
-            Dim type As String
-            Dim payee As String
-            Dim previous As String 'formally line2
-
-
-            'make calculations
-            newDailyBalance = Convert.ToDecimal(Me.lblNewBal.Text)
-            newDailyBalance = Math.Round(newDailyBalance, 2)
-            previousBalance = newDailyBalance
-            newDailyBalance = 0D
-            Me.lblPrevBal.Text = Convert.ToString(previousBalance)
-
-            'convert data
-            type = Me.cmboxType.Text
-            payee = Me.txtPayee.Text
-            curdate = Me.dtpEntryDate.Text
-            previous = Convert.ToString(previousBalance)
-
-            'Write the current balance to the txt file
-            If button = Windows.Forms.DialogResult.Yes And My.Computer.FileSystem.FileExists(rfile) Then
-                My.Computer.FileSystem.WriteAllText(rfile, curdate _
-                & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") &
-                Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) &
-                ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") &
-                ControlChars.NewLine, True)
-
-
-
-            Else 'set up for the first run
-                My.Computer.FileSystem.CreateDirectory(rdirectory)
-                My.Computer.FileSystem.WriteAllText(rfile, heading & ControlChars.NewLine _
-                & "-------------" & Strings.Space(5) & "-----" & Strings.Space(6) &
-                "-------" & Strings.Space(20) & "----------" & Strings.Space(5) &
-                "----------" & Strings.Space(6) & "--------" & ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(rfile, curdate _
-                & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") &
-                Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) &
-                ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") &
-                ControlChars.NewLine, True)
-
-            End If
-
-            'clears and returns to form
-            Me.txtPreview.Text = "Ready"
-            Me.lblTransAction.Text = ""
-            Me.cmboxType.SelectedIndex = 0
-            Me.txtPayee.Clear()
-            Me.txtCredit.Text = "0.00"
-            Me.txtDebit.Text = "0.00"
-            Me.lblNewBal.Text = ""
-            Me.dtpEntryDate.Focus()
-
-        Else
-            'clears and returns to form
-            Me.Show()
-            newDailyBalance = 0D
-            Me.txtPreview.Text = "Ready"
-            Me.lblTransAction.Text = ""
-            Me.cmboxType.SelectedIndex = 0
-            Me.txtPayee.Clear()
-            Me.txtCredit.Text = "0.00"
-            Me.txtDebit.Text = "0.00"
-            Me.lblNewBal.Text = ""
-            Me.dtpEntryDate.Focus()
-
-
-        End If
-
-    End Sub
-
-    Private Sub ApplyCalculation()
-
-        'saves current balance to the text file
-
-        'declares variables
-        Dim addTextButton As DialogResult
-        Dim returnButton As DialogResult
-
-        'program asks user if they would like to save the current transaction
-        addTextButton = MessageBox.Show("Do you wish to add the new daily balance to the bank?", title,
-        MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-        If addTextButton = Windows.Forms.DialogResult.Yes Then
-
-            'make calculations
-            newDailyBalance = Convert.ToDecimal(Me.lblNewBal.Text)
-            newDailyBalance = Math.Round(newDailyBalance, 2)
-            previousBalance = newDailyBalance
-            newDailyBalance = 0D
-            Me.lblPrevBal.Text = Convert.ToString(previousBalance)
-
-            'declare text writing variables
-            Dim previous As String ' formally line
-            Dim curdate As String
-            Dim type As String
-            Dim payee As String
-
-            'convert the data from the lblPrevBal and store it in the previous variable
-            previous = Convert.ToString(previousBalance)
-            type = Me.cmboxType.Text
-            curdate = Me.dtpEntryDate.Text
-            payee = Me.txtPayee.Text
-
-            'If the training file exists, the prog writes current balance to the text file
-            If My.Computer.FileSystem.FileExists(rfile) Then
-                My.Computer.FileSystem.WriteAllText(rfile, curdate _
-                & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") &
-                Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) &
-                ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") &
-                ControlChars.NewLine, True)
-
-                MessageBox.Show("Processing complete. The form will be cleared.",
-                                title, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Me.Show()
-                newDailyBalance = 0D
-                Me.txtPreview.Text = "Ready"
-                Me.lblTransAction.Text = ""
-                Me.lblNewBal.Text = ""
-                Me.cmboxType.SelectedIndex = 0
-                Me.txtPayee.Clear()
-                Me.txtCredit.Text = "0.00"
-                Me.txtDebit.Text = "0.00"
-                Me.dtpEntryDate.Focus()
-                Me.btnApply.Enabled = False
-
-            Else 'set up for the first run
-                My.Computer.FileSystem.CreateDirectory(rfile)
-                My.Computer.FileSystem.WriteAllText(rfile, heading & ControlChars.NewLine _
-                & "------------" & Strings.Space(5) & "-----" & Strings.Space(6) &
-                "-------" & Strings.Space(20) & "----------" & Strings.Space(5) &
-                "----------" & Strings.Space(6) & "--------" & ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(rfile, curdate _
-                & Strings.Space(7) & type.PadRight(7, " ") & Strings.Space(4) & payee.PadRight(20, " ") & Strings.Space(7) & Me.txtDebit.Text.PadRight(6, " ") &
-                Strings.Space(9) & Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) & Convert.ToString(previousBalance) &
-                ControlChars.NewLine, True)
-                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") &
-                ControlChars.NewLine, True)
-
-                MessageBox.Show("Processing complete. The form will be cleared.",
-                                title, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Me.Show()
-                newDailyBalance = 0D
-                Me.txtPreview.Text = "Ready"
-                Me.lblTransAction.Text = ""
-                Me.lblNewBal.Text = ""
-                Me.cmboxType.SelectedIndex = 0
-                Me.txtPayee.Clear()
-                Me.txtCredit.Text = "0.00"
-                Me.txtDebit.Text = "0.00"
-                Me.dtpEntryDate.Focus()
-                Me.btnApply.Enabled = False
-
-            End If
-
-
-        Else 'If the user does not want to make a calculation, the program will ask if the user
-            'wants to return to the program to perform another calculation
-            'if the user does not, then the program will direct the user to exit
-            returnButton = MessageBox.Show("Do you wan to make another calculation?", title,
-            MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If returnButton = Windows.Forms.DialogResult.Yes Then
-
-                Me.Show()
-                newDailyBalance = 0D
-                Me.txtPreview.Text = "Ready"
-                Me.lblTransAction.Text = ""
-                Me.lblNewBal.Text = ""
-                Me.cmboxType.SelectedIndex = 0
-                Me.txtPayee.Clear()
-                Me.txtCredit.Text = "0.00"
-                Me.txtDebit.Text = "0.00"
-                Me.dtpEntryDate.Focus()
-                Me.btnApply.Enabled = False
-            Else
-                returnButton = Windows.Forms.DialogResult.No
-                MessageBox.Show("No calculation will be made and the form will be reset. You may exit the program.",
-                title, MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-                Me.Show()
-                newDailyBalance = 0D
-                Me.txtPreview.Text = "Ready"
-                Me.lblTransAction.Text = ""
-                Me.lblNewBal.Text = ""
-                Me.cmboxType.SelectedIndex = 0
-                Me.txtPayee.Clear()
-                Me.txtCredit.Text = "0.00"
-                Me.txtDebit.Text = "0.00"
-                Me.dtpEntryDate.Focus()
-                Me.btnApply.Enabled = False
-
-            End If
-        End If
-
-    End Sub
-
     Private Sub PreviewCalculations()
 
         'Declare Procedure Level Variables for Calculations
@@ -571,17 +391,25 @@ Public Class mainForm
 
                 'fills preview pane (txtPreview)
                 previewBankBal = calcTransactionBal + Convert.ToDecimal(Me.lblPrevBal.Text)
-                Me.txtPreview.Text = "Preview of Entry to Activity Sheet:" & ControlChars.NewLine &
-                ControlChars.NewLine & "Date Entered" & Strings.Space(6) & "Type" & Strings.Space(10) & "Payee" & Strings.Space(47) &
-                "Debit(-)" & Strings.Space(7) & "Credit(+)" & Strings.Space(7) & "Balance" &
-                ControlChars.NewLine & "-------------------" & Strings.Space(7) & "----------" & Strings.Space(7) &
-                "----------------------------" & Strings.Space(30) & "----------" & Strings.Space(9) &
-                "----------" & Strings.Space(10) & "------------" & ControlChars.NewLine & Me.dtpEntryDate.Text.PadRight(10, " ") & Strings.Space(10) &
-                Me.cmboxType.Text.PadRight(8, " ") & Strings.Space(5) & Me.txtPayee.Text.PadRight(20, " ") & Strings.Space(26) &
-                Me.txtDebit.Text.PadLeft(6, " ") & Strings.Space(10) &
-                Me.txtCredit.Text.PadLeft(6, " ") & Strings.Space(10) &
-                Convert.ToString(previewBankBal).PadLeft(7)
-
+                Me.txtPreview.Text = "Preview of Entry to Activity Sheet:" & ControlChars.NewLine & ControlChars.NewLine &
+                    "Date Entered" & Strings.Space(6) &
+                    "Type" & Strings.Space(10) &
+                    "Payee" & Strings.Space(47) &
+                    "Debit(-)" & Strings.Space(7) &
+                    "Credit(+)" & Strings.Space(7) &
+                    "Balance" & ControlChars.NewLine &
+                    "-------------------" & Strings.Space(7) &
+                    "----------" & Strings.Space(7) &
+                    "----------------------------" & Strings.Space(30) &
+                    "----------" & Strings.Space(9) &
+                    "----------" & Strings.Space(10) &
+                    "------------" & ControlChars.NewLine &
+                    Me.dtpEntryDate.Text.PadRight(10, " ") & Strings.Space(10) &
+                    Me.cmboxType.Text.PadRight(8, " ") & Strings.Space(5) &
+                    Me.txtPayee.Text.PadRight(20, " ") & Strings.Space(26) &
+                    Me.txtDebit.Text.PadLeft(6, " ") & Strings.Space(10) &
+                    Me.txtCredit.Text.PadLeft(6, " ") & Strings.Space(10) &
+                    Convert.ToString(previewBankBal).PadLeft(7)
 
             Else
                 'show error message and highlight the problematic area
@@ -622,6 +450,235 @@ Public Class mainForm
 
     End Sub
 
+    Private Sub ApplyCalculation()
+
+        'saves current balance to the text file
+
+        'declares variables
+        Dim addTextButton As DialogResult
+        Dim returnButton As DialogResult
+
+        'program asks user if they would like to save the current transaction
+        addTextButton = MessageBox.Show("Do you wish to add the new daily balance to the bank?", title,
+        MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If addTextButton = Windows.Forms.DialogResult.Yes Then
+
+            'make calculations
+            newDailyBalance = Convert.ToDecimal(Me.lblNewBal.Text)
+            newDailyBalance = Math.Round(newDailyBalance, 2)
+            previousBalance = newDailyBalance
+            newDailyBalance = 0D
+            Me.lblPrevBal.Text = Convert.ToString(previousBalance)
+
+            'declare text writing variables
+            Dim previous As String ' formally line
+            Dim curdate As String
+            Dim type As String
+            Dim payee As String
+
+            'convert the data from the lblPrevBal and store it in the previous variable
+            previous = Convert.ToString(previousBalance)
+            type = Me.cmboxType.Text
+            curdate = Me.dtpEntryDate.Text
+            payee = Me.txtPayee.Text
+
+            'If the training file exists, the prog writes current balance to the text file
+            If My.Computer.FileSystem.FileExists(rfile) Then
+                My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(7) &
+                                                    type.PadRight(7, " ") & Strings.Space(4) &
+                                                    payee.PadRight(20, " ") & Strings.Space(7) &
+                                                    Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
+                                                    Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) &
+                                                    Convert.ToString(previousBalance) & ControlChars.NewLine, True)
+
+                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") & ControlChars.NewLine, True)
+
+                MessageBox.Show("Processing complete. The form will be cleared.",
+                                title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Me.Show()
+                newDailyBalance = 0D
+                Me.txtPreview.Text = "Ready"
+                Me.lblTransAction.Text = ""
+                Me.lblNewBal.Text = ""
+                Me.cmboxType.SelectedIndex = 0
+                Me.txtPayee.Clear()
+                Me.txtCredit.Text = "0.00"
+                Me.txtDebit.Text = "0.00"
+                Me.dtpEntryDate.Focus()
+                Me.btnApply.Enabled = False
+
+            Else 'set up for the first run
+                My.Computer.FileSystem.CreateDirectory(rfile)
+
+                My.Computer.FileSystem.WriteAllText(rfile, heading & ControlChars.NewLine &
+                                                    "------------" & Strings.Space(5) &
+                                                    "-----" & Strings.Space(6) &
+                                                    "-------" & Strings.Space(20) &
+                                                    "----------" & Strings.Space(5) &
+                                                    "----------" & Strings.Space(6) &
+                                                    "--------" & ControlChars.NewLine, True)
+
+                My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(7) &
+                                                    type.PadRight(7, " ") & Strings.Space(4) &
+                                                    payee.PadRight(20, " ") & Strings.Space(7) &
+                                                    Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
+                                                    Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) &
+                                                    Convert.ToString(previousBalance) & ControlChars.NewLine, True)
+
+                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") & ControlChars.NewLine, True)
+
+                MessageBox.Show("Processing complete. The form will be cleared.",
+                                title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Me.Show()
+                newDailyBalance = 0D
+                Me.txtPreview.Text = "Ready"
+                Me.lblTransAction.Text = ""
+                Me.lblNewBal.Text = ""
+                Me.cmboxType.SelectedIndex = 0
+                Me.txtPayee.Clear()
+                Me.txtCredit.Text = "0.00"
+                Me.txtDebit.Text = "0.00"
+                Me.dtpEntryDate.Focus()
+                Me.btnApply.Enabled = False
+
+            End If
+
+
+        Else 'If the user does not want to make a calculation, the program will ask if the user
+            'wants to return to the program to perform another calculation
+            'if the user does not, then the program will direct the user to exit
+            returnButton = MessageBox.Show("Do you wan to make another calculation?", title,
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            If returnButton = Windows.Forms.DialogResult.Yes Then
+
+                Me.Show()
+                newDailyBalance = 0D
+                Me.txtPreview.Text = "Ready"
+                Me.lblTransAction.Text = ""
+                Me.lblNewBal.Text = ""
+                Me.cmboxType.SelectedIndex = 0
+                Me.txtPayee.Clear()
+                Me.txtCredit.Text = "0.00"
+                Me.txtDebit.Text = "0.00"
+                Me.dtpEntryDate.Focus()
+                Me.btnApply.Enabled = False
+
+            Else
+                returnButton = Windows.Forms.DialogResult.No
+                MessageBox.Show("No calculation will be made and the form will be reset. You may exit the program.",
+                title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                Me.Show()
+                newDailyBalance = 0D
+                Me.txtPreview.Text = "Ready"
+                Me.lblTransAction.Text = ""
+                Me.lblNewBal.Text = ""
+                Me.cmboxType.SelectedIndex = 0
+                Me.txtPayee.Clear()
+                Me.txtCredit.Text = "0.00"
+                Me.txtDebit.Text = "0.00"
+                Me.dtpEntryDate.Focus()
+                Me.btnApply.Enabled = False
+
+            End If
+        End If
+
+    End Sub
+
+    Private Sub ClearForm()
+
+        'delcare proceedure variables
+        Dim button As DialogResult
+
+        button = MessageBox.Show("Do you wish to add to the new balance to the bank?", title, MessageBoxButtons.YesNo,
+        MessageBoxIcon.Question)
+
+        If button = Windows.Forms.DialogResult.Yes Then
+            'declare block variables
+            Dim curdate As String
+            Dim type As String
+            Dim payee As String
+            Dim previous As String 'formally line2
+
+
+            'make calculations
+            newDailyBalance = Convert.ToDecimal(Me.lblNewBal.Text)
+            newDailyBalance = Math.Round(newDailyBalance, 2)
+            previousBalance = newDailyBalance
+            newDailyBalance = 0D
+            Me.lblPrevBal.Text = Convert.ToString(previousBalance)
+
+            'convert data
+            type = Me.cmboxType.Text
+            payee = Me.txtPayee.Text
+            curdate = Me.dtpEntryDate.Text
+            previous = Convert.ToString(previousBalance)
+
+            'Write the current balance to the txt file
+            If button = Windows.Forms.DialogResult.Yes And My.Computer.FileSystem.FileExists(rfile) Then
+                My.Computer.FileSystem.WriteAllText(rfile, curdate _
+                & Strings.Space(7) &
+                type.PadRight(7, " ") & Strings.Space(4) &
+                payee.PadRight(20, " ") & Strings.Space(7) &
+                Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
+                Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) &
+                Convert.ToString(previousBalance) & ControlChars.NewLine, True)
+
+                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") &
+                ControlChars.NewLine, True)
+
+
+
+            Else 'set up for the first run
+                My.Computer.FileSystem.CreateDirectory(rdirectory)
+
+                My.Computer.FileSystem.WriteAllText(rfile, heading & ControlChars.NewLine &
+                                                    "-------------" & Strings.Space(5) &
+                                                    "-----" & Strings.Space(6) &
+                                                    "-------" & Strings.Space(20) &
+                                                    "----------" & Strings.Space(5) &
+                                                    "----------" & Strings.Space(6) &
+                                                    "--------" & ControlChars.NewLine, True)
+
+                My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(7) &
+                                                    type.PadRight(7, " ") & Strings.Space(4) &
+                                                    payee.PadRight(20, " ") & Strings.Space(7) &
+                                                    Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
+                                                    Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) &
+                                                    Convert.ToString(previousBalance) & ControlChars.NewLine, True)
+
+                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") & ControlChars.NewLine, True)
+
+            End If
+
+            'clears and returns to form
+            Me.txtPreview.Text = "Ready"
+            Me.lblTransAction.Text = ""
+            Me.cmboxType.SelectedIndex = 0
+            Me.txtPayee.Clear()
+            Me.txtCredit.Text = "0.00"
+            Me.txtDebit.Text = "0.00"
+            Me.lblNewBal.Text = ""
+            Me.dtpEntryDate.Focus()
+
+        Else
+            'clears and returns to form
+            Me.Show()
+            newDailyBalance = 0D
+            Me.txtPreview.Text = "Ready"
+            Me.lblTransAction.Text = ""
+            Me.cmboxType.SelectedIndex = 0
+            Me.txtPayee.Clear()
+            Me.txtCredit.Text = "0.00"
+            Me.txtDebit.Text = "0.00"
+            Me.lblNewBal.Text = ""
+            Me.dtpEntryDate.Focus()
+
+
+        End If
+
+    End Sub
+
     Private Sub CloseApp()
 
         'Exits the Program
@@ -657,32 +714,5 @@ Public Class mainForm
             End If
         End If
     End Sub
-    Public Sub CreateMyPaths()
 
-        'Only used as a placeholder on first run if no prior transactions were completed
-
-        'Declare text writing variables
-        Dim entryno As String = "Placeholder"
-        Dim curdate As String = dtpEntryDate.Text
-        Dim previous As String
-
-        previous = lblPrevBal.Text
-
-        'TODO: Add 2nd Placeholder in order to line up everything. 
-
-        My.Computer.FileSystem.CreateDirectory(rdirectory)
-        My.Computer.FileSystem.WriteAllText(rfile, curdate &
-                                            Strings.Space(12) & entryno.PadRight(15, " ") & Strings.Space(6) & "0.00".PadLeft(5, " ") &
-                                            Strings.Space(13) & "0.00".PadLeft(5, " ") & Strings.Space(13) & Convert.ToString(previous).PadLeft(5, " ") &
-                                            ControlChars.NewLine, True)
-
-        My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "_") & ControlChars.NewLine, True)
-
-
-
-
-
-
-
-    End Sub
 End Class
