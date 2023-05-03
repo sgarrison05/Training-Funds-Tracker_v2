@@ -14,11 +14,13 @@ Public Class trainingIDForm
         startDate = Me.dtpTrainingStart.Text
         endDate = Me.dtpTrainingEnd.Text
 
-        'Enters Initial text to the trainingrun.txt file
+        'Enters Initial text to the trainingrun.txt file 
         If My.Computer.FileSystem.DirectoryExists(mainForm.rdirectory) Then
             Me.Close()
 
-        Else 'it creates the director and trainingrun.txt file with initial information
+        Else
+
+            'it creates the directory and trainingrun.txt file with initial information heading
             My.Computer.FileSystem.CreateDirectory(mainForm.rdirectory)
 
             My.Computer.FileSystem.WriteAllText(mainForm.rfile,
@@ -31,9 +33,11 @@ Public Class trainingIDForm
             "-" & Strings.Space(2) &
             endDate & ControlChars.NewLine, True)
 
-            My.Computer.FileSystem.WriteAllText(mainForm.rfile, "".PadLeft(105, "-") & ControlChars.NewLine, True)
+            My.Computer.FileSystem.WriteAllText(mainForm.rfile, "".PadLeft(105, "_") & ControlChars.NewLine &
+                                                ControlChars.NewLine, True)
 
             mainForm.CreateMyPaths()
+            mainForm.Show()
 
             Me.Close()
 

@@ -1,8 +1,7 @@
 'Title                  Training Funds Tracker
-'Purpose                To help keep track of funds available for
-'                       Training
+'Purpose                To help keep track of funds available for Training like a checkbook register
 'Created                December 2009
-'Last Updated           Updated March 2014
+'Last Updated           Updated May 2023
 
 
 Option Explicit On
@@ -25,122 +24,13 @@ Public Class mainForm
 
     Private Sub mainForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        'makes the preview txt box read only
-        Me.txtPreview.ReadOnly = True
-
-        'Disable apply calc button till preview is seen
-        Me.btnApply.Enabled = False
-        Me.ApplyToolStripMenuItem.Enabled = False
-
-        'puts numeric values in the credit and debit txt boxes
-        Me.txtDebit.Text = "0.00"
-        Me.txtCredit.Text = "0.00"
-
-        'loads the typeComboBox
-        Me.cmboxType.Items.Add("Enter No.")
-        Me.cmboxType.Items.Add("ATM")
-        Me.cmboxType.Items.Add("Debit")
-        Me.cmboxType.Items.Add("Dep")
-        Me.cmboxType.Items.Add("EFT")
-        Me.cmboxType.Items.Add("Wthdrw")
-        Me.cmboxType.Items.Add("Trxns")
-
-        Me.cmboxType.SelectedIndex = 0
-
-
         'initializes diaglog variables
         Dim button As DialogResult
 
+        'If the bankfile does not exist, recognizes it as a new training, otherwise
+        ' pulls heading from the text file and reads the bank.
+        If Not My.Computer.FileSystem.FileExists(rfile) Then
 
-        'varifies the trainingrun.txt exists else asks if the user wants to create it
-        If My.Computer.FileSystem.FileExists(rfile) Then
-
-            'declare block variables
-            Dim text As String
-            Dim nameIndex As Integer 'numer of chars accessed or what you are putting in txt box
-            Dim name As String  'variable to put accessed text into
-            Dim NewLineIndex As Integer = 0 'beginning of line
-            Dim colonIndex As Integer
-            Dim dashIndex As Integer
-            Dim location As String
-            Dim startDate As String
-            Dim endDate As String
-            Dim entryIndex As Integer = 0  'length of Line
-            Dim entry As String
-            Dim myentry As String
-
-            Me.lblPrevBal.Text = My.Computer.FileSystem.ReadAllText(rfile)
-            Me.lblNewBal.Text = "0.00"
-
-            'pulls heading information from text file if the file exists, otherwise the program
-            'recongnizes it as a new project
-            If My.Computer.FileSystem.FileExists(rfile) Then
-
-                text = My.Computer.FileSystem.ReadAllText(rfile)
-
-                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)
-                colonIndex = text.IndexOf(":", nameIndex)
-
-                name = text.Substring(colonIndex + 1, NewLineIndex - colonIndex)
-                name = name.TrimStart(" ")
-
-                nameIndex = NewLineIndex + 2 'moves to the second line
-
-                Me.lblName.Text = name
-                Me.lblName.ForeColor = Color.Maroon
-
-                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)
-                colonIndex = text.IndexOf(":", nameIndex)
-
-                location = text.Substring(colonIndex + 1, NewLineIndex - colonIndex)
-                location = location.TrimStart(" ")
-
-                nameIndex = NewLineIndex + 2 'moves to the third line
-
-                Me.lblLocation.Text = location
-                Me.lblLocation.ForeColor = Color.Maroon
-
-                NewLineIndex = text.IndexOf(ControlChars.NewLine, nameIndex)
-                colonIndex = text.IndexOf(":", nameIndex)
-                dashIndex = text.IndexOf("-", nameIndex)
-
-                startDate = text.Substring(colonIndex + 1, (dashIndex - colonIndex) - 1)
-                startDate = startDate.TrimStart(" ")
-
-                Me.lblStartDate.Text = startDate
-                Me.lblStartDate.ForeColor = Color.Maroon
-
-                endDate = text.Substring(dashIndex, NewLineIndex - dashIndex)
-                endDate = endDate.TrimStart("-", " ")
-
-                Me.lblEndDate.Text = endDate
-                Me.lblEndDate.ForeColor = Color.Maroon
-
-                NewLineIndex = 0 'reset variable before primer and loop before re-run
-
-                NewLineIndex = text.IndexOf(ControlChars.NewLine, entryIndex) 'primer before loop to find balance
-
-                Do Until NewLineIndex = -1
-
-                    entry = text.Substring(entryIndex, NewLineIndex - entryIndex)
-
-                    'if line is found with a date, add to entry variable to find bank bal at end
-                    If entry.Contains("/") Then
-                        myentry = Trim(Microsoft.VisualBasic.Right(entry, 7))
-                    End If
-
-                    'Retrieve Current Bank Bal
-                    lblPrevBal.Text = myentry
-
-                    'if not found, updates entryindex with next line
-                    entryIndex = NewLineIndex + 2
-                    NewLineIndex = text.IndexOf(ControlChars.NewLine, entryIndex)
-                Loop
-
-            End If
-
-
-        Else 'sets up the Training folder and creates the trainingrun.txt file
             button = MessageBox.Show _
             ("The current training file does not exist.  This is your bank, would you like to create it?",
             title, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
@@ -150,26 +40,94 @@ Public Class mainForm
 
                 'loops till the user enters a beginning balance and verifies it is numeric
                 Do Until IsNumeric(Me.lblPrevBal.Text) And Me.lblPrevBal.Text <> String.Empty
+
                     Me.lblPrevBal.Text = InputBox("Please enter starting balance formatted as 0.00.", title, "0.00")
+
                     If Not IsNumeric(Me.lblPrevBal.Text) Then
+
                         MessageBox.Show("Number must be numeric.", title, MessageBoxButtons.OK)
+
                     End If
+
                 Loop
 
-                Me.Show()
+                'makes the preview txt box read only
+                Me.txtPreview.ReadOnly = True
+
+                'Disable apply calc button till preview is seen
+                Me.btnApply.Enabled = False
+                Me.ApplyToolStripMenuItem.Enabled = False
+
+                'puts numeric values in the credit and debit txt boxes
+                Me.txtDebit.Text = "0.00"
+                Me.txtCredit.Text = "0.00"
+
+                'loads the typeComboBox
+                Me.cmboxType.Items.Add("Enter No.")
+                Me.cmboxType.Items.Add("ATM")
+                Me.cmboxType.Items.Add("Debit")
+                Me.cmboxType.Items.Add("Dep")
+                Me.cmboxType.Items.Add("EFT")
+                Me.cmboxType.Items.Add("Wthdrw")
+                Me.cmboxType.Items.Add("Trxns")
+
+                Me.cmboxType.SelectedIndex = 0
+
                 Me.txtPreview.Text = "Ready"
                 Me.lblNewBal.Text = "0.00"
-                Me.lblName.Text = "New Training"
-                Me.lblName.ForeColor = Color.Blue
 
                 'Opens the trainingID form for basic info
                 trainingIDForm.ShowDialog()
+                Me.Hide()
+
+                Call pullHeading()
+
+            Else
 
                 'user has decided not to enter a intial balance and closes the form
-            Else : button = Windows.Forms.DialogResult.No
+                button = Windows.Forms.DialogResult.No
                 Me.Close()
+
             End If
+
+
+        Else
+
+            'bankfile exists and gathers info needed for mainForm
+
+            'pulls heading information
+            Call pullHeading()
+
+            'searches through data and pulls bank
+            Call pullData()
+
+            'makes the preview txt box read only
+            Me.txtPreview.ReadOnly = True
+
+            'Disable apply calc button till preview is seen
+            Me.btnApply.Enabled = False
+            Me.ApplyToolStripMenuItem.Enabled = False
+
+            'puts numeric values in the credit and debit txt boxes
+            Me.txtDebit.Text = "0.00"
+            Me.txtCredit.Text = "0.00"
+
+            'loads the typeComboBox
+            Me.cmboxType.Items.Add("Enter No.")
+            Me.cmboxType.Items.Add("ATM")
+            Me.cmboxType.Items.Add("Debit")
+            Me.cmboxType.Items.Add("Dep")
+            Me.cmboxType.Items.Add("EFT")
+            Me.cmboxType.Items.Add("Wthdrw")
+            Me.cmboxType.Items.Add("Trxns")
+
+            Me.cmboxType.SelectedIndex = 0
+
+            Me.txtPreview.Text = "Ready"
+            Me.lblNewBal.Text = "0.00"
+
         End If
+
     End Sub
 
     Public Sub CreateMyPaths()
@@ -180,187 +138,36 @@ Public Class mainForm
         Dim entryno As String = "Placeholder"
         Dim curdate As String = dtpEntryDate.Text
         Dim previous As String
+        Dim heading As String = "Date Entered" & Strings.Space(7) &
+                                "Type" & Strings.Space(14) &
+                                "Location" & Strings.Space(12) &
+                                "Debit(-)" & Strings.Space(12) &
+                                "Credit(+)" & Strings.Space(6) &
+                                "Balance"
 
         previous = lblPrevBal.Text
+
 
         'TODO: Add 2nd Placeholder in order to line up everything.  
 
         My.Computer.FileSystem.CreateDirectory(rdirectory)
 
-        My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(12) &
-                                            entryno.PadRight(15, " ") & Strings.Space(6) &
-                                            "0.00".PadLeft(5, " ") & Strings.Space(13) &
+        My.Computer.FileSystem.WriteAllText(rfile, heading & ControlChars.NewLine &
+                                            "-------------" & Strings.Space(6) &
+                                            "----------" & Strings.Space(8) &
+                                            "------------" & Strings.Space(8) &
+                                            "----------" & Strings.Space(10) &
+                                            "----------" & Strings.Space(5) &
+                                            "----------" & ControlChars.NewLine, True)
+
+        My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(9) &
+                                            "N/A".PadRight(11, " ") & Strings.Space(7) &
+                                            entryno.PadRight(15, " ") & Strings.Space(4) &
+                                            "0.00".PadLeft(5, " ") & Strings.Space(15) &
                                             "0.00".PadLeft(5, " ") & Strings.Space(13) &
                                             Convert.ToString(previous).PadLeft(5, " ") & ControlChars.NewLine, True)
 
-        My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "_") & ControlChars.NewLine, True)
-
-    End Sub
-
-    Private Sub btnClear_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClear.Click
-
-        ClearForm()
-
-    End Sub
-
-    Private Sub btnCalc_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnCalc.Click
-
-        PreviewCalculations()
-
-    End Sub
-
-    Private Sub btnApply_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnApply.Click
-
-        ApplyCalculation()
-
-    End Sub
-
-    Private Sub btnClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click
-
-        CloseApp()
-
-    End Sub
-
-    Private Sub cmboxType_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.Enter
-        Me.cmboxType.SelectAll()
-    End Sub
-
-    Private Sub txtPayee_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtPayee.Enter
-        Me.txtPayee.SelectAll()
-
-    End Sub
-
-    Private Sub txtDebit_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDebit.Enter
-        Me.txtDebit.SelectAll()
-
-    End Sub
-
-    Private Sub txtCredit_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtCredit.Enter
-        Me.txtCredit.SelectAll()
-
-    End Sub
-
-    Private Sub cmboxType_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.GotFocus
-        Me.cmboxType.BackColor = Color.LightBlue
-        Me.txtPayee.BackColor = Color.White
-        Me.txtDebit.BackColor = Color.White
-        Me.txtCredit.BackColor = Color.White
-    End Sub
-
-    Private Sub txtPayee_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtPayee.GotFocus
-        Me.cmboxType.BackColor = Color.White
-        Me.txtPayee.BackColor = Color.LightBlue
-        Me.txtDebit.BackColor = Color.White
-        Me.txtCredit.BackColor = Color.White
-    End Sub
-
-    Private Sub txtDebit_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDebit.GotFocus
-        Me.cmboxType.BackColor = Color.White
-        Me.txtPayee.BackColor = Color.White
-        Me.txtDebit.BackColor = Color.LightBlue
-        Me.txtCredit.BackColor = Color.White
-    End Sub
-
-    Private Sub txtCredit_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtCredit.GotFocus
-        Me.cmboxType.BackColor = Color.White
-        Me.txtPayee.BackColor = Color.White
-        Me.txtDebit.BackColor = Color.White
-        Me.txtCredit.BackColor = Color.LightBlue
-    End Sub
-
-    Private Sub dtpEntryDate_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtpEntryDate.GotFocus
-        Me.cmboxType.BackColor = Color.White
-        Me.txtPayee.BackColor = Color.White
-        Me.txtDebit.BackColor = Color.White
-        Me.txtCredit.BackColor = Color.White
-    End Sub
-
-    Private Sub ExitToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
-
-        Me.Close()
-
-    End Sub
-
-    Private Sub ActivitySheetToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ActivitySheetToolStripMenuItem.Click
-
-        If My.Computer.FileSystem.FileExists(rfile) Then
-            Dim proc As New System.Diagnostics.Process
-            proc.StartInfo.FileName = "notepad.exe"
-            proc.StartInfo.Arguments = rfile
-            proc.Start()
-
-        Else
-            MessageBox.Show("File is in the process of being created on first run.  Please make a calculation and press reply before re-opening.",
-            title, MessageBoxButtons.OK, MessageBoxIcon.Stop)
-            Me.Show()
-            Me.dtpEntryDate.Focus()
-
-        End If
-    End Sub
-
-    Private Sub ClearFormToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ClearFormToolStripMenuItem.Click
-
-        ClearForm()
-
-    End Sub
-
-    Private Sub CalculateToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles CalculateToolStripMenuItem.Click
-
-        PreviewCalculations()
-
-    End Sub
-
-    Private Sub ApplyToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ApplyToolStripMenuItem.Click
-
-        ApplyCalculation()
-
-    End Sub
-
-    Private Sub AboutToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles AboutToolStripMenuItem.Click
-
-        trainingAboutBox.ShowDialog()
-
-
-    End Sub
-
-    Private Sub cmboxType_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.TextChanged
-
-        If Me.cmboxType.SelectedIndex = 0 Or Me.cmboxType.SelectedIndex = 6 Then
-            Me.txtDebit.Enabled = True
-            Me.txtCredit.Enabled = True
-        End If
-        If IsNumeric(Me.cmboxType.Text) Or Me.cmboxType.SelectedIndex = 1 Or Me.cmboxType.SelectedIndex = 2 Or
-        Me.cmboxType.SelectedIndex = 4 Or Me.cmboxType.SelectedIndex = 5 Then
-            Me.txtCredit.Enabled = False
-            Me.txtDebit.Enabled = True
-        End If
-        If Me.cmboxType.SelectedIndex = 3 Then
-            Me.txtDebit.Enabled = False
-            Me.txtCredit.Enabled = True
-        End If
-    End Sub
-
-    Private Sub ReadMeToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ReadMeToolStripMenuItem.Click
-
-        If My.Computer.FileSystem.FileExists("C:\Training\trainingreadme.txt") Then
-            Dim proc As New System.Diagnostics.Process
-            proc.StartInfo.FileName = "notepad.exe"
-            proc.StartInfo.Arguments = "C:\Training\trainingreadme.txt"
-            proc.Start()
-
-        Else
-            MessageBox.Show("File was not copied manually at install.  Check with deloyment file for trainingreadme.txt file and copy to (C:\Training\) root directory.",
-            title, MessageBoxButtons.OK, MessageBoxIcon.Stop)
-            Me.Show()
-            Me.dtpEntryDate.Focus()
-
-        End If
-
-
-    End Sub
-
-    Private Sub InfoFormToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        trainingIDForm.ShowDialog()
+        My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") & ControlChars.NewLine, True)
 
     End Sub
 
@@ -405,9 +212,9 @@ Public Class mainForm
                     "----------" & Strings.Space(10) &
                     "------------" & ControlChars.NewLine &
                     Me.dtpEntryDate.Text.PadRight(10, " ") & Strings.Space(10) &
-                    Me.cmboxType.Text.PadRight(8, " ") & Strings.Space(5) &
-                    Me.txtPayee.Text.PadRight(20, " ") & Strings.Space(26) &
-                    Me.txtDebit.Text.PadLeft(6, " ") & Strings.Space(10) &
+                    Me.cmboxType.Text.PadRight(8, " ") & Strings.Space(6) &
+                    Me.txtPayee.Text.PadRight(20, " ") & Strings.Space(28) &
+                    Me.txtDebit.Text.PadLeft(6, " ") & Strings.Space(9) &
                     Me.txtCredit.Text.PadLeft(6, " ") & Strings.Space(10) &
                     Convert.ToString(previewBankBal).PadLeft(7)
 
@@ -484,11 +291,11 @@ Public Class mainForm
 
             'If the training file exists, the prog writes current balance to the text file
             If My.Computer.FileSystem.FileExists(rfile) Then
-                My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(7) &
-                                                    type.PadRight(7, " ") & Strings.Space(4) &
-                                                    payee.PadRight(20, " ") & Strings.Space(7) &
-                                                    Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
-                                                    Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) &
+                My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(9) &
+                                                    type.PadRight(8, " ") & Strings.Space(10) &
+                                                    payee.PadRight(19, " ") & Strings.Space(1) &
+                                                    Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(15) &
+                                                    Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(9) &
                                                     Convert.ToString(previousBalance) & ControlChars.NewLine, True)
 
                 My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") & ControlChars.NewLine, True)
@@ -676,6 +483,270 @@ Public Class mainForm
 
 
         End If
+
+    End Sub
+
+    Private Sub pullHeading()
+
+        'declare block variables
+        Dim mytext As String
+        Dim nameIndex As Integer
+        Dim name As String  '
+        Dim NewLineIndex As Integer = 0 'beginning of line
+        Dim colonIndex As Integer
+        Dim dashIndex As Integer
+        Dim location As String
+        Dim startDate As String
+        Dim endDate As String
+
+        '--------------------------------------------------------------------------------------------------
+        'Heading Start
+
+        mytext = My.Computer.FileSystem.ReadAllText(rfile)
+
+        NewLineIndex = mytext.IndexOf(ControlChars.NewLine, nameIndex)
+        colonIndex = mytext.IndexOf(":", nameIndex)
+
+        name = mytext.Substring(colonIndex + 1, NewLineIndex - colonIndex)
+        name = Name.TrimStart(" ")
+
+        nameIndex = NewLineIndex + 2 'moves to the second line
+
+        Me.lblName.Text = Name
+        Me.lblName.ForeColor = Color.Maroon
+
+        NewLineIndex = mytext.IndexOf(ControlChars.NewLine, nameIndex)
+        colonIndex = mytext.IndexOf(":", nameIndex)
+
+        location = mytext.Substring(colonIndex + 1, NewLineIndex - colonIndex)
+        location = Location.TrimStart(" ")
+
+        nameIndex = NewLineIndex + 2 'moves to the third line
+
+        Me.lblLocation.Text = Location
+        Me.lblLocation.ForeColor = Color.Maroon
+
+        NewLineIndex = mytext.IndexOf(ControlChars.NewLine, nameIndex)
+        colonIndex = mytext.IndexOf(":", nameIndex)
+        dashIndex = mytext.IndexOf("-", nameIndex)
+
+        startDate = mytext.Substring(colonIndex + 1, (dashIndex - colonIndex) - 1)
+        startDate = startDate.TrimStart(" ")
+
+        Me.lblStartDate.Text = startDate
+        Me.lblStartDate.ForeColor = Color.Maroon
+
+        endDate = mytext.Substring(dashIndex, NewLineIndex - dashIndex)
+        endDate = endDate.TrimStart("-", " ")
+
+        Me.lblEndDate.Text = endDate
+        Me.lblEndDate.ForeColor = Color.Maroon
+
+    End Sub
+
+    Private Sub pullData()
+
+        Dim mytext2 As String
+        Dim NewLineIndex2 As Integer = 0 'beginning of line
+        Dim entryIndex2 As Integer = 0  'length of Line
+        Dim entry As String
+        Dim myentry As String
+
+        '------------------------------------------------------------------------------------------------
+        'Data Start
+
+        mytext2 = My.Computer.FileSystem.ReadAllText(rfile)
+
+        NewLineIndex2 = 0 'reset variable before primer and loop before re-run
+
+        NewLineIndex2 = mytext2.IndexOf(ControlChars.NewLine, entryIndex2) 'primer before loop to find balance
+
+        Do Until NewLineIndex2 = -1
+
+            entry = mytext2.Substring(entryIndex2, NewLineIndex2 - entryIndex2)
+
+            'if line is found with a date, add to entry variable to find bank bal at end
+            If entry.Contains("/") Then
+
+                myentry = Trim(Microsoft.VisualBasic.Right(entry, 7))
+
+            End If
+
+            'Retrieve Current Bank Bal
+            lblPrevBal.Text = myentry
+
+            'if not found, updates entryindex with next line
+            entryIndex2 = NewLineIndex2 + 2
+            NewLineIndex2 = mytext2.IndexOf(ControlChars.NewLine, entryIndex2)
+
+        Loop
+
+    End Sub
+
+    Private Sub btnClear_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClear.Click
+
+        ClearForm()
+
+    End Sub
+
+    Private Sub btnCalc_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnCalc.Click
+
+        PreviewCalculations()
+
+    End Sub
+
+    Private Sub btnApply_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnApply.Click
+
+        ApplyCalculation()
+
+    End Sub
+
+    Private Sub btnClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click
+
+        CloseApp()
+
+    End Sub
+
+    Private Sub cmboxType_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.Enter
+        Me.cmboxType.SelectAll()
+    End Sub
+
+    Private Sub txtPayee_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtPayee.Enter
+        Me.txtPayee.SelectAll()
+
+    End Sub
+
+    Private Sub txtDebit_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDebit.Enter
+        Me.txtDebit.SelectAll()
+
+    End Sub
+
+    Private Sub txtCredit_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtCredit.Enter
+        Me.txtCredit.SelectAll()
+
+    End Sub
+
+    Private Sub cmboxType_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.GotFocus
+        Me.cmboxType.BackColor = Color.LightBlue
+        Me.txtPayee.BackColor = Color.White
+        Me.txtDebit.BackColor = Color.White
+        Me.txtCredit.BackColor = Color.White
+    End Sub
+
+    Private Sub txtPayee_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtPayee.GotFocus
+        Me.cmboxType.BackColor = Color.White
+        Me.txtPayee.BackColor = Color.LightBlue
+        Me.txtDebit.BackColor = Color.White
+        Me.txtCredit.BackColor = Color.White
+    End Sub
+
+    Private Sub txtDebit_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDebit.GotFocus
+        Me.cmboxType.BackColor = Color.White
+        Me.txtPayee.BackColor = Color.White
+        Me.txtDebit.BackColor = Color.LightBlue
+        Me.txtCredit.BackColor = Color.White
+    End Sub
+
+    Private Sub txtCredit_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtCredit.GotFocus
+        Me.cmboxType.BackColor = Color.White
+        Me.txtPayee.BackColor = Color.White
+        Me.txtDebit.BackColor = Color.White
+        Me.txtCredit.BackColor = Color.LightBlue
+    End Sub
+
+    Private Sub dtpEntryDate_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtpEntryDate.GotFocus
+        Me.cmboxType.BackColor = Color.White
+        Me.txtPayee.BackColor = Color.White
+        Me.txtDebit.BackColor = Color.White
+        Me.txtCredit.BackColor = Color.White
+    End Sub
+
+    Private Sub ExitToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
+
+        Me.Close()
+
+    End Sub
+
+    Private Sub ActivitySheetToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ActivitySheetToolStripMenuItem.Click
+
+        If My.Computer.FileSystem.FileExists(rfile) Then
+            Dim proc As New System.Diagnostics.Process
+            proc.StartInfo.FileName = "notepad.exe"
+            proc.StartInfo.Arguments = rfile
+            proc.Start()
+
+        Else
+            MessageBox.Show("File is in the process of being created on first run.  Please make a calculation and press reply before re-opening.",
+            title, MessageBoxButtons.OK, MessageBoxIcon.Stop)
+            Me.Show()
+            Me.dtpEntryDate.Focus()
+
+        End If
+    End Sub
+
+    Private Sub ClearFormToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ClearFormToolStripMenuItem.Click
+
+        ClearForm()
+
+    End Sub
+
+    Private Sub CalculateToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles CalculateToolStripMenuItem.Click
+
+        PreviewCalculations()
+
+    End Sub
+
+    Private Sub ApplyToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ApplyToolStripMenuItem.Click
+
+        ApplyCalculation()
+
+    End Sub
+
+    Private Sub AboutToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles AboutToolStripMenuItem.Click
+
+        trainingAboutBox.ShowDialog()
+
+
+    End Sub
+
+    Private Sub cmboxType_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.TextChanged
+
+        If Me.cmboxType.SelectedIndex = 0 Or Me.cmboxType.SelectedIndex = 6 Then
+            Me.txtDebit.Enabled = True
+            Me.txtCredit.Enabled = True
+        End If
+        If IsNumeric(Me.cmboxType.Text) Or Me.cmboxType.SelectedIndex = 1 Or Me.cmboxType.SelectedIndex = 2 Or
+        Me.cmboxType.SelectedIndex = 4 Or Me.cmboxType.SelectedIndex = 5 Then
+            Me.txtCredit.Enabled = False
+            Me.txtDebit.Enabled = True
+        End If
+        If Me.cmboxType.SelectedIndex = 3 Then
+            Me.txtDebit.Enabled = False
+            Me.txtCredit.Enabled = True
+        End If
+    End Sub
+
+    Private Sub ReadMeToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ReadMeToolStripMenuItem.Click
+
+        If My.Computer.FileSystem.FileExists("C:\Training\trainingreadme.txt") Then
+            Dim proc As New System.Diagnostics.Process
+            proc.StartInfo.FileName = "notepad.exe"
+            proc.StartInfo.Arguments = "C:\Training\trainingreadme.txt"
+            proc.Start()
+
+        Else
+            MessageBox.Show("File was not copied manually at install.  Check with deloyment file for trainingreadme.txt file and copy to (C:\Training\) root directory.",
+            title, MessageBoxButtons.OK, MessageBoxIcon.Stop)
+            Me.Show()
+            Me.dtpEntryDate.Focus()
+
+        End If
+
+
+    End Sub
+
+    Private Sub InfoFormToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs)
+        trainingIDForm.ShowDialog()
 
     End Sub
 
