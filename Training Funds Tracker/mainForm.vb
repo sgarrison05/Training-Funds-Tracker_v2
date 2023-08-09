@@ -21,7 +21,6 @@ Public Class mainForm
         "Credit(+)" & Strings.Space(7) &
         "Balance"
 
-
     Private Sub mainForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         'initializes diaglog variables
@@ -130,47 +129,17 @@ Public Class mainForm
 
     End Sub
 
+    '------------------------------ Private Subroutines-----------------------------------------------
+
     Public Sub CreateMyPaths()
 
         'Only used as a placeholder on first run if no prior transactions were completed
+        Dim reason As String = cmboxType.Text
+        CreateHeadings(reason)
 
-        'Declare text writing variables
-        Dim entryno As String = "Placeholder"
-        Dim curdate As String = dtpEntryDate.Text
-        Dim previous As String
-        Dim heading As String = "Date Entered" & Strings.Space(7) &
-                                "Type" & Strings.Space(14) &
-                                "Location" & Strings.Space(12) &
-                                "Debit(-)" & Strings.Space(12) &
-                                "Credit(+)" & Strings.Space(6) &
-                                "Balance"
-
-        previous = lblPrevBal.Text
-
-
-        'TODO: Add 2nd Placeholder in order to line up everything.  
-
-        My.Computer.FileSystem.CreateDirectory(rdirectory)
-
-        My.Computer.FileSystem.WriteAllText(rfile, heading & ControlChars.NewLine &
-                                            "-------------" & Strings.Space(6) &
-                                            "----------" & Strings.Space(8) &
-                                            "------------" & Strings.Space(8) &
-                                            "----------" & Strings.Space(10) &
-                                            "----------" & Strings.Space(5) &
-                                            "----------" & ControlChars.NewLine, True)
-
-        My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(9) &
-                                            "N/A".PadRight(11, " ") & Strings.Space(7) &
-                                            entryno.PadRight(15, " ") & Strings.Space(4) &
-                                            "0.00".PadLeft(5, " ") & Strings.Space(15) &
-                                            "0.00".PadLeft(5, " ") & Strings.Space(13) &
-                                            Convert.ToString(previous).PadLeft(5, " ") & ControlChars.NewLine, True)
-
-        My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") & ControlChars.NewLine, True)
+        Separation()
 
     End Sub
-
     Private Sub PreviewCalculations()
 
         'Declare Procedure Level Variables for Calculations
@@ -256,7 +225,6 @@ Public Class mainForm
         Me.ApplyToolStripMenuItem.Enabled = True
 
     End Sub
-
     Private Sub ApplyCalculation()
 
         'saves current balance to the text file
@@ -298,7 +266,7 @@ Public Class mainForm
                                                     Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(9) &
                                                     Convert.ToString(previousBalance) & ControlChars.NewLine, True)
 
-                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") & ControlChars.NewLine, True)
+                Separation()
 
                 MessageBox.Show("Processing complete. The form will be cleared.",
                                 title, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -332,7 +300,7 @@ Public Class mainForm
                                                     Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) &
                                                     Convert.ToString(previousBalance) & ControlChars.NewLine, True)
 
-                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") & ControlChars.NewLine, True)
+                Separation()
 
                 MessageBox.Show("Processing complete. The form will be cleared.",
                                 title, MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -349,7 +317,6 @@ Public Class mainForm
                 Me.btnApply.Enabled = False
 
             End If
-
 
         Else 'If the user does not want to make a calculation, the program will ask if the user
             'wants to return to the program to perform another calculation
@@ -391,7 +358,6 @@ Public Class mainForm
         End If
 
     End Sub
-
     Private Sub ClearForm()
 
         'delcare proceedure variables
@@ -431,14 +397,10 @@ Public Class mainForm
                 Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) &
                 Convert.ToString(previousBalance) & ControlChars.NewLine, True)
 
-                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") &
-                ControlChars.NewLine, True)
-
-
+                Separation()
 
             Else 'set up for the first run
                 My.Computer.FileSystem.CreateDirectory(rdirectory)
-
                 My.Computer.FileSystem.WriteAllText(rfile, heading & ControlChars.NewLine &
                                                     "-------------" & Strings.Space(5) &
                                                     "-----" & Strings.Space(6) &
@@ -454,7 +416,7 @@ Public Class mainForm
                                                     Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) &
                                                     Convert.ToString(previousBalance) & ControlChars.NewLine, True)
 
-                My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(105, "-") & ControlChars.NewLine, True)
+                Separation()
 
             End If
 
@@ -481,11 +443,9 @@ Public Class mainForm
             Me.lblNewBal.Text = ""
             Me.dtpEntryDate.Focus()
 
-
         End If
 
     End Sub
-
     Private Sub pullHeading()
 
         'declare block variables
@@ -499,8 +459,7 @@ Public Class mainForm
         Dim startDate As String
         Dim endDate As String
 
-        '--------------------------------------------------------------------------------------------------
-        'Heading Start
+        '--------------------------------- Heading Start ---------------------------------------
 
         mytext = My.Computer.FileSystem.ReadAllText(rfile)
 
@@ -508,22 +467,22 @@ Public Class mainForm
         colonIndex = mytext.IndexOf(":", nameIndex)
 
         name = mytext.Substring(colonIndex + 1, NewLineIndex - colonIndex)
-        name = Name.TrimStart(" ")
+        name = name.TrimStart(" ")
 
         nameIndex = NewLineIndex + 2 'moves to the second line
 
-        Me.lblName.Text = Name
+        Me.lblName.Text = name
         Me.lblName.ForeColor = Color.Maroon
 
         NewLineIndex = mytext.IndexOf(ControlChars.NewLine, nameIndex)
         colonIndex = mytext.IndexOf(":", nameIndex)
 
         location = mytext.Substring(colonIndex + 1, NewLineIndex - colonIndex)
-        location = Location.TrimStart(" ")
+        location = location.TrimStart(" ")
 
         nameIndex = NewLineIndex + 2 'moves to the third line
 
-        Me.lblLocation.Text = Location
+        Me.lblLocation.Text = location
         Me.lblLocation.ForeColor = Color.Maroon
 
         NewLineIndex = mytext.IndexOf(ControlChars.NewLine, nameIndex)
@@ -543,7 +502,6 @@ Public Class mainForm
         Me.lblEndDate.ForeColor = Color.Maroon
 
     End Sub
-
     Private Sub pullData()
 
         Dim mytext2 As String
@@ -552,8 +510,7 @@ Public Class mainForm
         Dim entry As String
         Dim myentry As String
 
-        '------------------------------------------------------------------------------------------------
-        'Data Start
+        '------------------------------ Data Start ------------------------------------------------------------------
 
         mytext2 = My.Computer.FileSystem.ReadAllText(rfile)
 
@@ -582,174 +539,6 @@ Public Class mainForm
         Loop
 
     End Sub
-
-    Private Sub btnClear_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClear.Click
-
-        ClearForm()
-
-    End Sub
-
-    Private Sub btnCalc_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnCalc.Click
-
-        PreviewCalculations()
-
-    End Sub
-
-    Private Sub btnApply_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnApply.Click
-
-        ApplyCalculation()
-
-    End Sub
-
-    Private Sub btnClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click
-
-        CloseApp()
-
-    End Sub
-
-    Private Sub cmboxType_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.Enter
-        Me.cmboxType.SelectAll()
-    End Sub
-
-    Private Sub txtPayee_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtPayee.Enter
-        Me.txtPayee.SelectAll()
-
-    End Sub
-
-    Private Sub txtDebit_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDebit.Enter
-        Me.txtDebit.SelectAll()
-
-    End Sub
-
-    Private Sub txtCredit_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtCredit.Enter
-        Me.txtCredit.SelectAll()
-
-    End Sub
-
-    Private Sub cmboxType_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.GotFocus
-        Me.cmboxType.BackColor = Color.LightBlue
-        Me.txtPayee.BackColor = Color.White
-        Me.txtDebit.BackColor = Color.White
-        Me.txtCredit.BackColor = Color.White
-    End Sub
-
-    Private Sub txtPayee_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtPayee.GotFocus
-        Me.cmboxType.BackColor = Color.White
-        Me.txtPayee.BackColor = Color.LightBlue
-        Me.txtDebit.BackColor = Color.White
-        Me.txtCredit.BackColor = Color.White
-    End Sub
-
-    Private Sub txtDebit_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDebit.GotFocus
-        Me.cmboxType.BackColor = Color.White
-        Me.txtPayee.BackColor = Color.White
-        Me.txtDebit.BackColor = Color.LightBlue
-        Me.txtCredit.BackColor = Color.White
-    End Sub
-
-    Private Sub txtCredit_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtCredit.GotFocus
-        Me.cmboxType.BackColor = Color.White
-        Me.txtPayee.BackColor = Color.White
-        Me.txtDebit.BackColor = Color.White
-        Me.txtCredit.BackColor = Color.LightBlue
-    End Sub
-
-    Private Sub dtpEntryDate_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtpEntryDate.GotFocus
-        Me.cmboxType.BackColor = Color.White
-        Me.txtPayee.BackColor = Color.White
-        Me.txtDebit.BackColor = Color.White
-        Me.txtCredit.BackColor = Color.White
-    End Sub
-
-    Private Sub ExitToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
-
-        Me.Close()
-
-    End Sub
-
-    Private Sub ActivitySheetToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ActivitySheetToolStripMenuItem.Click
-
-        If My.Computer.FileSystem.FileExists(rfile) Then
-            Dim proc As New System.Diagnostics.Process
-            proc.StartInfo.FileName = "notepad.exe"
-            proc.StartInfo.Arguments = rfile
-            proc.Start()
-
-        Else
-            MessageBox.Show("File is in the process of being created on first run.  Please make a calculation and press reply before re-opening.",
-            title, MessageBoxButtons.OK, MessageBoxIcon.Stop)
-            Me.Show()
-            Me.dtpEntryDate.Focus()
-
-        End If
-    End Sub
-
-    Private Sub ClearFormToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ClearFormToolStripMenuItem.Click
-
-        ClearForm()
-
-    End Sub
-
-    Private Sub CalculateToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles CalculateToolStripMenuItem.Click
-
-        PreviewCalculations()
-
-    End Sub
-
-    Private Sub ApplyToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ApplyToolStripMenuItem.Click
-
-        ApplyCalculation()
-
-    End Sub
-
-    Private Sub AboutToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles AboutToolStripMenuItem.Click
-
-        trainingAboutBox.ShowDialog()
-
-
-    End Sub
-
-    Private Sub cmboxType_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.TextChanged
-
-        If Me.cmboxType.SelectedIndex = 0 Or Me.cmboxType.SelectedIndex = 6 Then
-            Me.txtDebit.Enabled = True
-            Me.txtCredit.Enabled = True
-        End If
-        If IsNumeric(Me.cmboxType.Text) Or Me.cmboxType.SelectedIndex = 1 Or Me.cmboxType.SelectedIndex = 2 Or
-        Me.cmboxType.SelectedIndex = 4 Or Me.cmboxType.SelectedIndex = 5 Then
-            Me.txtCredit.Enabled = False
-            Me.txtDebit.Enabled = True
-        End If
-        If Me.cmboxType.SelectedIndex = 3 Then
-            Me.txtDebit.Enabled = False
-            Me.txtCredit.Enabled = True
-        End If
-    End Sub
-
-    Private Sub ReadMeToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ReadMeToolStripMenuItem.Click
-
-        If My.Computer.FileSystem.FileExists("C:\Training\trainingreadme.txt") Then
-            Dim proc As New System.Diagnostics.Process
-            proc.StartInfo.FileName = "notepad.exe"
-            proc.StartInfo.Arguments = "C:\Training\trainingreadme.txt"
-            proc.Start()
-
-        Else
-            MessageBox.Show("File was not copied manually at install.  Check with deloyment file for trainingreadme.txt file and copy to (C:\Training\) root directory.",
-            title, MessageBoxButtons.OK, MessageBoxIcon.Stop)
-            Me.Show()
-            Me.dtpEntryDate.Focus()
-
-        End If
-
-
-    End Sub
-
-    Private Sub InfoFormToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        trainingIDForm.ShowDialog()
-
-    End Sub
-
     Private Sub CloseApp()
 
         'Exits the Program
@@ -784,6 +573,198 @@ Public Class mainForm
 
             End If
         End If
+    End Sub
+    Private Sub CreateHeadings(Optional ByVal myReason As String = "Placeholder")
+
+        'Declare text writing variables
+        Dim entryno As String = "Placeholder"
+        Dim curdate As String = dtpEntryDate.Text
+        Dim previous As String
+        Dim heading As String = "Date Entered" & Strings.Space(7) &
+                                "Type" & Strings.Space(14) &
+                                "Location" & Strings.Space(12) &
+                                "Debit(-)" & Strings.Space(12) &
+                                "Credit(+)" & Strings.Space(6) &
+                                "Balance"
+
+        previous = lblPrevBal.Text
+
+        My.Computer.FileSystem.CreateDirectory(rdirectory)
+        My.Computer.FileSystem.WriteAllText(rfile, heading & ControlChars.NewLine &
+                                            "-------------" & Strings.Space(6) &
+                                            "----------" & Strings.Space(8) &
+                                            "------------" & Strings.Space(8) &
+                                            "----------" & Strings.Space(10) &
+                                            "----------" & Strings.Space(5) &
+                                            "----------" & ControlChars.NewLine, True)
+
+        My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(9) &
+                                            "N/A".PadRight(11, " ") & Strings.Space(7) &
+                                            entryno.PadRight(15, " ") & Strings.Space(4) &
+                                            "0.00".PadLeft(5, " ") & Strings.Space(15) &
+                                            "0.00".PadLeft(5, " ") & Strings.Space(13) &
+                                            Convert.ToString(previous).PadLeft(5, " ") & ControlChars.NewLine, True)
+
+    End Sub
+    Private Sub Separation()
+
+        'Separator line between entries
+        My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(100, "-") & ControlChars.NewLine, True)
+
+    End Sub
+    '------------------------------------- Buttons -----------------------------------------------------------
+
+    Private Sub btnClear_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClear.Click
+
+        ClearForm()
+
+    End Sub
+    Private Sub btnCalc_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnCalc.Click
+
+        PreviewCalculations()
+
+    End Sub
+    Private Sub btnApply_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnApply.Click
+
+        ApplyCalculation()
+
+    End Sub
+    Private Sub btnClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click
+
+        CloseApp()
+
+    End Sub
+
+    '------------------------------------- Events -----------------------------------------------------------
+    Private Sub cmboxType_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.Enter
+        Me.cmboxType.SelectAll()
+    End Sub
+    Private Sub txtPayee_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtPayee.Enter
+        Me.txtPayee.SelectAll()
+
+    End Sub
+    Private Sub txtDebit_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDebit.Enter
+        Me.txtDebit.SelectAll()
+
+    End Sub
+    Private Sub txtCredit_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtCredit.Enter
+        Me.txtCredit.SelectAll()
+
+    End Sub
+
+    Private Sub cmboxType_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.GotFocus
+        Me.cmboxType.BackColor = Color.LightBlue
+        Me.txtPayee.BackColor = Color.White
+        Me.txtDebit.BackColor = Color.White
+        Me.txtCredit.BackColor = Color.White
+    End Sub
+    Private Sub txtPayee_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtPayee.GotFocus
+        Me.cmboxType.BackColor = Color.White
+        Me.txtPayee.BackColor = Color.LightBlue
+        Me.txtDebit.BackColor = Color.White
+        Me.txtCredit.BackColor = Color.White
+    End Sub
+    Private Sub txtDebit_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDebit.GotFocus
+        Me.cmboxType.BackColor = Color.White
+        Me.txtPayee.BackColor = Color.White
+        Me.txtDebit.BackColor = Color.LightBlue
+        Me.txtCredit.BackColor = Color.White
+    End Sub
+    Private Sub txtCredit_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtCredit.GotFocus
+        Me.cmboxType.BackColor = Color.White
+        Me.txtPayee.BackColor = Color.White
+        Me.txtDebit.BackColor = Color.White
+        Me.txtCredit.BackColor = Color.LightBlue
+    End Sub
+
+    Private Sub dtpEntryDate_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtpEntryDate.GotFocus
+        Me.cmboxType.BackColor = Color.White
+        Me.txtPayee.BackColor = Color.White
+        Me.txtDebit.BackColor = Color.White
+        Me.txtCredit.BackColor = Color.White
+    End Sub
+    Private Sub cmboxType_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.TextChanged
+
+        If Me.cmboxType.SelectedIndex = 0 Or Me.cmboxType.SelectedIndex = 6 Then
+            Me.txtDebit.Enabled = True
+            Me.txtCredit.Enabled = True
+        End If
+        If IsNumeric(Me.cmboxType.Text) Or Me.cmboxType.SelectedIndex = 1 Or Me.cmboxType.SelectedIndex = 2 Or
+        Me.cmboxType.SelectedIndex = 4 Or Me.cmboxType.SelectedIndex = 5 Then
+            Me.txtCredit.Enabled = False
+            Me.txtDebit.Enabled = True
+        End If
+        If Me.cmboxType.SelectedIndex = 3 Then
+            Me.txtDebit.Enabled = False
+            Me.txtCredit.Enabled = True
+        End If
+    End Sub
+
+    '------------------------------------ Menu Items -----------------------------------------------------
+
+    Private Sub ExitToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
+
+        Me.Close()
+
+    End Sub
+    Private Sub ActivitySheetToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ActivitySheetToolStripMenuItem.Click
+
+        If My.Computer.FileSystem.FileExists(rfile) Then
+            Dim proc As New System.Diagnostics.Process
+            proc.StartInfo.FileName = "notepad.exe"
+            proc.StartInfo.Arguments = rfile
+            proc.Start()
+
+        Else
+            MessageBox.Show("File is in the process of being created on first run.  Please make a calculation and press reply before re-opening.",
+            title, MessageBoxButtons.OK, MessageBoxIcon.Stop)
+            Me.Show()
+            Me.dtpEntryDate.Focus()
+
+        End If
+    End Sub
+    Private Sub ClearFormToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ClearFormToolStripMenuItem.Click
+
+        ClearForm()
+
+    End Sub
+    Private Sub CalculateToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles CalculateToolStripMenuItem.Click
+
+        PreviewCalculations()
+
+    End Sub
+    Private Sub ApplyToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ApplyToolStripMenuItem.Click
+
+        ApplyCalculation()
+
+    End Sub
+    Private Sub AboutToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles AboutToolStripMenuItem.Click
+
+        trainingAboutBox.ShowDialog()
+
+
+    End Sub
+    Private Sub ReadMeToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ReadMeToolStripMenuItem.Click
+
+        If My.Computer.FileSystem.FileExists("C:\Training\trainingreadme.txt") Then
+            Dim proc As New System.Diagnostics.Process
+            proc.StartInfo.FileName = "notepad.exe"
+            proc.StartInfo.Arguments = "C:\Training\trainingreadme.txt"
+            proc.Start()
+
+        Else
+            MessageBox.Show("File was not copied manually at install.  Check with deloyment file for trainingreadme.txt file and copy to (C:\Training\) root directory.",
+            title, MessageBoxButtons.OK, MessageBoxIcon.Stop)
+            Me.Show()
+            Me.dtpEntryDate.Focus()
+
+        End If
+
+
+    End Sub
+    Private Sub InfoFormToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs)
+        trainingIDForm.ShowDialog()
+
     End Sub
 
 End Class
