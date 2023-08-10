@@ -1,7 +1,7 @@
 'Title                  Training Funds Tracker
 'Purpose                To help keep track of funds available for Training like a checkbook register
 'Created                December 2009
-'Last Updated           Updated May 2023
+'Last Updated           Updated August 2023
 
 
 Option Explicit On
@@ -16,12 +16,6 @@ Public Class mainForm
     Private previousBalance As Decimal
     Public payee As String
     Public reason As String
-    Private heading As String = "Date Entered" & Strings.Space(5) &
-        "Type" & Strings.Space(7) &
-        "Payee" & Strings.Space(22) &
-        "Debit(-)" & Strings.Space(7) &
-        "Credit(+)" & Strings.Space(7) &
-        "Balance"
 
     Private Sub mainForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
@@ -65,6 +59,8 @@ Public Class mainForm
                     End If
 
                 Loop
+
+                previousBalance = Convert.ToDecimal(lblPrevBal.Text)
 
                 'Opens the trainingID form for basic info
                 trainingIDForm.ShowDialog()
@@ -349,44 +345,19 @@ Public Class mainForm
             End If
         End If
     End Sub
-    Public Sub CreateEntry(ByVal payee As String, Optional ByVal myReason As String = "Placeholder")
+    Public Sub CreateEntry(ByVal payee As String, ByVal myReason As String)
 
         'Declare text writing variables
         Dim curdate As String = dtpEntryDate.Text
-        Dim previous As String
 
-        previous = lblPrevBal.Text
-
-        If My.Computer.FileSystem.FileExists(rfile) Then
-            'Enter transaction
-            My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(7) &
-                                                    myReason.PadRight(11, " ") & Strings.Space(4) &
+        My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(7) &
+                                                    myReason.PadRight(15, " ") & Strings.Space(4) &
                                                     payee.PadRight(20, " ") & Strings.Space(7) &
                                                     Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
                                                     Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) &
-                                                    Convert.ToString(previousBalance) & ControlChars.NewLine, True)
-            Separation()
-
-        Else
-            'Set up for first run
-            My.Computer.FileSystem.CreateDirectory(rdirectory)
-            My.Computer.FileSystem.WriteAllText(rfile, heading & ControlChars.NewLine &
-                                                    "------------" & Strings.Space(5) &
-                                                    "-----" & Strings.Space(6) &
-                                                    "-------" & Strings.Space(20) &
-                                                    "----------" & Strings.Space(5) &
-                                                    "----------" & Strings.Space(6) &
-                                                    "--------" & ControlChars.NewLine, True)
-
-            My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(7) &
-                                                    "N/A".PadRight(11, " ") & Strings.Space(4) &
-                                                    myReason.PadRight(20, " ") & Strings.Space(7) &
-                                                    "0.00".PadLeft(6, " ") & Strings.Space(9) &
-                                                    "0.00".PadLeft(6, " ") & Strings.Space(10) &
-                                                    Convert.ToString(previous).PadLeft(5, " ") & ControlChars.NewLine, True)
-            Separation()
-
-        End If
+                                                    Convert.ToString(previousBalance.ToString("N2")).PadLeft(6) &
+                                                    ControlChars.NewLine, True)
+        Separation()
 
     End Sub
     Public Sub Separation()

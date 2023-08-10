@@ -24,18 +24,21 @@ Public Class trainingIDForm
             My.Computer.FileSystem.CreateDirectory(mainForm.rdirectory)
 
             My.Computer.FileSystem.WriteAllText(mainForm.rfile,
-            "Name:" & Strings.Space(7) &
-            name & ControlChars.NewLine &
-            "Location:" & Strings.Space(3) &
-            location & ControlChars.NewLine &
-            "Dates:" & Strings.Space(6) &
-            startDate & Strings.Space(2) &
-            "-" & Strings.Space(2) &
-            endDate & ControlChars.NewLine, True)
-
+                                                "Training Name:" & Strings.Space(7) &
+                                                name & ControlChars.NewLine &
+                                                "Location:" & Strings.Space(3) &
+                                                 location & ControlChars.NewLine &
+                                                "Dates:" & Strings.Space(6) &
+                                                startDate & Strings.Space(2) &
+                                                "-" & Strings.Space(2) &
+                                                endDate & ControlChars.NewLine, True)
             mainForm.Separation()
 
-            mainForm.CreateEntry(mainForm.payee)
+            mainForm.reason = "Initial Balance"
+            mainForm.payee = "N/A"
+
+            mainForm.CreateEntry(mainForm.payee, mainForm.reason)
+
             mainForm.Show()
 
             Me.Close()
