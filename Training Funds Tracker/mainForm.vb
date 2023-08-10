@@ -14,8 +14,8 @@ Public Class mainForm
     Public Const rfile As String = "C:\Training\trainingrun.txt"
     Private newDailyBalance As Decimal
     Private previousBalance As Decimal
-    Public payee As String = txtPayee.Text
-    Public reason As String = cmboxType.Text
+    Public payee As String
+    Public reason As String
     Private heading As String = "Date Entered" & Strings.Space(5) &
         "Type" & Strings.Space(7) &
         "Payee" & Strings.Space(22) &
@@ -27,6 +27,9 @@ Public Class mainForm
 
         'initializes diaglog variables
         Dim button As DialogResult
+
+        payee = txtPayee.Text
+        reason = cmboxType.Text
 
         'loads the typeComboBox
         Me.cmboxType.Items.Add("Enter No.")

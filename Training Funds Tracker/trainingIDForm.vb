@@ -15,7 +15,7 @@ Public Class trainingIDForm
         endDate = Me.dtpTrainingEnd.Text
 
         'Enters Initial text to the trainingrun.txt file 
-        If My.Computer.FileSystem.DirectoryExists(mainForm.rdirectory) Then
+        If My.Computer.FileSystem.FileExists(mainForm.rfile) Then
             Me.Close()
 
         Else
