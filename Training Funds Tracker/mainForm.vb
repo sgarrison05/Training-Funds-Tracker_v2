@@ -408,6 +408,7 @@ Public Class mainForm
     End Sub
 
     '------------------------------------- Events -----------------------------------------------------------
+
     Private Sub cmboxType_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.Enter
         Me.cmboxType.SelectAll()
     End Sub
@@ -448,7 +449,6 @@ Public Class mainForm
         Me.txtDebit.BackColor = Color.White
         Me.txtCredit.BackColor = Color.LightBlue
     End Sub
-
     Private Sub dtpEntryDate_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtpEntryDate.GotFocus
         Me.cmboxType.BackColor = Color.White
         Me.txtPayee.BackColor = Color.White
