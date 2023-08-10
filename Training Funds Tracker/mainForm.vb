@@ -219,11 +219,6 @@ Public Class mainForm
 
         'saves current balance to the text file
 
-        ClearForm()
-
-    End Sub
-    Private Sub ClearForm()
-
         'delcare proceedure variables
         Dim myButton As DialogResult
 
