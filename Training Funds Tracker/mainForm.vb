@@ -14,8 +14,8 @@ Public Class mainForm
     Public Const rfile As String = "C:\Training\trainingrun.txt"
     Private newDailyBalance As Decimal
     Private previousBalance As Decimal
-    Private payee As String = txtPayee.Text
-    Private reason As String = cmboxType.Text
+    Public payee As String = txtPayee.Text
+    Public reason As String = cmboxType.Text
     Private heading As String = "Date Entered" & Strings.Space(5) &
         "Type" & Strings.Space(7) &
         "Payee" & Strings.Space(22) &
@@ -63,13 +63,6 @@ Public Class mainForm
 
                 Loop
 
-                'makes the preview txt box read only
-                Me.txtPreview.ReadOnly = True
-
-                'Disable apply calc button till preview is seen
-                Me.btnApply.Enabled = False
-                Me.ApplyToolStripMenuItem.Enabled = False
-
                 'Opens the trainingID form for basic info
                 trainingIDForm.ShowDialog()
                 Me.Hide()
@@ -99,7 +92,6 @@ Public Class mainForm
         'puts numeric values in the credit and debit txt boxes
         Me.txtDebit.Text = "0.00"
         Me.txtCredit.Text = "0.00"
-
 
         Me.txtPreview.Text = "Ready"
         Me.lblNewBal.Text = "0.00"
@@ -354,17 +346,11 @@ Public Class mainForm
             End If
         End If
     End Sub
-    Private Sub CreateEntry(ByVal payee As String, Optional ByVal myReason As String = "Placeholder")
+    Public Sub CreateEntry(ByVal payee As String, Optional ByVal myReason As String = "Placeholder")
 
         'Declare text writing variables
         Dim curdate As String = dtpEntryDate.Text
         Dim previous As String
-        Dim heading As String = "Date Entered" & Strings.Space(7) &
-                                "Type" & Strings.Space(14) &
-                                "Location" & Strings.Space(12) &
-                                "Debit(-)" & Strings.Space(12) &
-                                "Credit(+)" & Strings.Space(6) &
-                                "Balance"
 
         previous = lblPrevBal.Text
 
@@ -389,17 +375,18 @@ Public Class mainForm
                                                     "----------" & Strings.Space(6) &
                                                     "--------" & ControlChars.NewLine, True)
 
-            My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(9) &
-                                            "N/A".PadRight(11, " ") & Strings.Space(7) &
-                                            myReason.PadRight(15, " ") & Strings.Space(4) &
-                                            "0.00".PadLeft(5, " ") & Strings.Space(15) &
-                                            "0.00".PadLeft(5, " ") & Strings.Space(13) &
-                                            Convert.ToString(previous).PadLeft(5, " ") & ControlChars.NewLine, True)
+            My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(7) &
+                                                    "N/A".PadRight(11, " ") & Strings.Space(4) &
+                                                    myReason.PadRight(20, " ") & Strings.Space(7) &
+                                                    "0.00".PadLeft(6, " ") & Strings.Space(9) &
+                                                    "0.00".PadLeft(6, " ") & Strings.Space(10) &
+                                                    Convert.ToString(previous).PadLeft(5, " ") & ControlChars.NewLine, True)
             Separation()
 
         End If
+
     End Sub
-    Private Sub Separation()
+    Public Sub Separation()
 
         'Separator line between entries
         My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(100, "-") & ControlChars.NewLine, True)
@@ -426,7 +413,7 @@ Public Class mainForm
 
     Private Sub btnClear_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClear.Click
 
-        ClearForm()
+        ReadyForm()
 
     End Sub
     Private Sub btnCalc_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnCalc.Click
@@ -535,7 +522,7 @@ Public Class mainForm
     End Sub
     Private Sub ClearFormToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ClearFormToolStripMenuItem.Click
 
-        ClearForm()
+        ReadyForm()
 
     End Sub
     Private Sub CalculateToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles CalculateToolStripMenuItem.Click

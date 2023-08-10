@@ -33,18 +33,14 @@ Public Class trainingIDForm
             "-" & Strings.Space(2) &
             endDate & ControlChars.NewLine, True)
 
-            My.Computer.FileSystem.WriteAllText(mainForm.rfile, "".PadLeft(105, "_") & ControlChars.NewLine &
-                                                ControlChars.NewLine, True)
+            mainForm.Separation()
 
-            mainForm.CreateMyPaths()
+            mainForm.CreateEntry(mainForm.payee)
             mainForm.Show()
 
             Me.Close()
 
-
         End If
-
-
 
     End Sub
 
