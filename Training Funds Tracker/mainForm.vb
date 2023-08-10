@@ -147,7 +147,6 @@ Public Class mainForm
         isAdded = Decimal.TryParse(Me.txtCredit.Text, credit)
         isSubtracted = Decimal.TryParse(Me.txtDebit.Text, debit)
 
-
         If IsNumeric(Me.txtCredit.Text) And IsNumeric(Me.txtDebit.Text) Then
             If isAdded And isSubtracted Then
 
@@ -197,7 +196,6 @@ Public Class mainForm
 
             End If
 
-
         Else 'show error message and highlight the problematic area
             MessageBox.Show("Number for calculations must be numeric.", title,
             MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -211,7 +209,6 @@ Public Class mainForm
 
             End If
 
-
         End If
 
         Me.btnApply.Enabled = True
@@ -222,94 +219,18 @@ Public Class mainForm
 
         'saves current balance to the text file
 
-        'declares variables
-        Dim addTextButton As DialogResult
-        Dim returnButton As DialogResult
-
-        'program asks user if they would like to save the current transaction
-        addTextButton = MessageBox.Show("Do you wish to add the new daily balance to the bank?", title,
-        MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-
-        If addTextButton = Windows.Forms.DialogResult.Yes Then
-
-            'make calculations
-            newDailyBalance = Convert.ToDecimal(Me.lblNewBal.Text)
-            newDailyBalance = Math.Round(newDailyBalance, 2)
-            previousBalance = newDailyBalance
-            newDailyBalance = 0D
-            Me.lblPrevBal.Text = Convert.ToString(previousBalance)
-
-            'declare text writing variables
-            Dim previous As String = Convert.ToString(previousBalance)
-            Dim curdate As String = Me.dtpEntryDate.Text
-            Dim type As String = Me.cmboxType.Text
-
-            CreateEntry(payee, reason)
-
-            MessageBox.Show("Processing complete. The form will be cleared.",
-                                title, MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Me.Show()
-            newDailyBalance = 0D
-            Me.txtPreview.Text = "Ready"
-            Me.lblTransAction.Text = ""
-            Me.lblNewBal.Text = ""
-            Me.cmboxType.SelectedIndex = 0
-            Me.txtPayee.Clear()
-            Me.txtCredit.Text = "0.00"
-                Me.txtDebit.Text = "0.00"
-                Me.dtpEntryDate.Focus()
-            Me.btnApply.Enabled = False
-
-        Else 'If the user does not want to make a calculation, the program will ask if the user
-            'wants to return to the program to perform another calculation
-            'if the user does not, then the program will direct the user to exit
-            returnButton = MessageBox.Show("Do you wan to make another calculation?", title,
-            MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-
-            If returnButton = Windows.Forms.DialogResult.Yes Then
-
-                Me.Show()
-                newDailyBalance = 0D
-                Me.txtPreview.Text = "Ready"
-                Me.lblTransAction.Text = ""
-                Me.lblNewBal.Text = ""
-                Me.cmboxType.SelectedIndex = 0
-                Me.txtPayee.Clear()
-                Me.txtCredit.Text = "0.00"
-                Me.txtDebit.Text = "0.00"
-                Me.dtpEntryDate.Focus()
-                Me.btnApply.Enabled = False
-
-            Else
-                returnButton = Windows.Forms.DialogResult.No
-                MessageBox.Show("No calculation will be made and the form will be reset. You may exit the program.",
-                title, MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-                Me.Show()
-                newDailyBalance = 0D
-                Me.txtPreview.Text = "Ready"
-                Me.lblTransAction.Text = ""
-                Me.lblNewBal.Text = ""
-                Me.cmboxType.SelectedIndex = 0
-                Me.txtPayee.Clear()
-                Me.txtCredit.Text = "0.00"
-                Me.txtDebit.Text = "0.00"
-                Me.dtpEntryDate.Focus()
-                Me.btnApply.Enabled = False
-
-            End If
-        End If
+        ClearForm()
 
     End Sub
     Private Sub ClearForm()
 
         'delcare proceedure variables
-        Dim button As DialogResult
+        Dim myButton As DialogResult
 
-        button = MessageBox.Show("Do you wish to add to the new balance to the bank?", title, MessageBoxButtons.YesNo,
+        myButton = MessageBox.Show("Do you wish to add to the new balance to the bank?", title, MessageBoxButtons.YesNo,
         MessageBoxIcon.Question)
 
-        If button = Windows.Forms.DialogResult.Yes Then
+        If myButton = Windows.Forms.DialogResult.Yes Then
             'declare block variables
             Dim curdate As String
             Dim previous As String 'formally line2
@@ -326,28 +247,15 @@ Public Class mainForm
 
             CreateEntry(payee, reason)
 
+            MessageBox.Show("Processing complete. The form will be cleared.",
+                                title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
             'clears and returns to form
-            Me.txtPreview.Text = "Ready"
-            Me.lblTransAction.Text = ""
-            Me.cmboxType.SelectedIndex = 0
-            Me.txtPayee.Clear()
-            Me.txtCredit.Text = "0.00"
-            Me.txtDebit.Text = "0.00"
-            Me.lblNewBal.Text = ""
-            Me.dtpEntryDate.Focus()
+            ReadyForm()
 
         Else
             'clears and returns to form
-            Me.Show()
-            newDailyBalance = 0D
-            Me.txtPreview.Text = "Ready"
-            Me.lblTransAction.Text = ""
-            Me.cmboxType.SelectedIndex = 0
-            Me.txtPayee.Clear()
-            Me.txtCredit.Text = "0.00"
-            Me.txtDebit.Text = "0.00"
-            Me.lblNewBal.Text = ""
-            Me.dtpEntryDate.Focus()
+            ReadyForm()
 
         End If
 
@@ -456,18 +364,7 @@ Public Class mainForm
         MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If exitButton = Windows.Forms.DialogResult.No Then
 
-            'Returns to the form
-            Me.Show()
-            Me.txtPayee.Clear()
-            Me.lblNewBal.Text = "0.00"
-            Me.lblTransAction.Text = ""
-            Me.txtPreview.Text = "Ready"
-            Me.cmboxType.SelectedIndex = 0
-            Me.txtDebit.Text = "0.00"
-            Me.txtCredit.Text = "0.00"
-            newDailyBalance = 0D
-            Me.dtpEntryDate.Focus()
-            Me.btnApply.Enabled = False
+            ReadyForm()
 
         Else 'Exits the program
             exitButton = Windows.Forms.DialogResult.Yes
@@ -531,7 +428,22 @@ Public Class mainForm
         My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(100, "-") & ControlChars.NewLine, True)
 
     End Sub
+    Private Sub ReadyForm()
 
+        ' Returns the form to ready position
+        Me.Show()
+        Me.txtPayee.Clear()
+        Me.lblNewBal.Text = "0.00"
+        Me.lblTransAction.Text = ""
+        Me.txtPreview.Text = "Ready"
+        Me.cmboxType.SelectedIndex = 0
+        Me.txtDebit.Text = "0.00"
+        Me.txtCredit.Text = "0.00"
+        newDailyBalance = 0D
+        Me.dtpEntryDate.Focus()
+        Me.btnApply.Enabled = False
+
+    End Sub
     '------------------------------------- Buttons -----------------------------------------------------------
 
     Private Sub btnClear_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClear.Click
