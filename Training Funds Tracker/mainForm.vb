@@ -28,6 +28,17 @@ Public Class mainForm
         'initializes diaglog variables
         Dim button As DialogResult
 
+        'loads the typeComboBox
+        Me.cmboxType.Items.Add("Enter No.")
+        Me.cmboxType.Items.Add("ATM")
+        Me.cmboxType.Items.Add("Debit")
+        Me.cmboxType.Items.Add("Dep")
+        Me.cmboxType.Items.Add("EFT")
+        Me.cmboxType.Items.Add("Wthdrw")
+        Me.cmboxType.Items.Add("Trxns")
+
+        Me.cmboxType.SelectedIndex = 0
+
         'If the bankfile does not exist, recognizes it as a new training, otherwise
         ' pulls heading from the text file and reads the bank.
         If Not My.Computer.FileSystem.FileExists(rfile) Then
@@ -59,24 +70,6 @@ Public Class mainForm
                 Me.btnApply.Enabled = False
                 Me.ApplyToolStripMenuItem.Enabled = False
 
-                'puts numeric values in the credit and debit txt boxes
-                Me.txtDebit.Text = "0.00"
-                Me.txtCredit.Text = "0.00"
-
-                'loads the typeComboBox
-                Me.cmboxType.Items.Add("Enter No.")
-                Me.cmboxType.Items.Add("ATM")
-                Me.cmboxType.Items.Add("Debit")
-                Me.cmboxType.Items.Add("Dep")
-                Me.cmboxType.Items.Add("EFT")
-                Me.cmboxType.Items.Add("Wthdrw")
-                Me.cmboxType.Items.Add("Trxns")
-
-                Me.cmboxType.SelectedIndex = 0
-
-                Me.txtPreview.Text = "Ready"
-                Me.lblNewBal.Text = "0.00"
-
                 'Opens the trainingID form for basic info
                 trainingIDForm.ShowDialog()
                 Me.Hide()
@@ -91,7 +84,6 @@ Public Class mainForm
 
             End If
 
-
         Else
 
             'bankfile exists and gathers info needed for mainForm
@@ -100,34 +92,24 @@ Public Class mainForm
             Call pullHeading()
 
             'searches through data and pulls bank
-            Call pullData()
-
-            'makes the preview txt box read only
-            Me.txtPreview.ReadOnly = True
-
-            'Disable apply calc button till preview is seen
-            Me.btnApply.Enabled = False
-            Me.ApplyToolStripMenuItem.Enabled = False
-
-            'puts numeric values in the credit and debit txt boxes
-            Me.txtDebit.Text = "0.00"
-            Me.txtCredit.Text = "0.00"
-
-            'loads the typeComboBox
-            Me.cmboxType.Items.Add("Enter No.")
-            Me.cmboxType.Items.Add("ATM")
-            Me.cmboxType.Items.Add("Debit")
-            Me.cmboxType.Items.Add("Dep")
-            Me.cmboxType.Items.Add("EFT")
-            Me.cmboxType.Items.Add("Wthdrw")
-            Me.cmboxType.Items.Add("Trxns")
-
-            Me.cmboxType.SelectedIndex = 0
-
-            Me.txtPreview.Text = "Ready"
-            Me.lblNewBal.Text = "0.00"
+            Call PullData()
 
         End If
+
+        'puts numeric values in the credit and debit txt boxes
+        Me.txtDebit.Text = "0.00"
+        Me.txtCredit.Text = "0.00"
+
+
+        Me.txtPreview.Text = "Ready"
+        Me.lblNewBal.Text = "0.00"
+
+        'makes the preview txt box read only
+        Me.txtPreview.ReadOnly = True
+
+        'Disable apply calc button till preview is seen
+        Me.btnApply.Enabled = False
+        Me.ApplyToolStripMenuItem.Enabled = False
 
     End Sub
 
@@ -439,6 +421,7 @@ Public Class mainForm
         Me.btnApply.Enabled = False
 
     End Sub
+
     '------------------------------------- Buttons -----------------------------------------------------------
 
     Private Sub btnClear_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClear.Click
