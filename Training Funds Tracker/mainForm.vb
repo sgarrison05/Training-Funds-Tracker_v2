@@ -150,11 +150,11 @@ Public Class mainForm
                     "----------" & Strings.Space(10) &
                     "------------" & ControlChars.NewLine &
                     Me.dtpEntryDate.Text.PadRight(10, " ") & Strings.Space(10) &
-                    Me.cmboxType.Text.PadRight(8, " ") & Strings.Space(6) &
-                    Me.txtPayee.Text.PadRight(20, " ") & Strings.Space(28) &
-                    Me.txtDebit.Text.PadLeft(6, " ") & Strings.Space(9) &
-                    Me.txtCredit.Text.PadLeft(6, " ") & Strings.Space(10) &
-                    Convert.ToString(previewBankBal).PadLeft(7)
+                    Me.cmboxType.Text.PadRight(10, " ") & Strings.Space(2) &
+                    Me.txtPayee.Text.PadRight(24, " ") & Strings.Space(22) &
+                    Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
+                    Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(12) &
+                    Convert.ToString(previewBankBal)
 
             Else
                 'show error message and highlight the problematic area

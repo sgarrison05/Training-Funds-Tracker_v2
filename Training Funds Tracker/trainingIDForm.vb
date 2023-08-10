@@ -31,7 +31,8 @@ Public Class trainingIDForm
                                                 "Dates:" & Strings.Space(6) &
                                                 startDate & Strings.Space(2) &
                                                 "-" & Strings.Space(2) &
-                                                endDate & ControlChars.NewLine, True)
+                                                endDate & ControlChars.NewLine &
+                                                ControlChars.NewLine, True)
             mainForm.Separation()
 
             mainForm.reason = "Initial Balance"
