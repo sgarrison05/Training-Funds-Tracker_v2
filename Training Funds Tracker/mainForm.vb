@@ -50,7 +50,7 @@ Public Class mainForm
                 'loops till the user enters a beginning balance and verifies it is numeric
                 Do Until IsNumeric(Me.lblPrevBal.Text) And Me.lblPrevBal.Text <> String.Empty
 
-                    Me.lblPrevBal.Text = InputBox("Please enter starting balance formatted as 0.00.", title, "0.00")
+                    lblPrevBal.Text = InputBox("Please enter starting balance formatted as 0.00.", title, "0.00")
 
                     If Not IsNumeric(Me.lblPrevBal.Text) Then
 
@@ -59,6 +59,10 @@ Public Class mainForm
                     End If
 
                 Loop
+
+                'Quick Conversion for two decimal places for label
+                Dim myConvert As Decimal = CDec(lblPrevBal.Text)
+                lblPrevBal.Text = myConvert.ToString("N2")
 
                 previousBalance = Convert.ToDecimal(lblPrevBal.Text)
 
@@ -199,19 +203,16 @@ Public Class mainForm
         MessageBoxIcon.Question)
 
         If myButton = Windows.Forms.DialogResult.Yes Then
-            'declare block variables
-            Dim curdate As String
-            Dim previous As String 'formally line2
 
             'make calculations
             newDailyBalance = Convert.ToDecimal(Me.lblNewBal.Text)
             newDailyBalance = Math.Round(newDailyBalance, 2)
             previousBalance = newDailyBalance
             newDailyBalance = 0D
-            Me.lblPrevBal.Text = Convert.ToString(previousBalance)
+            Me.lblPrevBal.Text = Convert.ToString(previousBalance.ToString("N2"))
 
-            curdate = Me.dtpEntryDate.Text
-            previous = Convert.ToString(previousBalance)
+            payee = txtPayee.Text
+            reason = cmboxType.Text
 
             CreateEntry(payee, reason)
 
