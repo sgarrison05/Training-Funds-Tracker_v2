@@ -43,6 +43,7 @@ Partial Class mainForm
         Me.lblPreview = New System.Windows.Forms.Label()
         Me.trainingMenuStrip = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ActivitySheetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -66,7 +67,6 @@ Partial Class mainForm
         Me.lblLocation = New System.Windows.Forms.Label()
         Me.lblStartDate = New System.Windows.Forms.Label()
         Me.lblEndDate = New System.Windows.Forms.Label()
-        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.trainingMenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -258,6 +258,12 @@ Partial Class mainForm
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "File"
         '
+        'NewToolStripMenuItem
+        '
+        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.NewToolStripMenuItem.Text = "New Training..."
+        '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActivitySheetToolStripMenuItem})
@@ -268,7 +274,7 @@ Partial Class mainForm
         'ActivitySheetToolStripMenuItem
         '
         Me.ActivitySheetToolStripMenuItem.Name = "ActivitySheetToolStripMenuItem"
-        Me.ActivitySheetToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ActivitySheetToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
         Me.ActivitySheetToolStripMenuItem.Text = "Activity Sheet"
         '
         'ExitToolStripMenuItem
@@ -287,7 +293,7 @@ Partial Class mainForm
         'ClearFormToolStripMenuItem
         '
         Me.ClearFormToolStripMenuItem.Name = "ClearFormToolStripMenuItem"
-        Me.ClearFormToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ClearFormToolStripMenuItem.Size = New System.Drawing.Size(132, 22)
         Me.ClearFormToolStripMenuItem.Text = "Clear Form"
         '
         'ToolsToolStripMenuItem
@@ -300,13 +306,13 @@ Partial Class mainForm
         'CalculateToolStripMenuItem
         '
         Me.CalculateToolStripMenuItem.Name = "CalculateToolStripMenuItem"
-        Me.CalculateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CalculateToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
         Me.CalculateToolStripMenuItem.Text = "Calculate"
         '
         'ApplyToolStripMenuItem
         '
         Me.ApplyToolStripMenuItem.Name = "ApplyToolStripMenuItem"
-        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ApplyToolStripMenuItem.Size = New System.Drawing.Size(123, 22)
         Me.ApplyToolStripMenuItem.Text = "Apply"
         '
         'HelpToolStripMenuItem
@@ -430,12 +436,6 @@ Partial Class mainForm
         Me.lblEndDate.Name = "lblEndDate"
         Me.lblEndDate.Size = New System.Drawing.Size(103, 23)
         Me.lblEndDate.TabIndex = 31
-        '
-        'NewToolStripMenuItem
-        '
-        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.NewToolStripMenuItem.Text = "New Training..."
         '
         'mainForm
         '

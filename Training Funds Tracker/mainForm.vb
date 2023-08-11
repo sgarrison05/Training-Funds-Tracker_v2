@@ -17,6 +17,8 @@ Public Class mainForm
     Public payee As String
     Public reason As String
 
+    '------------------------------ Events -----------------------------------------------------------
+
     Private Sub mainForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         'initializes diaglog variables
@@ -92,19 +94,10 @@ Public Class mainForm
 
         End If
 
-        'puts numeric values in the credit and debit txt boxes
-        Me.txtDebit.Text = "0.00"
-        Me.txtCredit.Text = "0.00"
-
-        Me.txtPreview.Text = "Ready"
-        Me.lblNewBal.Text = "0.00"
-
         'makes the preview txt box read only
         Me.txtPreview.ReadOnly = True
 
-        'Disable apply calc button till preview is seen
-        Me.btnApply.Enabled = False
-        Me.ApplyToolStripMenuItem.Enabled = False
+        ReadyForm()
 
     End Sub
 
@@ -381,6 +374,7 @@ Public Class mainForm
         newDailyBalance = 0D
         Me.dtpEntryDate.Focus()
         Me.btnApply.Enabled = False
+        Me.ApplyToolStripMenuItem.Enabled = False
 
     End Sub
 
@@ -538,5 +532,12 @@ Public Class mainForm
         trainingIDForm.ShowDialog()
 
     End Sub
+    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
 
+        ' Archives Current Training and Creates a New One
+
+
+        Windows.Forms.Application.Restart()
+
+    End Sub
 End Class
