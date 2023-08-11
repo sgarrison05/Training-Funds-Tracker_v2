@@ -536,8 +536,38 @@ Public Class mainForm
 
         ' Archives Current Training and Creates a New One
 
+        'archives the pay period into it's own folder for the month and year
+        Dim dteStart As Date = lblStartDate.Text
+        Dim dteEnd As Date = lblEndDate.Text
+        Dim thisYear As String = Year(Today)
+        Dim pStart As String = dteStart.Month & dteStart.Day
+        Dim pEnd As String = dteEnd.Month & dteEnd.Day
+
+        'Sets path for folder
+        Dim prPath As String = rdirectory & "\" & thisYear
+
+        'Checks if this years folder already exists.  If it does not, it creates it
+        If My.Computer.FileSystem.FileExists(prPath & "\Training_Reconciled_" & pStart & "_" _
+                                            & pEnd & ".txt") Then
+            'overwrites existing file
+            My.Computer.FileSystem.CopyFile(rfile, prPath & "\Training_Reconciled_" & pStart & "_" _
+                                            & pEnd & ".txt", True)
+
+        Else
+            'creates new payperiod reconciled file
+            My.Computer.FileSystem.CreateDirectory(prPath)
+            My.Computer.FileSystem.CopyFile(rfile, prPath & "\Training_Reconciled_" & pStart & "_" _
+                                            & pEnd & ".txt", False)
+
+        End If
+
+        MessageBox.Show("Archive of Training Complete", title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        ' Deletes Current Training File
+        My.Computer.FileSystem.DeleteFile(rfile)
 
         Windows.Forms.Application.Restart()
 
     End Sub
+
 End Class
