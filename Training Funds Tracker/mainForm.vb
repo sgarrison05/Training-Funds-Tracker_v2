@@ -1,7 +1,8 @@
 'Title                  Training Funds Tracker
-'Purpose                To help keep track of funds available for Training like a checkbook register
+'Purpose                To help keep track of funds available for Training
+'                       like a checkbook register
 'Created                December 2009
-'Last Updated           Updated August 2023
+'Last Updated           Updated October 2023
 
 
 Option Explicit On
@@ -13,7 +14,7 @@ Public Class mainForm
     Public Const rdirectory As String = "C:\Training"
     Public Const rfile As String = "C:\Training\trainingrun.txt"
     Private newDailyBalance As Decimal
-    Private previousBalance As Decimal
+    Private previousBalance As Decimal an
     Public payee As String
     Public reason As String
 
@@ -101,7 +102,7 @@ Public Class mainForm
 
     End Sub
 
-    '------------------------------ Private Subroutines-----------------------------------------------
+    '------------------------------ Private Subroutines  -----------------------------------------------
 
     Private Sub PreviewCalculations()
 
@@ -130,24 +131,24 @@ Public Class mainForm
                 'fills preview pane (txtPreview)
                 previewBankBal = calcTransactionBal + Convert.ToDecimal(Me.lblPrevBal.Text)
                 Me.txtPreview.Text = "Preview of Entry to Activity Sheet:" & ControlChars.NewLine & ControlChars.NewLine &
-                    "Date Entered" & Strings.Space(6) &
-                    "Type" & Strings.Space(10) &
-                    "Payee" & Strings.Space(47) &
-                    "Debit(-)" & Strings.Space(7) &
-                    "Credit(+)" & Strings.Space(7) &
-                    "Balance" & ControlChars.NewLine &
-                    "-------------------" & Strings.Space(7) &
-                    "----------" & Strings.Space(7) &
-                    "----------------------------" & Strings.Space(30) &
-                    "----------" & Strings.Space(9) &
-                    "----------" & Strings.Space(10) &
-                    "------------" & ControlChars.NewLine &
-                    Me.dtpEntryDate.Text.PadRight(10, " ") & Strings.Space(10) &
-                    Me.cmboxType.Text.PadRight(10, " ") & Strings.Space(2) &
-                    Me.txtPayee.Text.PadRight(24, " ") & Strings.Space(22) &
-                    Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
-                    Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(12) &
-                    Convert.ToString(previewBankBal)
+                                     "Date Entered" & Strings.Space(6) &
+                                     "Type" & Strings.Space(10) &
+                                     "Payee" & Strings.Space(47) &
+                                     "Debit(-)" & Strings.Space(7) &
+                                     "Credit(+)" & Strings.Space(7) &
+                                     "Balance" & ControlChars.NewLine &
+                                     "-------------------" & Strings.Space(7) &
+                                     "----------" & Strings.Space(7) &
+                                     "----------------------------" & Strings.Space(30) &
+                                     "----------" & Strings.Space(9) &
+                                     "----------" & Strings.Space(10) &
+                                     "------------" & ControlChars.NewLine &
+                                     Me.dtpEntryDate.Text.PadRight(10, " ") & Strings.Space(10) &
+                                     Me.cmboxType.Text.PadRight(10, " ") & Strings.Space(2) &
+                                     Me.txtPayee.Text.PadRight(24, " ") & Strings.Space(22) &
+                                     Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
+                                     Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(12) &
+                                     Convert.ToString(previewBankBal)
 
             Else
                 'show error message and highlight the problematic area
@@ -169,6 +170,7 @@ Public Class mainForm
         Else 'show error message and highlight the problematic area
             MessageBox.Show("Number for calculations must be numeric.", title,
             MessageBoxButtons.OK, MessageBoxIcon.Information)
+
             If Not IsNumeric(Me.txtDebit.Text) Then
 
                 Me.txtDebit.Focus()
@@ -284,7 +286,7 @@ Public Class mainForm
         Dim NewLineIndex2 As Integer = 0 'beginning of line
         Dim entryIndex2 As Integer = 0  'length of Line
         Dim entry As String
-        Dim myentry As String
+        Dim myentry As String = Nothing
 
         '------------------------------ Data Start ------------------------------------------------------------------
 
@@ -324,6 +326,7 @@ Public Class mainForm
 
         exitButton = MessageBox.Show("Are you sure that you are ready to exit?", title,
         MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
         If exitButton = Windows.Forms.DialogResult.No Then
 
             ReadyForm()
@@ -345,19 +348,20 @@ Public Class mainForm
         Dim curdate As String = dtpEntryDate.Text
 
         My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(7) &
-                                                    myReason.PadRight(15, " ") & Strings.Space(4) &
-                                                    payee.PadRight(20, " ") & Strings.Space(7) &
-                                                    Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
-                                                    Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) &
-                                                    Convert.ToString(previousBalance.ToString("N2")).PadLeft(6) &
-                                                    ControlChars.NewLine, True)
+                                            myReason.PadRight(15, " ") & Strings.Space(4) &
+                                            payee.PadRight(20, " ") & Strings.Space(7) &
+                                            Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
+                                            Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) &
+                                            Convert.ToString(previousBalance.ToString("N2")).PadLeft(6) &
+                                            ControlChars.NewLine, True)
         Separation()
 
     End Sub
     Public Sub Separation()
 
         'Separator line between entries
-        My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(100, "-") & ControlChars.NewLine, True)
+        My.Computer.FileSystem.WriteAllText(rfile, "".PadLeft(100, "-") &
+                                            ControlChars.NewLine, True)
 
     End Sub
     Private Sub ReadyForm()
@@ -455,11 +459,13 @@ Public Class mainForm
             Me.txtDebit.Enabled = True
             Me.txtCredit.Enabled = True
         End If
+
         If IsNumeric(Me.cmboxType.Text) Or Me.cmboxType.SelectedIndex = 1 Or Me.cmboxType.SelectedIndex = 2 Or
         Me.cmboxType.SelectedIndex = 4 Or Me.cmboxType.SelectedIndex = 5 Then
             Me.txtCredit.Enabled = False
             Me.txtDebit.Enabled = True
         End If
+
         If Me.cmboxType.SelectedIndex = 3 Then
             Me.txtDebit.Enabled = False
             Me.txtCredit.Enabled = True
@@ -508,7 +514,6 @@ Public Class mainForm
 
         trainingAboutBox.ShowDialog()
 
-
     End Sub
     Private Sub ReadMeToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ReadMeToolStripMenuItem.Click
 
@@ -519,13 +524,14 @@ Public Class mainForm
             proc.Start()
 
         Else
-            MessageBox.Show("File was not copied manually at install.  Check with deloyment file for trainingreadme.txt file and copy to (C:\Training\) root directory.",
-            title, MessageBoxButtons.OK, MessageBoxIcon.Stop)
+            MessageBox.Show("File was not copied manually at install." & Environment.NewLine &
+                            "Check with deloyment file for trainingreadme.txt file" & Environment.NewLine &
+                            "and copy to (C:\Training\) root directory.",
+                            title, MessageBoxButtons.OK, MessageBoxIcon.Stop)
             Me.Show()
             Me.dtpEntryDate.Focus()
 
         End If
-
 
     End Sub
     Private Sub InfoFormToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -547,21 +553,23 @@ Public Class mainForm
         Dim prPath As String = rdirectory & "\" & thisYear
 
         'Checks if this years folder already exists.  If it does not, it creates it
-        If My.Computer.FileSystem.FileExists(prPath & "\Training_Reconciled_" & pStart & "_" _
-                                            & pEnd & ".txt") Then
+        If My.Computer.FileSystem.FileExists(prPath & "\Training_Reconciled_" &
+                                             pStart & "_" &
+                                             pEnd & ".txt") Then
             'overwrites existing file
-            My.Computer.FileSystem.CopyFile(rfile, prPath & "\Training_Reconciled_" & pStart & "_" _
-                                            & pEnd & ".txt", True)
+            My.Computer.FileSystem.CopyFile(rfile, prPath & "\Training_Reconciled_" &
+                                            pStart & "_" & pEnd & ".txt", True)
 
         Else
             'creates new payperiod reconciled file
             My.Computer.FileSystem.CreateDirectory(prPath)
-            My.Computer.FileSystem.CopyFile(rfile, prPath & "\Training_Reconciled_" & pStart & "_" _
-                                            & pEnd & ".txt", False)
+            My.Computer.FileSystem.CopyFile(rfile, prPath & "\Training_Reconciled_" &
+                                            pStart & "_" & pEnd & ".txt", False)
 
         End If
 
-        MessageBox.Show("Archive of Training Complete", title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+        MessageBox.Show("Archive of Training Complete",
+                        title, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         ' Deletes Current Training File
         My.Computer.FileSystem.DeleteFile(rfile)

@@ -225,8 +225,9 @@ Partial Class mainForm
         '
         'txtPreview
         '
-        Me.txtPreview.BackColor = System.Drawing.SystemColors.ScrollBar
+        Me.txtPreview.BackColor = System.Drawing.Color.Black
         Me.txtPreview.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPreview.ForeColor = System.Drawing.Color.White
         Me.txtPreview.Location = New System.Drawing.Point(12, 267)
         Me.txtPreview.Multiline = True
         Me.txtPreview.Name = "txtPreview"
@@ -261,14 +262,14 @@ Partial Class mainForm
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.NewToolStripMenuItem.Text = "New Training..."
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActivitySheetToolStripMenuItem})
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.OpenToolStripMenuItem.Text = "Open..."
         '
         'ActivitySheetToolStripMenuItem
@@ -280,7 +281,7 @@ Partial Class mainForm
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'EditToolStripMenuItem
