@@ -144,8 +144,8 @@ Public Class mainForm
                                      "----------" & Strings.Space(10) &
                                      "------------" & ControlChars.NewLine &
                                      Me.dtpEntryDate.Text.PadRight(10, " ") & Strings.Space(10) &
-                                     Me.cmboxType.Text.PadRight(10, " ") & Strings.Space(2) &
-                                     Me.txtPayee.Text.PadRight(24, " ") & Strings.Space(22) &
+                                     Me.cmboxType.Text.PadRight(11, " ") & Strings.Space(2) &
+                                     Me.txtPayee.Text.PadRight(26, " ") & Strings.Space(22) &
                                      Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
                                      Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(12) &
                                      Convert.ToString(previewBankBal)
@@ -422,7 +422,6 @@ Public Class mainForm
         Me.txtCredit.SelectAll()
 
     End Sub
-
     Private Sub cmboxType_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.GotFocus
         Me.cmboxType.BackColor = Color.LightBlue
         Me.txtPayee.BackColor = Color.White
@@ -546,8 +545,8 @@ Public Class mainForm
         Dim dteStart As Date = lblStartDate.Text
         Dim dteEnd As Date = lblEndDate.Text
         Dim thisYear As String = Year(Today)
-        Dim pStart As String = dteStart.Month & dteStart.Day
-        Dim pEnd As String = dteEnd.Month & dteEnd.Day
+        Dim pStart As String = dteStart.Month & "-" & dteStart.Day
+        Dim pEnd As String = dteEnd.Month & "-" & dteEnd.Day
 
         'Sets path for folder
         Dim prPath As String = rdirectory & "\" & thisYear

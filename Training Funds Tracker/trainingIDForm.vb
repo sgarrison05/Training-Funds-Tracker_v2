@@ -26,9 +26,9 @@ Public Class trainingIDForm
             My.Computer.FileSystem.WriteAllText(mainForm.rfile,
                                                 "Training Name:" & Strings.Space(7) &
                                                 name & ControlChars.NewLine &
-                                                "Location:" & Strings.Space(3) &
+                                                "Location:" & Strings.Space(12) &
                                                  location & ControlChars.NewLine &
-                                                "Dates:" & Strings.Space(6) &
+                                                "Dates:" & Strings.Space(15) &
                                                 startDate & Strings.Space(2) &
                                                 "-" & Strings.Space(2) &
                                                 endDate & ControlChars.NewLine &
