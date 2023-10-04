@@ -14,7 +14,7 @@ Public Class mainForm
     Public Const rdirectory As String = "C:\Training"
     Public Const rfile As String = "C:\Training\trainingrun.txt"
     Private newDailyBalance As Decimal
-    Private previousBalance As Decimal an
+    Private previousBalance As Decimal
     Public payee As String
     Public reason As String
 
