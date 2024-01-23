@@ -44,8 +44,10 @@ Public Class mainForm
         If Not My.Computer.FileSystem.FileExists(rfile) Then
 
             button = MessageBox.Show _
-            ("The current training file does not exist.  This is your bank, would you like to create it?",
-            title, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
+            ("The current training file does not exist." & vbCrLf &
+            "This is your bank, would you like to create it?",
+            title, MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
 
             'declares another button result and asks the user to enter a beginning balance
             If button = DialogResult.Yes Then
@@ -60,7 +62,6 @@ Public Class mainForm
                         MessageBox.Show("Number must be numeric.", title, MessageBoxButtons.OK)
 
                     End If
-
                 Loop
 
                 'Quick Conversion for two decimal places for label
@@ -153,7 +154,8 @@ Public Class mainForm
             Else
                 'show error message and highlight the problematic area
                 MessageBox.Show("Number for calculations must be numeric.", title,
-                MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information)
 
                 If Not isSubtracted Then
 
@@ -169,7 +171,8 @@ Public Class mainForm
 
         Else 'show error message and highlight the problematic area
             MessageBox.Show("Number for calculations must be numeric.", title,
-            MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information)
 
             If Not IsNumeric(Me.txtDebit.Text) Then
 
@@ -194,8 +197,9 @@ Public Class mainForm
         'delcare proceedure variables
         Dim myButton As DialogResult
 
-        myButton = MessageBox.Show("Do you wish to add to the new balance to the bank?", title, MessageBoxButtons.YesNo,
-        MessageBoxIcon.Question)
+        myButton = MessageBox.Show("Do you wish to add to the new balance to the bank?",
+                                   title, MessageBoxButtons.YesNo,
+                                   MessageBoxIcon.Question)
 
         If myButton = Windows.Forms.DialogResult.Yes Then
 
@@ -212,7 +216,8 @@ Public Class mainForm
             CreateEntry(payee, reason)
 
             MessageBox.Show("Processing complete. The form will be cleared.",
-                                title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                title, MessageBoxButtons.OK,
+                                MessageBoxIcon.Information)
 
             'clears and returns to form
             ReadyForm()
@@ -325,7 +330,8 @@ Public Class mainForm
         Dim exitButton As DialogResult
 
         exitButton = MessageBox.Show("Are you sure that you are ready to exit?", title,
-        MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                                    MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Question)
 
         If exitButton = Windows.Forms.DialogResult.No Then
 
