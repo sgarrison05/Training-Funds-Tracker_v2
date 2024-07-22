@@ -22,15 +22,15 @@ Partial Class trainingIDForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.dtpTrainingStart = New System.Windows.Forms.DateTimePicker
-        Me.dtpTrainingEnd = New System.Windows.Forms.DateTimePicker
-        Me.lblTrainStart = New System.Windows.Forms.Label
-        Me.lblTrainEnd = New System.Windows.Forms.Label
-        Me.lblTrainingName = New System.Windows.Forms.Label
-        Me.lblTrainLocation = New System.Windows.Forms.Label
-        Me.txtTrainingName = New System.Windows.Forms.TextBox
-        Me.txtTrainingLocation = New System.Windows.Forms.TextBox
-        Me.btnDone = New System.Windows.Forms.Button
+        Me.dtpTrainingStart = New System.Windows.Forms.DateTimePicker()
+        Me.dtpTrainingEnd = New System.Windows.Forms.DateTimePicker()
+        Me.lblTrainStart = New System.Windows.Forms.Label()
+        Me.lblTrainEnd = New System.Windows.Forms.Label()
+        Me.lblTrainingName = New System.Windows.Forms.Label()
+        Me.lblTrainLocation = New System.Windows.Forms.Label()
+        Me.txtTrainingName = New System.Windows.Forms.TextBox()
+        Me.txtTrainingLocation = New System.Windows.Forms.TextBox()
+        Me.btnDone = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'dtpTrainingStart
@@ -111,12 +111,13 @@ Partial Class trainingIDForm
         '
         'btnDone
         '
-        Me.btnDone.Location = New System.Drawing.Point(255, 228)
+        Me.btnDone.BackColor = System.Drawing.Color.DeepSkyBlue
+        Me.btnDone.Location = New System.Drawing.Point(267, 219)
         Me.btnDone.Name = "btnDone"
-        Me.btnDone.Size = New System.Drawing.Size(91, 33)
+        Me.btnDone.Size = New System.Drawing.Size(91, 40)
         Me.btnDone.TabIndex = 8
         Me.btnDone.Text = "Done"
-        Me.btnDone.UseVisualStyleBackColor = True
+        Me.btnDone.UseVisualStyleBackColor = False
         '
         'trainingIDForm
         '

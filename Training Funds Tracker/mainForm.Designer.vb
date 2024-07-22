@@ -143,39 +143,43 @@ Partial Class mainForm
         '
         'btnClear
         '
+        Me.btnClear.BackColor = System.Drawing.Color.Cyan
         Me.btnClear.Location = New System.Drawing.Point(12, 414)
         Me.btnClear.Name = "btnClear"
-        Me.btnClear.Size = New System.Drawing.Size(86, 29)
+        Me.btnClear.Size = New System.Drawing.Size(86, 41)
         Me.btnClear.TabIndex = 10
         Me.btnClear.Text = "Clear"
-        Me.btnClear.UseVisualStyleBackColor = True
+        Me.btnClear.UseVisualStyleBackColor = False
         '
         'btnCalc
         '
+        Me.btnCalc.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.btnCalc.Location = New System.Drawing.Point(239, 414)
         Me.btnCalc.Name = "btnCalc"
-        Me.btnCalc.Size = New System.Drawing.Size(86, 29)
+        Me.btnCalc.Size = New System.Drawing.Size(86, 41)
         Me.btnCalc.TabIndex = 11
         Me.btnCalc.Text = "Calculate"
-        Me.btnCalc.UseVisualStyleBackColor = True
+        Me.btnCalc.UseVisualStyleBackColor = False
         '
         'btnApply
         '
+        Me.btnApply.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.btnApply.Location = New System.Drawing.Point(496, 414)
         Me.btnApply.Name = "btnApply"
-        Me.btnApply.Size = New System.Drawing.Size(86, 29)
+        Me.btnApply.Size = New System.Drawing.Size(86, 41)
         Me.btnApply.TabIndex = 12
         Me.btnApply.Text = "Apply"
-        Me.btnApply.UseVisualStyleBackColor = True
+        Me.btnApply.UseVisualStyleBackColor = False
         '
         'btnClose
         '
+        Me.btnClose.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.btnClose.Location = New System.Drawing.Point(717, 414)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(86, 29)
+        Me.btnClose.Size = New System.Drawing.Size(86, 41)
         Me.btnClose.TabIndex = 13
         Me.btnClose.Text = "Close"
-        Me.btnClose.UseVisualStyleBackColor = True
+        Me.btnClose.UseVisualStyleBackColor = False
         '
         'lblPrevBal
         '
