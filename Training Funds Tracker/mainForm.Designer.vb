@@ -248,9 +248,9 @@ Partial Class mainForm
         Me.lblPreview.AutoSize = True
         Me.lblPreview.Location = New System.Drawing.Point(9, 251)
         Me.lblPreview.Name = "lblPreview"
-        Me.lblPreview.Size = New System.Drawing.Size(119, 13)
+        Me.lblPreview.Size = New System.Drawing.Size(156, 13)
         Me.lblPreview.TabIndex = 21
-        Me.lblPreview.Text = "Preview of Transaction:"
+        Me.lblPreview.Text = "Preview of Current Transaction:"
         '
         'trainingMenuStrip
         '
