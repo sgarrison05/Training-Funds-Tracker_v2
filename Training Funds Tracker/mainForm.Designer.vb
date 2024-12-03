@@ -67,6 +67,7 @@ Partial Class mainForm
         Me.lblLocation = New System.Windows.Forms.Label()
         Me.lblStartDate = New System.Windows.Forms.Label()
         Me.lblEndDate = New System.Windows.Forms.Label()
+        Me.btnReconcile = New System.Windows.Forms.Button()
         Me.trainingMenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -144,7 +145,8 @@ Partial Class mainForm
         'btnClear
         '
         Me.btnClear.BackColor = System.Drawing.Color.Cyan
-        Me.btnClear.Location = New System.Drawing.Point(12, 414)
+        Me.btnClear.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClear.Location = New System.Drawing.Point(12, 403)
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(86, 41)
         Me.btnClear.TabIndex = 10
@@ -154,7 +156,8 @@ Partial Class mainForm
         'btnCalc
         '
         Me.btnCalc.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.btnCalc.Location = New System.Drawing.Point(239, 414)
+        Me.btnCalc.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCalc.Location = New System.Drawing.Point(180, 403)
         Me.btnCalc.Name = "btnCalc"
         Me.btnCalc.Size = New System.Drawing.Size(86, 41)
         Me.btnCalc.TabIndex = 11
@@ -164,7 +167,8 @@ Partial Class mainForm
         'btnApply
         '
         Me.btnApply.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.btnApply.Location = New System.Drawing.Point(496, 414)
+        Me.btnApply.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnApply.Location = New System.Drawing.Point(361, 403)
         Me.btnApply.Name = "btnApply"
         Me.btnApply.Size = New System.Drawing.Size(86, 41)
         Me.btnApply.TabIndex = 12
@@ -174,7 +178,8 @@ Partial Class mainForm
         'btnClose
         '
         Me.btnClose.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
-        Me.btnClose.Location = New System.Drawing.Point(717, 414)
+        Me.btnClose.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(717, 403)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(86, 41)
         Me.btnClose.TabIndex = 13
@@ -442,11 +447,23 @@ Partial Class mainForm
         Me.lblEndDate.Size = New System.Drawing.Size(103, 23)
         Me.lblEndDate.TabIndex = 31
         '
+        'btnReconcile
+        '
+        Me.btnReconcile.BackColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnReconcile.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReconcile.Location = New System.Drawing.Point(541, 403)
+        Me.btnReconcile.Name = "btnReconcile"
+        Me.btnReconcile.Size = New System.Drawing.Size(86, 41)
+        Me.btnReconcile.TabIndex = 32
+        Me.btnReconcile.Text = "Reconcile"
+        Me.btnReconcile.UseVisualStyleBackColor = False
+        '
         'mainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(825, 477)
+        Me.Controls.Add(Me.btnReconcile)
         Me.Controls.Add(Me.lblEndDate)
         Me.Controls.Add(Me.lblStartDate)
         Me.Controls.Add(Me.lblLocation)
@@ -535,4 +552,5 @@ Partial Class mainForm
     Friend WithEvents lblStartDate As System.Windows.Forms.Label
     Friend WithEvents lblEndDate As System.Windows.Forms.Label
     Friend WithEvents NewToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents btnReconcile As Button
 End Class
