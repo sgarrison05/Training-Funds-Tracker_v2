@@ -10,8 +10,8 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("Training Funds Tracker")>
-<Assembly: AssemblyDescription("Program used to track training funds for a particular training instance.  The files reside in (C:/Training) root directory.  Can be reconciled and a new training started after each training.")>
-<Assembly: AssemblyCompany("Shon Garrison")>
+<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyCompany("")>
 <Assembly: AssemblyProduct("Training Funds Tracker")>
 <Assembly: AssemblyCopyright("Copyright © 2009")>
 <Assembly: AssemblyTrademark("")>
