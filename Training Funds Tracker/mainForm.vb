@@ -387,7 +387,6 @@ Public Class mainForm
         Me.ApplyToolStripMenuItem.Enabled = False
 
     End Sub
-
     Private Sub Reconcile()
 
         ' Archives Current Training and Creates a New One
@@ -455,6 +454,7 @@ Public Class mainForm
         Reconcile()
 
     End Sub
+
     '------------------------------------- Events -----------------------------------------------------------
 
     Private Sub cmboxType_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.Enter
@@ -520,9 +520,6 @@ Public Class mainForm
             Me.txtCredit.Enabled = True
         End If
     End Sub
-    Private Sub txtDebit_TextChanged(sender As Object, e As EventArgs) Handles txtDebit.TextChanged
-
-    End Sub
     Private Sub txtDebit_Leave(sender As Object, e As EventArgs) Handles txtDebit.Leave
 
         ' Quick Conversion for 2 decimal places
@@ -539,6 +536,7 @@ Public Class mainForm
         txtCredit.Text = tCredit.ToString("N2")
 
     End Sub
+
     '------------------------------------ Menu Items -----------------------------------------------------
 
     Private Sub ExitToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
