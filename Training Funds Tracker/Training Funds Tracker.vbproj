@@ -11,11 +11,11 @@
     <RootNamespace>Training_Funds_Tracker</RootNamespace>
     <AssemblyName>Training Funds Tracker</AssemblyName>
     <MyType>WindowsForms</MyType>
-    <ManifestCertificateThumbprint>84EC84DF3E663B372D6316908D469CB09B5BCE22</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>109C11C7A84A135127E67B7E7FA424DD358FA0B3</ManifestCertificateThumbprint>
     <ManifestKeyFile>Training Funds Tracker_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
     <TargetZone>LocalIntranet</TargetZone>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -36,7 +36,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ProductName>Training Funds Tracker</ProductName>
     <PublisherName>Shon Garrison</PublisherName>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
