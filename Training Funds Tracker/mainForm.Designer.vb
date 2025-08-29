@@ -377,9 +377,9 @@ Partial Class mainForm
         Me.lblProjectID.AutoSize = True
         Me.lblProjectID.Location = New System.Drawing.Point(9, 33)
         Me.lblProjectID.Name = "lblProjectID"
-        Me.lblProjectID.Size = New System.Drawing.Size(80, 13)
+        Me.lblProjectID.Size = New System.Drawing.Size(85, 13)
         Me.lblProjectID.TabIndex = 23
-        Me.lblProjectID.Text = "Current Project:"
+        Me.lblProjectID.Text = "Current Training:"
         '
         'lblName
         '
