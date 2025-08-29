@@ -418,11 +418,12 @@ Partial Class mainForm
         '
         'lblLineID
         '
-        Me.lblLineID.BackColor = System.Drawing.SystemColors.ControlDarkDark
-        Me.lblLineID.Location = New System.Drawing.Point(595, 60)
+        Me.lblLineID.BackColor = System.Drawing.SystemColors.Control
+        Me.lblLineID.Location = New System.Drawing.Point(593, 54)
         Me.lblLineID.Name = "lblLineID"
-        Me.lblLineID.Size = New System.Drawing.Size(10, 1)
+        Me.lblLineID.Size = New System.Drawing.Size(17, 13)
         Me.lblLineID.TabIndex = 28
+        Me.lblLineID.Text = "->"
         '
         'lblLocation
         '
