@@ -391,39 +391,57 @@ Public Class mainForm
 
         ' Archives Current Training and Creates a New One
 
-        'archives the pay period into it's own folder for the month and year
-        Dim dteStart As Date = lblStartDate.Text
-        Dim dteEnd As Date = lblEndDate.Text
-        Dim thisYear As String = Year(Today)
-        Dim pStart As String = dteStart.Month & "-" & dteStart.Day
-        Dim pEnd As String = dteEnd.Month & "-" & dteEnd.Day
+        Dim DialogResult As DialogResult
 
-        'Sets path for folder
-        Dim prPath As String = rdirectory & "\" & thisYear
+        DialogResult = MessageBox.Show("The current training file will be archived " &
+                                       ControlChars.NewLine &
+                                       "and a new training file will be created. " &
+                                       ControlChars.NewLine &
+                                       ControlChars.NewLine &
+                                       "Do you wish to proceed?",
+                                       title, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
-        'Checks if this years folder already exists.  If it does not, it creates it
-        If My.Computer.FileSystem.FileExists(prPath & "\Training_Reconciled_" &
+        If DialogResult = Windows.Forms.DialogResult.Yes Then
+
+            'archives the pay period into it's own folder for the month and year
+            Dim dteStart As Date = lblStartDate.Text
+            Dim dteEnd As Date = lblEndDate.Text
+            Dim thisYear As String = Year(Today)
+            Dim pStart As String = dteStart.Month & "-" & dteStart.Day
+            Dim pEnd As String = dteEnd.Month & "-" & dteEnd.Day
+
+            'Sets path for folder
+            Dim prPath As String = rdirectory & "\" & thisYear
+
+            'Checks if this years folder already exists.  If it does not, it creates it
+            If My.Computer.FileSystem.FileExists(prPath & "\Training_Reconciled_" &
                                              pStart & "_" &
                                              pEnd & ".txt") Then
-            'overwrites existing file
-            My.Computer.FileSystem.CopyFile(rfile, prPath & "\Training_Reconciled_" &
+                'overwrites existing file
+                My.Computer.FileSystem.CopyFile(rfile, prPath & "\Training_Reconciled_" &
                                             pStart & "_" & pEnd & ".txt", True)
 
-        Else
-            'creates new payperiod reconciled file
-            My.Computer.FileSystem.CreateDirectory(prPath)
-            My.Computer.FileSystem.CopyFile(rfile, prPath & "\Training_Reconciled_" &
+            Else
+                'creates new payperiod reconciled file
+                My.Computer.FileSystem.CreateDirectory(prPath)
+                My.Computer.FileSystem.CopyFile(rfile, prPath & "\Training_Reconciled_" &
                                             pStart & "_" & pEnd & ".txt", False)
 
-        End If
+            End If
 
-        MessageBox.Show("Archive of Training Complete",
+            MessageBox.Show("Archive of Training Complete",
                         title, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-        ' Deletes Current Training File
-        My.Computer.FileSystem.DeleteFile(rfile)
+            ' Deletes Current Training File
+            My.Computer.FileSystem.DeleteFile(rfile)
 
-        Windows.Forms.Application.Restart()
+            Windows.Forms.Application.Restart()
+
+        Else
+            'User has elected not to reconcile at this time
+            Me.Show()
+            Me.dtpEntryDate.Focus()
+        End If
 
     End Sub
 
