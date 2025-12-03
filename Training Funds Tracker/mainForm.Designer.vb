@@ -122,6 +122,7 @@ Partial Class mainForm
         '
         Me.txtPayee.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPayee.Location = New System.Drawing.Point(157, 160)
+        Me.txtPayee.MaxLength = 27
         Me.txtPayee.Name = "txtPayee"
         Me.txtPayee.Size = New System.Drawing.Size(300, 26)
         Me.txtPayee.TabIndex = 5
@@ -236,7 +237,7 @@ Partial Class mainForm
         'txtPreview
         '
         Me.txtPreview.BackColor = System.Drawing.Color.Black
-        Me.txtPreview.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPreview.Font = New System.Drawing.Font("Cascadia Mono", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPreview.ForeColor = System.Drawing.Color.White
         Me.txtPreview.Location = New System.Drawing.Point(12, 267)
         Me.txtPreview.Multiline = True
@@ -272,14 +273,14 @@ Partial Class mainForm
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.NewToolStripMenuItem.Text = "New Training..."
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ActivitySheetToolStripMenuItem})
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.OpenToolStripMenuItem.Text = "Open..."
         '
         'ActivitySheetToolStripMenuItem
@@ -291,7 +292,7 @@ Partial Class mainForm
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'EditToolStripMenuItem
@@ -311,7 +312,7 @@ Partial Class mainForm
         '
         Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CalculateToolStripMenuItem, Me.ApplyToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(47, 20)
         Me.ToolsToolStripMenuItem.Text = "Tools"
         '
         'CalculateToolStripMenuItem
@@ -368,6 +369,7 @@ Partial Class mainForm
         Me.cmboxType.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmboxType.FormattingEnabled = True
         Me.cmboxType.Location = New System.Drawing.Point(12, 160)
+        Me.cmboxType.MaxLength = 9
         Me.cmboxType.Name = "cmboxType"
         Me.cmboxType.Size = New System.Drawing.Size(121, 26)
         Me.cmboxType.TabIndex = 3
