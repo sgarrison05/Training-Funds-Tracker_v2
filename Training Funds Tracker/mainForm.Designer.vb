@@ -131,6 +131,7 @@ Partial Class mainForm
         '
         Me.txtDebit.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDebit.Location = New System.Drawing.Point(479, 160)
+        Me.txtDebit.MaxLength = 6
         Me.txtDebit.Name = "txtDebit"
         Me.txtDebit.Size = New System.Drawing.Size(74, 26)
         Me.txtDebit.TabIndex = 7
@@ -139,6 +140,7 @@ Partial Class mainForm
         '
         Me.txtCredit.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCredit.Location = New System.Drawing.Point(567, 160)
+        Me.txtCredit.MaxLength = 6
         Me.txtCredit.Name = "txtCredit"
         Me.txtCredit.Size = New System.Drawing.Size(74, 26)
         Me.txtCredit.TabIndex = 9
