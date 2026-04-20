@@ -67,6 +67,7 @@ Partial Class mainForm
         Me.lblLocation = New System.Windows.Forms.Label()
         Me.lblStartDate = New System.Windows.Forms.Label()
         Me.lblEndDate = New System.Windows.Forms.Label()
+        Me.btnReconcile = New System.Windows.Forms.Button()
         Me.trainingMenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -145,25 +146,25 @@ Partial Class mainForm
         '
         Me.btnClear.Location = New System.Drawing.Point(12, 414)
         Me.btnClear.Name = "btnClear"
-        Me.btnClear.Size = New System.Drawing.Size(86, 29)
+        Me.btnClear.Size = New System.Drawing.Size(86, 41)
         Me.btnClear.TabIndex = 10
         Me.btnClear.Text = "Clear"
         Me.btnClear.UseVisualStyleBackColor = True
         '
         'btnCalc
         '
-        Me.btnCalc.Location = New System.Drawing.Point(239, 414)
+        Me.btnCalc.Location = New System.Drawing.Point(189, 414)
         Me.btnCalc.Name = "btnCalc"
-        Me.btnCalc.Size = New System.Drawing.Size(86, 29)
+        Me.btnCalc.Size = New System.Drawing.Size(86, 41)
         Me.btnCalc.TabIndex = 11
         Me.btnCalc.Text = "Calculate"
         Me.btnCalc.UseVisualStyleBackColor = True
         '
         'btnApply
         '
-        Me.btnApply.Location = New System.Drawing.Point(496, 414)
+        Me.btnApply.Location = New System.Drawing.Point(371, 414)
         Me.btnApply.Name = "btnApply"
-        Me.btnApply.Size = New System.Drawing.Size(86, 29)
+        Me.btnApply.Size = New System.Drawing.Size(86, 41)
         Me.btnApply.TabIndex = 12
         Me.btnApply.Text = "Apply"
         Me.btnApply.UseVisualStyleBackColor = True
@@ -172,7 +173,7 @@ Partial Class mainForm
         '
         Me.btnClose.Location = New System.Drawing.Point(717, 414)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(86, 29)
+        Me.btnClose.Size = New System.Drawing.Size(86, 41)
         Me.btnClose.TabIndex = 13
         Me.btnClose.Text = "Close"
         Me.btnClose.UseVisualStyleBackColor = True
@@ -438,11 +439,21 @@ Partial Class mainForm
         Me.lblEndDate.Size = New System.Drawing.Size(103, 23)
         Me.lblEndDate.TabIndex = 31
         '
+        'btnReconcile
+        '
+        Me.btnReconcile.Location = New System.Drawing.Point(546, 414)
+        Me.btnReconcile.Name = "btnReconcile"
+        Me.btnReconcile.Size = New System.Drawing.Size(86, 41)
+        Me.btnReconcile.TabIndex = 32
+        Me.btnReconcile.Text = "Reconcile"
+        Me.btnReconcile.UseVisualStyleBackColor = True
+        '
         'mainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(825, 477)
+        Me.Controls.Add(Me.btnReconcile)
         Me.Controls.Add(Me.lblEndDate)
         Me.Controls.Add(Me.lblStartDate)
         Me.Controls.Add(Me.lblLocation)
@@ -531,4 +542,5 @@ Partial Class mainForm
     Friend WithEvents lblStartDate As System.Windows.Forms.Label
     Friend WithEvents lblEndDate As System.Windows.Forms.Label
     Friend WithEvents NewToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents btnReconcile As Button
 End Class
