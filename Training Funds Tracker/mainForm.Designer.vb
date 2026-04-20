@@ -461,8 +461,10 @@ Partial Class mainForm
         '
         'mainForm
         '
+        Me.AcceptButton = Me.btnCalc
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.btnClear
         Me.ClientSize = New System.Drawing.Size(825, 477)
         Me.Controls.Add(Me.btnReconcile)
         Me.Controls.Add(Me.lblEndDate)
