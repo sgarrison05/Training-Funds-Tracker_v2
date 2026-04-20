@@ -144,39 +144,47 @@ Partial Class mainForm
         '
         'btnClear
         '
-        Me.btnClear.Location = New System.Drawing.Point(12, 414)
+        Me.btnClear.BackColor = System.Drawing.Color.Cyan
+        Me.btnClear.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClear.Location = New System.Drawing.Point(12, 403)
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(86, 41)
         Me.btnClear.TabIndex = 10
         Me.btnClear.Text = "Clear"
-        Me.btnClear.UseVisualStyleBackColor = True
+        Me.btnClear.UseVisualStyleBackColor = False
         '
         'btnCalc
         '
-        Me.btnCalc.Location = New System.Drawing.Point(189, 414)
+        Me.btnCalc.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btnCalc.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCalc.Location = New System.Drawing.Point(180, 403)
         Me.btnCalc.Name = "btnCalc"
         Me.btnCalc.Size = New System.Drawing.Size(86, 41)
         Me.btnCalc.TabIndex = 11
         Me.btnCalc.Text = "Calculate"
-        Me.btnCalc.UseVisualStyleBackColor = True
+        Me.btnCalc.UseVisualStyleBackColor = False
         '
         'btnApply
         '
-        Me.btnApply.Location = New System.Drawing.Point(371, 414)
+        Me.btnApply.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.btnApply.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnApply.Location = New System.Drawing.Point(361, 403)
         Me.btnApply.Name = "btnApply"
         Me.btnApply.Size = New System.Drawing.Size(86, 41)
         Me.btnApply.TabIndex = 12
         Me.btnApply.Text = "Apply"
-        Me.btnApply.UseVisualStyleBackColor = True
+        Me.btnApply.UseVisualStyleBackColor = False
         '
         'btnClose
         '
-        Me.btnClose.Location = New System.Drawing.Point(717, 414)
+        Me.btnClose.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.btnClose.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(717, 403)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(86, 41)
         Me.btnClose.TabIndex = 13
         Me.btnClose.Text = "Close"
-        Me.btnClose.UseVisualStyleBackColor = True
+        Me.btnClose.UseVisualStyleBackColor = False
         '
         'lblPrevBal
         '
@@ -441,12 +449,14 @@ Partial Class mainForm
         '
         'btnReconcile
         '
-        Me.btnReconcile.Location = New System.Drawing.Point(546, 414)
+        Me.btnReconcile.BackColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnReconcile.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReconcile.Location = New System.Drawing.Point(541, 403)
         Me.btnReconcile.Name = "btnReconcile"
         Me.btnReconcile.Size = New System.Drawing.Size(86, 41)
         Me.btnReconcile.TabIndex = 32
         Me.btnReconcile.Text = "Reconcile"
-        Me.btnReconcile.UseVisualStyleBackColor = True
+        Me.btnReconcile.UseVisualStyleBackColor = False
         '
         'mainForm
         '
