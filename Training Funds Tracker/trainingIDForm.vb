@@ -9,21 +9,31 @@ Public Class trainingIDForm
         Dim endDate As String
 
         'get input
-        name = Me.txtTrainingName.Text
-        location = Me.txtTrainingLocation.Text
-        startDate = Me.dtpTrainingStart.Text
-        endDate = Me.dtpTrainingEnd.Text
+        name = Me.txtTrainingName.Text.Trim()
+        location = Me.txtTrainingLocation.Text.Trim()
+        startDate = Me.dtpTrainingStart.Value.ToShortDateString()
+        endDate = Me.dtpTrainingEnd.Value.ToShortDateString()
 
-        'Enters Initial text to the trainingrun.txt file 
+        ' Validate input before proceeding
+        If String.IsNullOrWhiteSpace(name) OrElse String.IsNullOrWhiteSpace(location) Then
+            MessageBox.Show("Please enter both a training name and location.",
+                            "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        ' If file already exists, skip setup and return to main form
         If My.Computer.FileSystem.FileExists(mainForm.rfile) Then
             Me.Close()
+            Return
+        End If
 
-        Else
-
-            'it creates the directory and trainingrun.txt file with initial information heading
+        ' Create directory only if it doesn't already exist
+        If Not My.Computer.FileSystem.DirectoryExists(mainForm.rdirectory) Then
             My.Computer.FileSystem.CreateDirectory(mainForm.rdirectory)
+        End If
 
-            My.Computer.FileSystem.WriteAllText(mainForm.rfile,
+        ' Write header to training run file
+        My.Computer.FileSystem.WriteAllText(mainForm.rfile,
                                                 "Training Name:" & Strings.Space(7) &
                                                 name & ControlChars.NewLine &
                                                 "Location:" & Strings.Space(12) &
@@ -35,16 +45,11 @@ Public Class trainingIDForm
                                                 ControlChars.NewLine, True)
             mainForm.Separation()
 
-            mainForm.reason = "Initial Balance"
-            mainForm.payee = "N/A"
-
-            mainForm.CreateEntry(mainForm.payee, mainForm.reason)
-
-            mainForm.Show()
-
-            Me.Close()
-
-        End If
+        mainForm.reason = "Initial Balance"
+        mainForm.payee = "N/A"
+        mainForm.CreateEntry(mainForm.payee, mainForm.reason)
+        mainForm.Show()
+        Me.Close()
 
     End Sub
 

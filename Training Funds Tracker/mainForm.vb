@@ -2,8 +2,7 @@
 'Purpose                To help keep track of funds available for Training
 '                       like a checkbook register
 'Created                December 2009
-'Last Updated           Updated October 2023
-
+'Last Updated           Updated April 2026
 
 Option Explicit On
 Imports System.Globalization
@@ -44,10 +43,8 @@ Public Class mainForm
         If Not My.Computer.FileSystem.FileExists(rfile) Then
 
             button = MessageBox.Show _
-            ("The current training file does not exist." & vbCrLf &
-            "This is your bank, would you like to create it?",
-            title, MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
+            ("The current training file does not exist.  This is your bank, would you like to create it?",
+            title, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
 
             'declares another button result and asks the user to enter a beginning balance
             If button = DialogResult.Yes Then
@@ -74,7 +71,7 @@ Public Class mainForm
                 trainingIDForm.ShowDialog()
                 Me.Hide()
 
-                Call pullHeading()
+                PullHeading()
 
             Else
 
@@ -89,10 +86,10 @@ Public Class mainForm
             'bankfile exists and gathers info needed for mainForm
 
             'pulls heading information
-            Call pullHeading()
+            PullHeading()
 
             'searches through data and pulls bank
-            Call PullData()
+            PullData()
 
         End If
 
@@ -119,72 +116,47 @@ Public Class mainForm
         isAdded = Decimal.TryParse(Me.txtCredit.Text, credit)
         isSubtracted = Decimal.TryParse(Me.txtDebit.Text, debit)
 
-        If IsNumeric(Me.txtCredit.Text) And IsNumeric(Me.txtDebit.Text) Then
-            If isAdded And isSubtracted Then
-
-                'Make calculations
-                calcTransactionBal = credit - debit
-                calcTransactionBal = Math.Round(calcTransactionBal, 2)
-                newDailyBalance = Convert.ToDecimal(Me.lblPrevBal.Text) + calcTransactionBal
-                Me.lblTransAction.Text = Convert.ToString(calcTransactionBal)
-                Me.lblNewBal.Text = Convert.ToString(newDailyBalance)
-
-                'fills preview pane (txtPreview)
-                previewBankBal = calcTransactionBal + Convert.ToDecimal(Me.lblPrevBal.Text)
-                Me.txtPreview.Text = "Preview of Entry to Activity Sheet:" & ControlChars.NewLine & ControlChars.NewLine &
-                                     "Date Entered" & Strings.Space(6) &
-                                     "Type" & Strings.Space(10) &
-                                     "Payee" & Strings.Space(47) &
-                                     "Debit(-)" & Strings.Space(7) &
-                                     "Credit(+)" & Strings.Space(7) &
-                                     "Balance" & ControlChars.NewLine &
-                                     "------------" & Strings.Space(6) &
-                                     "----------" & Strings.Space(4) &
-                                     "----------------------------" & Strings.Space(24) &
-                                     "----------" & Strings.Space(5) &
-                                     "----------" & Strings.Space(6) &
-                                     "-------" & ControlChars.NewLine &
-                                     Me.dtpEntryDate.Text.PadRight(10, " ") & Strings.Space(8) &
-                                     Me.cmboxType.Text.PadRight(9, " ") & Strings.Space(5) &
-                                     Me.txtPayee.Text.PadRight(27, " ") & Strings.Space(25) &
-                                     Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
-                                     Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) &
-                                     Convert.ToString(previewBankBal)
-
-            Else
-                'show error message and highlight the problematic area
-                MessageBox.Show("Number for calculations must be numeric.", title,
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information)
-
-                If Not isSubtracted Then
-
-                    Me.txtDebit.Focus()
-
-                ElseIf Not isAdded Then
-
-                    Me.txtCredit.Focus()
-
-                End If
-
-            End If
-
-        Else 'show error message and highlight the problematic area
-            MessageBox.Show("Number for calculations must be numeric.", title,
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information)
-
-            If Not IsNumeric(Me.txtDebit.Text) Then
-
+        'Validate — show error and focus problem field if either fails
+        If Not isAdded OrElse Not isSubtracted Then
+            MessageBox.Show("Numbers for calculations must be numeric.", title,
+                            MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If Not isSubtracted Then
                 Me.txtDebit.Focus()
-
-            ElseIf Not IsNumeric(Me.txtCredit.Text) Then
-
+            Else
                 Me.txtCredit.Focus()
-
             End If
-
+            Return
         End If
+
+        'Make calculations
+        calcTransactionBal = credit - debit
+        calcTransactionBal = Math.Round(calcTransactionBal, 2)
+        newDailyBalance = Convert.ToDecimal(Me.lblPrevBal.Text) + calcTransactionBal
+        Me.lblTransAction.Text = Convert.ToString(calcTransactionBal)
+        Me.lblNewBal.Text = Convert.ToString(newDailyBalance)
+
+        'fills preview pane (txtPreview)
+        previewBankBal = calcTransactionBal + Convert.ToDecimal(Me.lblPrevBal.Text)
+        Me.txtPreview.Text =
+            "Preview of Entry to Activity Sheet:" & ControlChars.NewLine & ControlChars.NewLine &
+            "Date Entered" & Strings.Space(6) &
+            "Type" & Strings.Space(10) &
+            "Payee" & Strings.Space(47) &
+            "Debit(-)" & Strings.Space(7) &
+            "Credit(+)" & Strings.Space(7) &
+            "Balance" & ControlChars.NewLine &
+            "-------------------" & Strings.Space(7) &
+            "----------" & Strings.Space(7) &
+            "----------------------------" & Strings.Space(30) &
+            "----------" & Strings.Space(9) &
+            "----------" & Strings.Space(10) &
+            "------------" & ControlChars.NewLine &
+            Me.dtpEntryDate.Text.PadRight(10, " ") & Strings.Space(10) &
+            Me.cmboxType.Text.PadRight(11, " ") & Strings.Space(2) &
+            Me.txtPayee.Text.PadRight(26, " ") & Strings.Space(22) &
+            Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
+            Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(12) &
+            Convert.ToString(previewBankBal)
 
         Me.btnApply.Enabled = True
         Me.ApplyToolStripMenuItem.Enabled = True
@@ -197,9 +169,8 @@ Public Class mainForm
         'delcare proceedure variables
         Dim myButton As DialogResult
 
-        myButton = MessageBox.Show("Do you wish to add to the new balance to the bank?",
-                                   title, MessageBoxButtons.YesNo,
-                                   MessageBoxIcon.Question)
+        myButton = MessageBox.Show("Do you wish to add to the new balance to the bank?", title, MessageBoxButtons.YesNo,
+        MessageBoxIcon.Question)
 
         If myButton = Windows.Forms.DialogResult.Yes Then
 
@@ -216,8 +187,7 @@ Public Class mainForm
             CreateEntry(payee, reason)
 
             MessageBox.Show("Processing complete. The form will be cleared.",
-                                title, MessageBoxButtons.OK,
-                                MessageBoxIcon.Information)
+                                title, MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             'clears and returns to form
             ReadyForm()
@@ -246,40 +216,35 @@ Public Class mainForm
 
         mytext = My.Computer.FileSystem.ReadAllText(rfile)
 
+        '--- Line 1: Training Name ---
         NewLineIndex = mytext.IndexOf(ControlChars.NewLine, nameIndex)
         colonIndex = mytext.IndexOf(":", nameIndex)
-
-        name = mytext.Substring(colonIndex + 1, NewLineIndex - colonIndex)
-        name = name.TrimStart(" ")
-
+        name = mytext.Substring(colonIndex + 1, NewLineIndex - colonIndex).TrimStart(" ")
         nameIndex = NewLineIndex + 2 'moves to the second line
 
         Me.lblName.Text = name
         Me.lblName.ForeColor = Color.Maroon
 
+        '--- Line 2: Location ---
         NewLineIndex = mytext.IndexOf(ControlChars.NewLine, nameIndex)
         colonIndex = mytext.IndexOf(":", nameIndex)
 
-        location = mytext.Substring(colonIndex + 1, NewLineIndex - colonIndex)
-        location = location.TrimStart(" ")
-
+        location = mytext.Substring(colonIndex + 1, NewLineIndex - colonIndex).TrimStart(" ")
         nameIndex = NewLineIndex + 2 'moves to the third line
 
         Me.lblLocation.Text = location
         Me.lblLocation.ForeColor = Color.Maroon
 
+        '--- Line 3: Dates ---
         NewLineIndex = mytext.IndexOf(ControlChars.NewLine, nameIndex)
         colonIndex = mytext.IndexOf(":", nameIndex)
         dashIndex = mytext.IndexOf("-", nameIndex)
 
-        startDate = mytext.Substring(colonIndex + 1, (dashIndex - colonIndex) - 1)
-        startDate = startDate.TrimStart(" ")
+        startDate = mytext.Substring(colonIndex + 1, (dashIndex - colonIndex) - 1).TrimStart(" ")
+        endDate = mytext.Substring(dashIndex, NewLineIndex - dashIndex).TrimStart("-", " ")
 
         Me.lblStartDate.Text = startDate
         Me.lblStartDate.ForeColor = Color.Maroon
-
-        endDate = mytext.Substring(dashIndex, NewLineIndex - dashIndex)
-        endDate = endDate.TrimStart("-", " ")
 
         Me.lblEndDate.Text = endDate
         Me.lblEndDate.ForeColor = Color.Maroon
@@ -324,34 +289,22 @@ Public Class mainForm
     End Sub
     Private Sub CloseApp()
 
-        'Exits the Program
-
-        'declare variable
+        'Exits the program 
         Dim exitButton As DialogResult
 
         exitButton = MessageBox.Show("Are you sure that you are ready to exit?", title,
-                                    MessageBoxButtons.YesNo,
-                                    MessageBoxIcon.Question)
+        MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
-        If exitButton = Windows.Forms.DialogResult.No Then
-
+        If exitButton = Windows.Forms.DialogResult.Yes Then
+            Me.Close()
+        Else
             ReadyForm()
-
-        Else 'Exits the program
-            exitButton = Windows.Forms.DialogResult.Yes
-            If My.Computer.FileSystem.FileExists(rfile) Then
-                Me.Close()
-
-            Else : CreateEntry(payee, reason)
-                Me.Close()
-
-            End If
         End If
     End Sub
     Public Sub CreateEntry(ByVal payee As String, ByVal myReason As String)
 
         'Declare text writing variables
-        Dim curdate As String = dtpEntryDate.Text
+        Dim curdate As String = dtpEntryDate.Value.ToShortDateString()
 
         My.Computer.FileSystem.WriteAllText(rfile, curdate & Strings.Space(7) &
                                             myReason.PadRight(15, " ") & Strings.Space(4) &
@@ -389,60 +342,50 @@ Public Class mainForm
     End Sub
     Private Sub Reconcile()
 
-        ' Archives Current Training and Creates a New One
-
+        'Archives current training and creates a new one
         Dim DialogResult As DialogResult
 
-        DialogResult = MessageBox.Show("The current training file will be archived " &
-                                       ControlChars.NewLine &
-                                       "and a new training file will be created. " &
-                                       ControlChars.NewLine &
-                                       ControlChars.NewLine &
-                                       "Do you wish to proceed?",
-                                       title, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        DialogResult = MessageBox.Show(
+            "The current training file will be archived" & ControlChars.NewLine &
+            "and a new training file will be created." & ControlChars.NewLine & ControlChars.NewLine &
+            "Do you wish to proceed?",
+            title, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
         If DialogResult = Windows.Forms.DialogResult.Yes Then
 
-            'archives the pay period into it's own folder for the month and year
             Dim dteStart As Date = lblStartDate.Text
             Dim dteEnd As Date = lblEndDate.Text
             Dim thisYear As String = Year(Today)
             Dim pStart As String = dteStart.Month & "-" & dteStart.Day
             Dim pEnd As String = dteEnd.Month & "-" & dteEnd.Day
-
-            'Sets path for folder
             Dim prPath As String = rdirectory & "\" & thisYear
+            Dim archiveFile As String = prPath & "\Training_Reconciled_" & pStart & "_" & pEnd & ".txt"
 
-            'Checks if this years folder already exists.  If it does not, it creates it
-            If My.Computer.FileSystem.FileExists(prPath & "\Training_Reconciled_" &
-                                             pStart & "_" &
-                                             pEnd & ".txt") Then
-                'overwrites existing file
-                My.Computer.FileSystem.CopyFile(rfile, prPath & "\Training_Reconciled_" &
-                                            pStart & "_" & pEnd & ".txt", True)
-
-            Else
-                'creates new payperiod reconciled file
+            'Create year folder only if it does not already exist
+            If Not My.Computer.FileSystem.DirectoryExists(prPath) Then
                 My.Computer.FileSystem.CreateDirectory(prPath)
-                My.Computer.FileSystem.CopyFile(rfile, prPath & "\Training_Reconciled_" &
-                                            pStart & "_" & pEnd & ".txt", False)
-
             End If
 
-            MessageBox.Show("Archive of Training Complete",
-                        title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            'Copy current file to archive, overwriting if it already exists
+            My.Computer.FileSystem.CopyFile(rfile, archiveFile, True)
 
-            ' Deletes Current Training File
+            MessageBox.Show("Archive of Training Complete.",
+                            title, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            'Delete current training file and restart
             My.Computer.FileSystem.DeleteFile(rfile)
-
             Windows.Forms.Application.Restart()
 
         Else
-            'User has elected not to reconcile at this time
             Me.Show()
             Me.dtpEntryDate.Focus()
         End If
 
+    End Sub
+    Private Sub SetActiveField(activeControl As Control)
+        For Each ctrl As Control In {cmboxType, txtPayee, txtDebit, txtCredit}
+            ctrl.BackColor = If(ctrl Is activeControl, Color.LightBlue, Color.White)
+        Next
     End Sub
 
     '------------------------------------- Buttons -----------------------------------------------------------
@@ -468,9 +411,7 @@ Public Class mainForm
 
     End Sub
     Private Sub btnReconcile_Click(sender As Object, e As EventArgs) Handles btnReconcile.Click
-
         Reconcile()
-
     End Sub
 
     '------------------------------------- Events -----------------------------------------------------------
@@ -491,28 +432,16 @@ Public Class mainForm
 
     End Sub
     Private Sub cmboxType_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.GotFocus
-        Me.cmboxType.BackColor = Color.LightBlue
-        Me.txtPayee.BackColor = Color.White
-        Me.txtDebit.BackColor = Color.White
-        Me.txtCredit.BackColor = Color.White
+        SetActiveField(cmboxType)
     End Sub
     Private Sub txtPayee_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtPayee.GotFocus
-        Me.cmboxType.BackColor = Color.White
-        Me.txtPayee.BackColor = Color.LightBlue
-        Me.txtDebit.BackColor = Color.White
-        Me.txtCredit.BackColor = Color.White
+        SetActiveField(txtPayee)
     End Sub
     Private Sub txtDebit_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDebit.GotFocus
-        Me.cmboxType.BackColor = Color.White
-        Me.txtPayee.BackColor = Color.White
-        Me.txtDebit.BackColor = Color.LightBlue
-        Me.txtCredit.BackColor = Color.White
+        SetActiveField(txtDebit)
     End Sub
     Private Sub txtCredit_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtCredit.GotFocus
-        Me.cmboxType.BackColor = Color.White
-        Me.txtPayee.BackColor = Color.White
-        Me.txtDebit.BackColor = Color.White
-        Me.txtCredit.BackColor = Color.LightBlue
+        SetActiveField(txtCredit)
     End Sub
     Private Sub dtpEntryDate_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtpEntryDate.GotFocus
         Me.cmboxType.BackColor = Color.White
@@ -522,13 +451,17 @@ Public Class mainForm
     End Sub
     Private Sub cmboxType_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmboxType.TextChanged
 
-        If Me.cmboxType.SelectedIndex = 0 Or Me.cmboxType.SelectedIndex = 6 Then
+        If Me.cmboxType.SelectedIndex = 0 Or
+            Me.cmboxType.SelectedIndex = 6 Then
             Me.txtDebit.Enabled = True
             Me.txtCredit.Enabled = True
         End If
 
-        If IsNumeric(Me.cmboxType.Text) Or Me.cmboxType.SelectedIndex = 1 Or Me.cmboxType.SelectedIndex = 2 Or
-        Me.cmboxType.SelectedIndex = 4 Or Me.cmboxType.SelectedIndex = 5 Then
+        If IsNumeric(Me.cmboxType.Text) Or
+            Me.cmboxType.SelectedIndex = 1 Or
+            Me.cmboxType.SelectedIndex = 2 Or
+            Me.cmboxType.SelectedIndex = 4 Or
+            Me.cmboxType.SelectedIndex = 5 Then
             Me.txtCredit.Enabled = False
             Me.txtDebit.Enabled = True
         End If
@@ -539,20 +472,20 @@ Public Class mainForm
         End If
     End Sub
     Private Sub txtDebit_Leave(sender As Object, e As EventArgs) Handles txtDebit.Leave
-
-        ' Quick Conversion for 2 decimal places
-        Dim tDebit As Decimal = Convert.ToDecimal(txtDebit.Text)
-
-        txtDebit.Text = tDebit.ToString("N2")
-
+        Dim tDebit As Decimal
+        If Decimal.TryParse(txtDebit.Text, tDebit) Then
+            txtDebit.Text = tDebit.ToString("N2")
+        Else
+            txtDebit.Text = "0.00"
+        End If
     End Sub
     Private Sub txtCredit_Leave(sender As Object, e As EventArgs) Handles txtCredit.Leave
-
-        ' Quick Conversion for 2 Decimal Places
-        Dim tCredit As Decimal = Convert.ToDecimal(txtCredit.Text)
-
-        txtCredit.Text = tCredit.ToString("N2")
-
+        Dim tCredit As Decimal
+        If Decimal.TryParse(txtCredit.Text, tCredit) Then
+            txtCredit.Text = tCredit.ToString("N2")
+        Else
+            txtCredit.Text = "0.00"
+        End If
     End Sub
 
     '------------------------------------ Menu Items -----------------------------------------------------
@@ -623,6 +556,7 @@ Public Class mainForm
     End Sub
     Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
 
+        ' Archives Current Training and Creates a New One
         Reconcile()
 
     End Sub
