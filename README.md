@@ -1,4 +1,4 @@
-# Training Funds Tracker 2.0
+# Training Funds Tracker v2.0
 
 Adds the ability to track a travel advance for training much like a checkbook register.
 
@@ -16,5 +16,7 @@ Use the form to enter in transactions.  It gives a preview of the entry and subm
 The bank file is a simple text file that looks like a check register. The main form has the ability to reconcile 
 the current training and start a new one.  Each training will be reconciled into it's own folder for readability 
 and simplicity.
+
+#### Previous Version History
 
 v1.0.0 - Initial creation of project and the ability to track finances.
