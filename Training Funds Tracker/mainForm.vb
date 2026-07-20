@@ -145,17 +145,17 @@ Public Class mainForm
             "Debit(-)" & Strings.Space(7) &
             "Credit(+)" & Strings.Space(7) &
             "Balance" & ControlChars.NewLine &
-            "-------------------" & Strings.Space(7) &
-            "----------" & Strings.Space(7) &
-            "----------------------------" & Strings.Space(30) &
-            "----------" & Strings.Space(9) &
-            "----------" & Strings.Space(10) &
+            "------------" & Strings.Space(6) &
+            "----------" & Strings.Space(4) &
+            "----------------------------" & Strings.Space(24) &
+            "----------" & Strings.Space(5) &
+            "----------" & Strings.Space(6) &
             "------------" & ControlChars.NewLine &
-            Me.dtpEntryDate.Text.PadRight(10, " ") & Strings.Space(10) &
-            Me.cmboxType.Text.PadRight(11, " ") & Strings.Space(2) &
-            Me.txtPayee.Text.PadRight(26, " ") & Strings.Space(22) &
+            Me.dtpEntryDate.Text.PadRight(10, " ") & Strings.Space(8) &
+            Me.cmboxType.Text.PadRight(11, " ") & Strings.Space(3) &
+            Me.txtPayee.Text.PadRight(26, " ") & Strings.Space(26) &
             Me.txtDebit.Text.PadRight(6, " ") & Strings.Space(9) &
-            Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(12) &
+            Me.txtCredit.Text.PadRight(6, " ") & Strings.Space(10) &
             Convert.ToString(previewBankBal)
 
         Me.btnApply.Enabled = True
